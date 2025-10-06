@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="volando-uy-backend">
+    <output-path>$PROJECT_DIR$/out/artifacts/volando_uy_backend</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="volando-uy-backend/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: jakarta.el:jakarta.el-api:5.0.0" />
+          <element id="library" level="project" name="Maven: jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0" />
+          <element id="library" level="project" name="Maven: org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1" />
+        </element>
+        <element id="directory" name="classes">
+          <element id="module-output" name="volando-uy-backend" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

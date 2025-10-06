@@ -26,7 +26,6 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 # IDE Files
-.idea/
 *.iml
 *.iws
 *.ipr
