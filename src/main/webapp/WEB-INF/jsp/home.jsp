@@ -1,95 +1,111 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html>
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${appName}</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-        }
-        
-        h1 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 2.5em;
-        }
-        
-        .message {
-            color: #555;
-            font-size: 1.2em;
-            margin-bottom: 30px;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .nav-links a {
-            background: #667eea;
-            color: white;
-            text-decoration: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-        
-        .nav-links a:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        .info {
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 1px solid #eee;
-            color: #888;
-            font-size: 0.9em;
-        }
-    </style>
+    <title>Volando.uy</title>
+
+    <!-- Librerias Header -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="${pageContext.request.contextPath}/scripts/header.js" defer></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css">
 </head>
+
 <body>
-    <div class="container">
-        <h1>✈️ ${appName}</h1>
-        <p class="message">${message}</p>
-        
-        <div class="nav-links">
-            <a href="${pageContext.request.contextPath}/vuelos">View Flights</a>
-            <a href="${pageContext.request.contextPath}/home">Home</a>
-        </div>
-        
-        <div class="info">
-            <p>A Java backend application with JSP</p>
-            <p>Built with Servlets, JSP, and JSTL</p>
-        </div>
-    </div>
+    <jsp:include page="header/header.jsp" />
+
+<main class=" container my-5 mb-4">
+    <div class="row">
+
+        <aside class="col-md-3 mb-4" style="position: sticky; top: 20px;  align-self: start;">
+            <div class="card shadow">
+                <div class="card-header fw-bold">CATEGORÍAS</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><a href="#" class="text-decoration-none">Nacionales</a></li>
+                    <li class="list-group-item"><a href="#" class="text-decoration-none">Internacionales</a></li>
+                    <li class="list-group-item"><a href="#" class="text-decoration-none">Europa</a></li>
+                    <li class="list-group-item"><a href="#" class="text-decoration-none">América</a></li>
+                    <li class="list-group-item"><a href="#" class="text-decoration-none">Exclusivos</a></li>
+                    <li class="list-group-item"><a href="#" class="text-decoration-none">Temporada</a></li>
+                    <li class="list-group-item"><a href="#" class="text-decoration-none">Cortos</a></li>
+                </ul>
+            </div>
+        </aside>
+
+<%--        <div class="col-md-8 mx-auto">--%>
+
+<%--            <div class="card mb-5 border-0" style="max-width: 800px;">--%>
+<%--                <div class="row g-0 align-items-stretch">--%>
+<%--                    <div class="col-md-5">--%>
+<%--                        <img src="assets/vuelo1.jpg" alt="Vuelo 1" class="img-fluid h-100"--%>
+<%--                             style="object-fit: cover; height: 200px;">--%>
+<%--                    </div>--%>
+<%--                    <div class="col-md-7 p-4 d-flex flex-column justify-content-center">--%>
+<%--                        <h5 class="fw-bold">Vuelo 1 - Montevideo - Rio Janeiro</h5>--%>
+<%--                        <p>Descripción descripcion descripcion descripcion descripcion</p>--%>
+<%--                        <button class="btn btn-outline-dark mt-2 align-self-start"--%>
+<%--                                onclick="window.location.href='vuelo/vuelo.html'">Ver vuelo</button>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+
+<%--            <div class="card mb-5 border-0" style="max-width: 800px;">--%>
+<%--                <div class="row g-0 align-items-stretch">--%>
+<%--                    <div class="col-md-5">--%>
+<%--                        <img src="assets/rio.jpg" alt="Rio de Janeiro" class="img-fluid h-100"--%>
+<%--                             style="object-fit: cover; height: 200px;">--%>
+<%--                    </div>--%>
+<%--                    <div class="col-md-7 p-4 d-flex flex-column justify-content-center">--%>
+<%--                        <h5 class="fw-bold">Vuelo 2 - jaja</h5>--%>
+<%--                        <p>Descripción descripcion descripcion descripcion descripcion</p>--%>
+<%--                        <button class="btn btn-outline-dark mt-2 align-self-start"--%>
+<%--                                onclick="window.location.href='vuelo/vuelo.html'">Ver vuelo</button>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+
+<%--            <div class="card mb-5 border-0" style="max-width: 800px;">--%>
+<%--                <div class="row g-0 align-items-stretch">--%>
+<%--                    <div class="col-md-5">--%>
+<%--                        <img src="assets/rio.jpg" alt="Rio de Janeiro" class="img-fluid h-100"--%>
+<%--                             style="object-fit: cover; height: 200px;">--%>
+<%--                    </div>--%>
+<%--                    <div class="col-md-7 p-4 d-flex flex-column justify-content-center">--%>
+<%--                        <h5 class="fw-bold">Vuelo 3- jajan't</h5>--%>
+<%--                        <p>Descripción descripcion descripcion descripcion descripcion</p>--%>
+<%--                        <button class="btn btn-outline-dark mt-2 align-self-start"--%>
+<%--                                onclick="window.location.href='vuelo/vuelo.html'">Ver vuelo</button>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+
+<%--            <div class="card mb-5 border-0" style="max-width: 800px;">--%>
+<%--                <div class="row g-0 align-items-stretch">--%>
+<%--                    <div class="col-md-5">--%>
+<%--                        <img src="assets/rio.jpg" alt="Rio de Janeiro" class="img-fluid h-100"--%>
+<%--                             style="object-fit: cover; height: 200px;">--%>
+<%--                    </div>--%>
+<%--                    <div class="col-md-7 p-4 d-flex flex-column justify-content-center">--%>
+<%--                        <h5 class="fw-bold">Vuelo 4 - :(</h5>--%>
+<%--                        <p>Descripción descripcion descripcion descripcion descripcion</p>--%>
+<%--                        <button class="btn btn-outline-dark mt-2 align-self-start"--%>
+<%--                                onclick="window.location.href='vuelo/vuelo.html'">Ver vuelo</button>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+
+<%--        </div>--%>
+
+<%--    </div>--%>
+</main>
+
 </body>
+
 </html>
