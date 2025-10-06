@@ -14,9 +14,9 @@
 </head>
 
 <body>
-<jsp:include page="../header/header.jsp" />
+    <jsp:include page="../header/header.jsp" />
 
-<main class="flex flex-col items-center  p-4 bg-gray-300 min-h-screen">
+    <main class="flex flex-col items-center  p-4 bg-gray-300 min-h-screen">
         <form action="${pageContext.request.contextPath}/paquete/crear" method="POST" class="space-y-4 flex flex-col w-full max-w-md p-6 bg-white rounded-lg shadow-xl  mt-2">
             <h2 class="mb-6 text-2xl font-bold text-center text-black">Nuevo Paquete</h2>
 
@@ -66,7 +66,7 @@
                 Crear Paquete
             </button>
         </form>
-</main>
+    </main>
 </body>
 
 </html>
