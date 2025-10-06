@@ -198,7 +198,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="../paquete/paquete.html">
+                            <a href="${pageContext.request.contextPath}/paquete">
                                 <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                     Ver paquetes</p>
                             </a>

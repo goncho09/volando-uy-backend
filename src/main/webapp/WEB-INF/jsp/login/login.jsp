@@ -37,7 +37,7 @@
 
         <div class="flex items-center space-x-1">
             <p class="text-center">¿No tienes una cuenta? </p>
-            <a href=" ../registrar/usuario.html" class="">
+            <a href="${pageContext.request.contextPath}/register" class="">
                 <p class="hover:text-[var(--azul-claro)] hover:underline m-0">Regístrate</p>
             </a>
         </div>

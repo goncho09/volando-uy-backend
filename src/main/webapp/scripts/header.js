@@ -32,7 +32,8 @@ function setupDropdowns() {
 
 function cerrarSesion() {
     localStorage.removeItem('userData');
-    const contextPath = '<%= request.getContextPath() %>';
+
+    const contextPath = window.location.origin + '/volando_uy_web';
 
     window.location.href = contextPath + '/login';
 }
