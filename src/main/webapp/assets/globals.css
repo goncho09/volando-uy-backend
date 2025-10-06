@@ -22,12 +22,6 @@ a {
     outline: none;
 }
 
-button {
-    cursor: pointer;
-    font-family: inherit;
-    outline: none;
-}
-
 summary {
     list-style: none;
     cursor: pointer;
@@ -46,4 +40,12 @@ summary::-webkit-details-marker {
     list-style: none;
     cursor: pointer;
     display: flex;
+}
+
+:not(.daisy) input,
+:not(.daisy) textarea,
+:not(.daisy) select,
+:not(.daisy) button {
+    border: none !important;
+    outline: none !important;
 }

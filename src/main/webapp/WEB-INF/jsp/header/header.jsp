@@ -48,7 +48,7 @@
 </div>
 
 <!-- Navbar -->
-<nav class="navbar shadow-sm flex items-center justify-center">
+<nav class="navbar shadow-sm flex items-center justify-center daisy">
     <!-- Navbar Start (Hamburguesa solo en móvil) -->
     <div class="navbar-start !w-full flex md:!hidden">
         <div class="dropdown">
