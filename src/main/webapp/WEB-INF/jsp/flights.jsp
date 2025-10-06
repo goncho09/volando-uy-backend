@@ -32,7 +32,7 @@
             font-size: 2.5em;
         }
         
-        .flights-table {
+        .vuelos-table {
             background: white;
             border-radius: 15px;
             overflow: hidden;
@@ -134,7 +134,7 @@
             <h1>✈️ Flight Information</h1>
         </div>
         
-        <div class="flights-table">
+        <div class="vuelos-table">
             <table>
                 <thead>
                     <tr>
@@ -146,7 +146,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="flight" items="${flights}">
+                    <c:forEach var="flight" items="${vuelos}">
                         <tr>
                             <td><strong>${flight.flightNumber}</strong></td>
                             <td>${flight.origin}</td>

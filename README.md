@@ -63,7 +63,7 @@ volando-uy-backend/
 │       │   ├── WEB-INF/
 │       │   │   ├── jsp/               # JSP pages
 │       │   │   │   ├── home.jsp
-│       │   │   │   └── flights.jsp
+│       │   │   │   └── vuelos.jsp
 │       │   │   └── web.xml            # Web application configuration
 │       │   └── index.html             # Entry point
 │       └── resources/                  # Application resources
@@ -74,7 +74,7 @@ volando-uy-backend/
 
 - `/` - Redirects to home page
 - `/home` - Home page with welcome message
-- `/flights` - Flight information page
+- `/vuelos` - Flight information page
 
 ## 🔧 Technology Stack
 

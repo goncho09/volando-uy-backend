@@ -82,7 +82,7 @@
         <p class="message">${message}</p>
         
         <div class="nav-links">
-            <a href="${pageContext.request.contextPath}/flights">View Flights</a>
+            <a href="${pageContext.request.contextPath}/vuelos">View Flights</a>
             <a href="${pageContext.request.contextPath}/home">Home</a>
         </div>
         
