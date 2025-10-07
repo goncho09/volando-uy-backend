@@ -48,4 +48,5 @@ summary::-webkit-details-marker {
 :not(.daisy) button {
     border: none !important;
     outline: none !important;
+    cursor: pointer !important;
 }

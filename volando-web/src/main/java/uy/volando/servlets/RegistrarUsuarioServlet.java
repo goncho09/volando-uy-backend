@@ -4,7 +4,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 
 
-@WebServlet(name = "RegistrarUsuario", urlPatterns = {"/register","/signup"})
+@WebServlet(name = "RegistrarUsuario", urlPatterns = {"/register","/signup","/registrar"})
 public class RegistrarUsuarioServlet extends HttpServlet {
 
     @Override

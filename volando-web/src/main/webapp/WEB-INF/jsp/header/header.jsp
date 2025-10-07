@@ -18,7 +18,7 @@
 <header id="header" class="flex flex-col px-4 py-2 text-white w-[100vw] bg-[var(--azul-oscuro)]">
 <div class="flex items-center flex-col justify-between p-2 space-y-2 w-full header-top md:flex-row md:space-y-0"
      style="background-color: var(--azul-oscuro);">
-    <a href="${pageContext.request.contextPath}/" class="text-3xl font-bold uppercase">Volando.uy</a>
+    <a href="${pageContext.request.contextPath}/home" class="text-3xl font-bold uppercase">Volando.uy</a>
 
     <div class="flex flex-col items-center space-x-3 md:flex-row" id="user-info">
         <a class="flex items-center" href="${pageContext.request.contextPath}/perfil">
@@ -29,11 +29,11 @@
     </div>
 
     <div class="flex space-x-2" id="sesion">
-        <a href="${pageContext.request.contextPath}/login">
+        <a href="${pageContext.request.contextPath}/signin">
             <p class="decoration-[var(--celeste-claro)] underline-offset-5 m-0 hover:underline">Iniciar sesión</p>
         </a>
         <div class="border-l border-1 h-6"></div>
-        <a href="${pageContext.request.contextPath}/signup/usuario">
+        <a href="${pageContext.request.contextPath}/signup">
             <p class="decoration-[var(--celeste-claro)] underline-offset-5 m-0 hover:underline">Registrarme</p>
         </a>
     </div>
