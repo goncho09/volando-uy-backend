@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-md-7 p-4 d-flex flex-column justify-content-center">
                             <h5 class="fw-bold">${ruta.nombre}</h5>
-                            <p>Esto es un ejemplo</p>
+                            <p>${ruta.descripcionCorta}</p>
                             <button class="btn btn-outline-dark mt-2 align-self-start"
                                     onclick="window.location.href='${pageContext.request.contextPath}/rutaDeVuelo?nombre=${ruta.nombre}'">Ver Ruta de Vuelo</button>
                         </div>

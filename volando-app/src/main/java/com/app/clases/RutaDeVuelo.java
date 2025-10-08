@@ -18,6 +18,9 @@ public class RutaDeVuelo {
     @Column( nullable = false)
     private String descripcion;
 
+    @Column( nullable = true)
+    private String descripcionCorta;
+
     @Column( nullable = false)
     private LocalTime duracion;
 
@@ -95,6 +98,12 @@ public class RutaDeVuelo {
         this.descripcion = descripcion;
     }
 
+    public String getDescripcionCorta() {return descripcionCorta;}
+
+    public void setDescripcionCorta(String descripcionCorta) {
+        this.descripcionCorta = descripcionCorta;
+    }
+
     public LocalTime getDuracion() {
         return duracion;
     }
@@ -143,24 +152,6 @@ public class RutaDeVuelo {
 
     public void setEstado(EstadoRuta estado) {this.estado = estado;};
 
-    public DtRuta getDatos() {
-        return new DtRuta(
-                this.getNombre(),
-                this.getDescripcion(),
-                this.getDuracion(),
-                this.getCostoTurista(),
-                this.getCostoEjecutivo(),
-                this.getEquipajeExtra(),
-                this.getFechaAlta(),
-                this.getUrlImagen(),
-                this.getEstado(),
-                this.getCategorias(),
-                this.getCiudadOrigen(),
-                this.getCiudadDestino()
-        );
-    }
-
-
     public List<Categoria> getCategorias() {
         return categorias;
     }
@@ -183,6 +174,24 @@ public class RutaDeVuelo {
 
     public void setCiudadDestino(Ciudad ciudadDestino) {
         this.ciudadDestino = ciudadDestino;
+    }
+
+    public DtRuta getDatos() {
+        return new DtRuta(
+                this.getNombre(),
+                this.getDescripcion(),
+                this.getDescripcionCorta(),
+                this.getDuracion(),
+                this.getCostoTurista(),
+                this.getCostoEjecutivo(),
+                this.getEquipajeExtra(),
+                this.getFechaAlta(),
+                this.getUrlImagen(),
+                this.getEstado(),
+                this.getCategorias(),
+                this.getCiudadOrigen(),
+                this.getCiudadDestino()
+        );
     }
 
     @Override
