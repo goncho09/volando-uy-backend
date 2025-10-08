@@ -14,12 +14,9 @@ form.addEventListener('submit', (e)=> {
             return;
         }
 
-        const usuarios = window.usuarios.slice(1,-1).split(", ").map(s => s.trim());
-
-        console.log(usuarios)
         const usuarioEncontrado = usuarios.find(usuario =>
-                usuario === nameInput.value
-            // && usuario.password === passwordInput.value
+                (usuario.nickname === nameInput.value || usuario.email === nameInput.value)
+                && usuario.password === passwordInput.value
         );
 
         if (!usuarioEncontrado) {

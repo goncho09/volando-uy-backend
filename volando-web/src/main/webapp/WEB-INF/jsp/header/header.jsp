@@ -1,20 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Librerias Header -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-
-    <script src="${pageContext.request.contextPath}/scripts/header.js" defer></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css">
-</head>
-
-<body>
 <header id="header" class="flex flex-col px-4 py-2 text-white w-[100vw] bg-[var(--azul-oscuro)]">
 <div class="flex items-center flex-col justify-between p-2 space-y-2 w-full header-top md:flex-row md:space-y-0"
      style="background-color: var(--azul-oscuro);">
@@ -259,11 +243,7 @@
     </div>
 </nav>
 
+</header>
     <script defer>
         window.appContext = '${pageContext.request.contextPath}';
     </script>
-</header>
-
-</body>
-
-</html>

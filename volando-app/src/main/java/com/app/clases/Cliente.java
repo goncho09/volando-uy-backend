@@ -129,6 +129,7 @@ public class Cliente extends Usuario{
                 this.getNickname(),
                 this.getNombre(),
                 this.getEmail(),
+                this.getPassword(),
                 this.getUrlImage(),
                 this.getApellido(),
                 this.getFechaNacimiento(),

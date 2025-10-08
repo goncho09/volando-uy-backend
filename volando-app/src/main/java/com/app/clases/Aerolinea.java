@@ -48,7 +48,7 @@ public class Aerolinea extends Usuario {
     }
 
     public DtAerolinea getDatos(){
-        return new DtAerolinea(this.getNickname(), this.getNombre(), this.getEmail(), this.getUrlImage(), this.getDescripcion(), this.getLinkWeb(), this.getRutasDeVuelo());
+        return new DtAerolinea(this.getNickname(), this.getNombre(), this.getEmail(),this.getPassword(), this.getUrlImage(), this.getDescripcion(), this.getLinkWeb(), this.getRutasDeVuelo());
     }
 
     public void addRuta(RutaDeVuelo ruta) {

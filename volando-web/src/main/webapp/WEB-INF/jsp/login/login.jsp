@@ -43,7 +43,7 @@
         </div>
 
         <script>
-            window.usuarios = "<%= request.getAttribute("usuarios") %>";
+            window.usuarios = JSON.parse('<%= request.getAttribute("usuarios") %>');
             window.appContext = '${pageContext.request.contextPath}';
         </script>
 
