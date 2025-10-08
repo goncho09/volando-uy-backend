@@ -28,7 +28,7 @@
                 <div class="card-header fw-bold">CATEGORÍAS</div>
                 <ul class="list-group list-group-flush">
                     <c:forEach var="categoria" items="${categorias}">
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath}/jsp/categoria.jsp" class="text-decoration-none">${categoria.nombre}</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath}/categoria?nombre=${categoria.nombre}" class="text-decoration-none">${categoria.nombre}</a></li>
                     </c:forEach>
 <%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Nacionales</a></li>--%>
 <%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Internacionales</a></li>--%>
@@ -53,7 +53,7 @@
                             <h5 class="fw-bold">${ruta.nombre}</h5>
                             <p>Esto es un ejemplo</p>
                             <button class="btn btn-outline-dark mt-2 align-self-start"
-                                    onclick="window.location.href='vuelo/vuelo.html'">Ver Ruta de Vuelo</button>
+                                    onclick="window.location.href='${pageContext.request.contextPath}/rutaDeVuelo?nombre=${ruta.nombre}'">Ver Ruta de Vuelo</button>
                         </div>
                     </div>
                 </div>
