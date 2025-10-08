@@ -60,7 +60,7 @@
                 <div class="card mb-5 border-0" style="max-width: 800px;">
                     <div class="row g-0 align-items-stretch">
                         <div class="col-md-5">
-                            <img src="${pageContext.request.contextPath}/assets/vuelo1.jpg" alt="Vuelo" class="img-fluid h-100"
+                            <img src="${ruta.urlImagen}" alt="Vuelo" class="img-fluid h-100"
                                  style="object-fit: cover; height: 200px;">
                         </div>
                         <div class="col-md-7 p-4 d-flex flex-column justify-content-center">

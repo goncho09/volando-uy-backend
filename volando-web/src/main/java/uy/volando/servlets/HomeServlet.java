@@ -4,6 +4,8 @@ import com.app.clases.Factory;
 import com.app.clases.ISistema;
 import com.app.datatypes.DtRuta;
 import com.app.enums.EstadoRuta;
+import com.app.enums.TipoImagen;
+import com.app.utils.AuxiliarFunctions;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,6 +27,14 @@ public class HomeServlet extends HttpServlet {
         List<DtRuta> listaRuta = s.listarRutasDeVuelo();
 
         listaRuta.removeIf(ruta -> ruta.getEstado() != EstadoRuta.APROBADA);
+
+        for (DtRuta ruta : listaRuta) {
+            if(ruta.getUrlImagen() == null){
+                ruta.setUrlImagen(request.getContextPath()+"/assets/rutaDefault.png");
+            }else{
+                ruta.setUrlImagen(AuxiliarFunctions.getImagePath(TipoImagen.RUTA) + "/" + ruta.getUrlImagen());
+            }
+        }
 
         // Set attributes to be used in JSP
         request.setAttribute("message", "Welcome to Volando UY!");

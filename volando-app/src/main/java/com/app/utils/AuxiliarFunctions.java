@@ -20,7 +20,7 @@ import java.util.UUID;
 public class AuxiliarFunctions {
 
     // Base relativa al proyecto
-    private static final String BASE_DIR = Paths.get(System.getProperty("user.dir"), "pictures").toString();
+    private static final String BASE_DIR = Paths.get(System.getProperty("user.home"), "lab-pa-g2-pictures").toString();
     private static final String[] SUB_DIRS = { "users", "vuelos", "rutas" };
 
     private ISistema sistema;
@@ -470,6 +470,10 @@ public class AuxiliarFunctions {
 
     public static Path getImagePath(String urlImagen, TipoImagen tipo){
       return Paths.get(BASE_DIR, tipo.getFolder(), urlImagen);
+    };
+
+    public static Path getImagePath(TipoImagen tipo){
+        return Paths.get(BASE_DIR, tipo.getFolder());
     };
 
     public static File guardarImagen(File original, TipoImagen tipo) throws IOException {
