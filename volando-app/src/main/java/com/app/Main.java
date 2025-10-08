@@ -30,7 +30,7 @@ public class Main extends JFrame {
     private File imagenTemporalVuelo;
     private File imagenTemporalRuta;
 
-    //Declaració de JavaSwing
+    //Declaración de JavaSwing
     private JPanel menuPrincipal;
     private JTabbedPane gestionUsuarios;
     private JTabbedPane tabbedPane1;

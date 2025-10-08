@@ -13,7 +13,7 @@
     <div class="bg-white p-8 rounded shadow-md text-center">
         <h1 class="text-4xl font-bold mb-4 text-red-600">¡Error 404!</h1>
         <p class="text-lg mb-6">Página no encontrada.</p>
-        <a href="${pageContext.request.contextPath}/home" class="hover:bg-[var(--azul-claro)]  !text-white p-4 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Volver al Inicio</a>
+        <a href="${pageContext.request.contextPath}/home.jsp" class="hover:bg-[var(--azul-claro)]  !text-white p-4 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Volver al Inicio</a>
     </div>
 </main>
 </body>
