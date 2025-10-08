@@ -30,12 +30,11 @@ function setupDropdowns() {
     });
 }
 
-function cerrarSesion() {
+loadHeader();
+
+
+const cerrarSesion = () =>{
     localStorage.removeItem('userData');
 
-    const contextPath = window.location.origin + '/volando_uy_web';
-
-    window.location.href = contextPath + '/login';
+    window.location.href = window.appContext + '/login'
 }
-
-document.addEventListener('DOMContentLoaded', loadHeader);

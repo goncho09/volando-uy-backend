@@ -26,6 +26,13 @@ public class DtAerolinea extends DtUsuario {
         this.rutasDeVuelo = new ArrayList<>();
     }
 
+    public DtAerolinea(String nickname, String nombre, String email, String password, String urlImage, String descripcion, String linkWeb,List<RutaDeVuelo> rutasDeVuelo) {
+        super(nickname, nombre, email, password, urlImage);
+        this.descripcion = descripcion;
+        this.linkWeb = linkWeb;
+        this.rutasDeVuelo = rutasDeVuelo;
+    }
+
     public DtAerolinea(String nickname, String nombre, String email, String urlImage, String descripcion, String linkweb, List<RutaDeVuelo> rutasDeVuelo) {
         super(nickname, nombre, email, urlImage);
         this.descripcion = descripcion;

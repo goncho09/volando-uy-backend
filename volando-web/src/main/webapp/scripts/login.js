@@ -1,24 +1,40 @@
+
+
 const form = document.getElementById('login-form');
-const emailInput = document.getElementById('email');
+const nameInput = document.getElementById('name');
 const passwordInput = document.getElementById('password');
 
-form.addEventListener('submit', function (event) {
-    event.preventDefault(); // Evita el envío del formulario por defecto
+form.addEventListener('submit', (e)=> {
 
-    if (emailInput.value.trim() === '' || passwordInput.value.trim() === '') {
-        alert('Por favor, completa todos los campos.');
-        return;
+    e.preventDefault();
+
+    try {
+        if (nameInput.value.trim() === '' || passwordInput.value.trim() === '') {
+            alert('Por favor, completa todos los campos.');
+            return;
+        }
+
+        const usuarioEncontrado = usuarios.find(usuario =>
+                (usuario.nickname === nameInput.value || usuario.email === nameInput.value)
+                && usuario.password === passwordInput.value
+        );
+
+        if (!usuarioEncontrado) {
+            alert('Credenciales inválidas. Por favor, intenta de nuevo.');
+            return;
+        }
+
+        localStorage.setItem(
+            'userData',
+            JSON.stringify({
+                nickname: nameInput.value,
+            })
+        );
+
+        window.location.href = window.appContext + '/home'
+    } catch (error) {
+        console.error('Error during login:', error);
+        window.location.href = window.appContext + '/errorServer';
     }
-
-    localStorage.setItem(
-        'userData',
-        JSON.stringify({
-            nickname: emailInput.value,
-        })
-    );
-
-
-    const contextPath = window.location.origin + '/volando_uy_web';
-
-    window.location.href = contextPath + '/';
 });
+
