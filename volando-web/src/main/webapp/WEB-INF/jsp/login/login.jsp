@@ -1,4 +1,4 @@
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="es">
 
@@ -21,8 +21,8 @@
         <h1 class="text-center text-3xl font-semibold text-[var(--azul-oscuro)]">Iniciar sesión</h1>
         <div
                 class="flex w-[90%] md:w-2/3 items-center border-b border-gray-300 py-2 space-x-3 focus-within:border-[var(--azul-oscuro)]">
-            <i class="fa fa-envelope icon text-[var(--azul-oscuro)]"></i>
-            <input type="email" id="email" placeholder="Ingrese su correo electrónico" required
+            <i class="fa fa-user icon text-[var(--azul-oscuro)]"></i>
+            <input type="text" id="name" placeholder="Ingrese su correo electrónico o nickname" required
                    class="flex-grow outline-none">
         </div>
         <div
@@ -41,6 +41,11 @@
                 <p class="hover:text-[var(--azul-claro)] hover:underline m-0">Regístrate</p>
             </a>
         </div>
+
+        <script>
+            window.usuarios = "<%= request.getAttribute("usuarios") %>";
+            window.appContext = '${pageContext.request.contextPath}';
+        </script>
 
     </form>
 </div>

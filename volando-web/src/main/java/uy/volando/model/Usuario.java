@@ -1,5 +1,7 @@
 package uy.volando.model;
 
+import com.app.datatypes.DtUsuario;
+
 public class Usuario {
     protected String nickname;
     protected String nombre;
@@ -29,6 +31,14 @@ public class Usuario {
         this.email = email;
         this.password = null;
         this.urlImage = null;
+    }
+
+    public Usuario(DtUsuario usuario){
+        this.nickname = usuario.getNickname();
+        this.nombre = usuario.getNombre();
+        this.email = usuario.getEmail();
+        this.password = usuario.getPassword();
+        this.urlImage = usuario.getUrlImage();
     }
 
     public String getNickname() {

@@ -258,7 +258,12 @@
         </ul>
     </div>
 </nav>
+
+    <script defer>
+        window.appContext = '${pageContext.request.contextPath}';
+    </script>
 </header>
+
 </body>
 
 </html>
