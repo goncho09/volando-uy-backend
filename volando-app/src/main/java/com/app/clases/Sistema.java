@@ -262,19 +262,7 @@ public class Sistema implements ISistema {
     }
 
     private DtRuta convertirRutaADtRuta(RutaDeVuelo ruta) {
-        return new DtRuta(
-                ruta.getNombre(),
-                ruta.getDescripcion(),
-                ruta.getDuracion(),
-                ruta.getCostoTurista(),
-                ruta.getCostoEjecutivo(),
-                ruta.getEquipajeExtra(),
-                ruta.getFechaAlta(),
-                ruta.getUrlImagen(),
-                ruta.getCategorias(),
-                ruta.getCiudadOrigen(),
-                ruta.getCiudadDestino()
-        );
+        return ruta.getDatos();
     }
 
     public List<DtPaquete> listarPaquetes() {
@@ -343,9 +331,7 @@ public class Sistema implements ISistema {
         return new ArrayList<>(this.vuelos.values());
     }
 
-    public List<RutaDeVuelo> getRutasDeVuelo() {
-        return new ArrayList<>(this.rutasDeVuelo.values());
-    }
+    public List<RutaDeVuelo> getRutasDeVuelo() { return new ArrayList<>(this.rutasDeVuelo.values()); }
 
     public List<Usuario> getUsuarios() {
         return new ArrayList<>(this.usuarios.values());

@@ -40,20 +40,23 @@
             <div class="card shadow">
                 <div class="card-header fw-bold">CATEGORÍAS</div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">Nacionales</a></li>
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">Internacionales</a></li>
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">Europa</a></li>
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">América</a></li>
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">Exclusivos</a></li>
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">Temporada</a></li>
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">Cortos</a></li>
+                    <c:forEach var="categoria" items="${categorias}">
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath}/categoria?nombre=${categoria.nombre}" class="text-decoration-none">${categoria.nombre}</a></li>
+                    </c:forEach>
+<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Nacionales</a></li>--%>
+<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Internacionales</a></li>--%>
+<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Europa</a></li>--%>
+<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">América</a></li>--%>
+<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Exclusivos</a></li>--%>
+<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Temporada</a></li>--%>
+<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Cortos</a></li>--%>
                 </ul>
             </div>
         </aside>
 
         <!-- Vuelos -->
         <div class="col-md-8 mx-auto">
-            <c:forEach var="vuelo" items="${vuelos}">
+            <c:forEach var="ruta" items="${rutas}">
                 <div class="card mb-5 border-0" style="max-width: 800px;">
                     <div class="row g-0 align-items-stretch">
                         <div class="col-md-5">
@@ -61,12 +64,10 @@
                                  style="object-fit: cover; height: 200px;">
                         </div>
                         <div class="col-md-7 p-4 d-flex flex-column justify-content-center">
-                            <h5 class="fw-bold">${vuelo.nombre}</h5>
-<%--                            <p>${vuelo.descripcion}</p>--%>
+                            <h5 class="fw-bold">${ruta.nombre}</h5>
+                            <p>${ruta.descripcionCorta}</p>
                             <button class="btn btn-outline-dark mt-2 align-self-start"
-                                    onclick="window.location.href='${pageContext.request.contextPath}/vuelo'">
-                                Ver vuelo
-                            </button>
+                                    onclick="window.location.href='${pageContext.request.contextPath}/rutaDeVuelo?nombre=${ruta.nombre}'">Ver Ruta de Vuelo</button>
                         </div>
                     </div>
                 </div>

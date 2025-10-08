@@ -11,6 +11,7 @@ import java.util.List;
 public class DtRuta {
     private String nombre;
     private String descripcion;
+    private String descripcionCorta;
     private LocalTime duracion;
     private float costoTurista;
     private float costoEjecutivo;
@@ -24,9 +25,10 @@ public class DtRuta {
 
     public DtRuta() {}
 
-    public DtRuta(String nombre, String descripcion, LocalTime duracion, float costoTurista, float costoEjecutivo, float equipajeExtra, LocalDate fechaAlta, String urlImagen, List<Categoria> categorias, Ciudad origen, Ciudad destino) {
+    public DtRuta(String nombre, String descripcion, String descripcionCorta, LocalTime duracion, float costoTurista, float costoEjecutivo, float equipajeExtra, LocalDate fechaAlta, String urlImagen, List<Categoria> categorias, Ciudad origen, Ciudad destino) {
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.descripcionCorta = descripcionCorta;
         this.duracion = duracion;
         this.costoTurista = costoTurista;
         this.costoEjecutivo = costoEjecutivo;
@@ -39,10 +41,11 @@ public class DtRuta {
         this.ciudadDestino = destino;
     }
 
-    public DtRuta(String nombre, String descripcion, LocalTime duracion, float costoTurista, float costoEjecutivo, float equipajeExtra, LocalDate fechaAlta, String urlImagen, EstadoRuta estado, List<Categoria> categorias, Ciudad origen, Ciudad destino) {
+    public DtRuta(String nombre, String descripcion, String descripcionCorta, LocalTime duracion, float costoTurista, float costoEjecutivo, float equipajeExtra, LocalDate fechaAlta, String urlImagen, EstadoRuta estado, List<Categoria> categorias, Ciudad origen, Ciudad destino) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.duracion = duracion;
+        this.descripcionCorta = descripcionCorta;
         this.costoTurista = costoTurista;
         this.costoEjecutivo = costoEjecutivo;
         this.equipajeExtra = equipajeExtra;
@@ -69,6 +72,10 @@ public class DtRuta {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    public String getDescripcionCorta(){ return descripcionCorta; }
+
+    public void setDescripcionCorta(String descripcionCorta) { this.descripcionCorta = descripcionCorta; }
 
     public LocalTime getDuracion() {
         return duracion;

@@ -31,6 +31,7 @@ public class InfoRutaDeVuelo extends JFrame{
     private JButton ButtonVerVuelo;
     private JPanel imagenRutaPanel;
     private JLabel estado;
+    private JLabel descripcionCorta;
     private ImageIcon imagen;
 
     public InfoRutaDeVuelo(DtRuta ruta, AuxiliarFunctions auxiliar){
@@ -46,6 +47,7 @@ public class InfoRutaDeVuelo extends JFrame{
 
         nombre.setText(ruta.getNombre());
         descripcion.setText(ruta.getDescripcion());
+        descripcionCorta.setText(ruta.getDescripcionCorta());
         duracion.setText(ruta.getDuracion().toString());
         costoTurista.setText(Float.toString(ruta.getCostoTurista()));
         costoEjecutivo.setText(Float.toString(ruta.getCostoEjecutivo()));

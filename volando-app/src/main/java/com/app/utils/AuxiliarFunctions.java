@@ -19,7 +19,8 @@ import java.util.UUID;
 
 public class AuxiliarFunctions {
 
-    private static final String BASE_DIR = "C:/proyecto-final-g2-sc/pictures";
+    // Base relativa al proyecto
+    private static final String BASE_DIR = Paths.get(System.getProperty("user.dir"), "pictures").toString();
     private static final String[] SUB_DIRS = { "users", "vuelos", "rutas" };
 
     private ISistema sistema;
@@ -418,14 +419,21 @@ public class AuxiliarFunctions {
         }
     }
 
+    // Obtener ruta absoluta del proyecto en tiempo de ejecución
+    private static Path getProjectRoot() {
+        return Paths.get("").toAbsolutePath();
+    }
+
     public static void initFolders() {
         try {
-            // Crear base y subcarpetas
-            Path basePath = Paths.get(BASE_DIR);
+            Path basePath = getProjectRoot().resolve(BASE_DIR);
+
+            // Crear carpeta base si no existe
             if (!Files.exists(basePath)) {
                 Files.createDirectories(basePath);
             }
 
+            // Crear subcarpetas
             for (String sub : SUB_DIRS) {
                 Path subPath = basePath.resolve(sub);
                 if (!Files.exists(subPath)) {
@@ -465,31 +473,31 @@ public class AuxiliarFunctions {
     };
 
     public static File guardarImagen(File original, TipoImagen tipo) throws IOException {
-        File carpetaDestino = new File(BASE_DIR, tipo.getFolder());
+        Path carpetaDestino = getProjectRoot().resolve(BASE_DIR).resolve(tipo.getFolder());
+        File carpeta = carpetaDestino.toFile();
 
-        if (!carpetaDestino.exists()) {
-            carpetaDestino.mkdirs();
+        if (!carpeta.exists()) {
+            carpeta.mkdirs();
         }
 
-        String extension = "";
         String nombre = original.getName();
+        String extension = "";
         int i = nombre.lastIndexOf('.');
         if (i > 0) {
             extension = nombre.substring(i); // incluye el punto
         }
 
         String nombreUnico = UUID.randomUUID().toString() + extension;
-
-        File nuevoArchivo = new File(carpetaDestino, nombreUnico);
+        File nuevoArchivo = new File(carpeta, nombreUnico);
         Files.copy(original.toPath(), nuevoArchivo.toPath());
 
         return nuevoArchivo;
     }
 
     public static void borrarImagen(String imgName, TipoImagen tipo) {
-        Path path = Paths.get(BASE_DIR, tipo.getFolder(), imgName);
-
+        Path path = getProjectRoot().resolve(BASE_DIR).resolve(tipo.getFolder()).resolve(imgName);
         File imagenABorrar = path.toFile();
+
         if (imagenABorrar.exists()) {
             if (imagenABorrar.delete()) {
                 System.out.println("Imagen eliminada con éxito");

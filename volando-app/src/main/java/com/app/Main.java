@@ -175,10 +175,11 @@ public class Main extends JFrame {
     private JButton aprobarButtonAceptarRechazarRuta;
     private JButton rechazarButtonAceptarRechazarRuta;
     private JLabel estadoRutaText;
+    private JTextField descripcionCortaAltaRutaDeVuelo;
 
 
     public Main() {
-
+        
         //Inicializar Sistema
         s = Factory.getSistema();
 
@@ -198,7 +199,7 @@ public class Main extends JFrame {
 
         // Configuración del JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(800, 700);
         setResizable(false);
         setLocationRelativeTo(null);
         setTitle("Admin Dashboard");
@@ -811,7 +812,7 @@ public class Main extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (auxiliar.estanVaciosJTextField(nombreAltaRutaDeVuelo, descripcionAltaRutaDeVuelo) || auxiliar.estanVaciosJComboBox(JComboBoxAerolineaAltaRutaVuelo, JComboBoxCiudadOrigen, JComboBoxCiudadDestino)) {
+                    if (auxiliar.estanVaciosJTextField(nombreAltaRutaDeVuelo, descripcionAltaRutaDeVuelo, descripcionCortaAltaRutaDeVuelo) || auxiliar.estanVaciosJComboBox(JComboBoxAerolineaAltaRutaVuelo, JComboBoxCiudadOrigen, JComboBoxCiudadDestino)) {
                         new VentanaMensaje("Faltan argumentos");
                         return;
                     }
@@ -869,6 +870,7 @@ public class Main extends JFrame {
 
                     DtRuta ruta = new DtRuta(nombreAltaRutaDeVuelo.getText(),
                             descripcionAltaRutaDeVuelo.getText(),
+                            descripcionCortaAltaRutaDeVuelo.getText(),
                             horaRuta,
                             costoTurista,
                             costoEjecutivo,
