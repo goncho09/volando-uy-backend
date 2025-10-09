@@ -29,10 +29,12 @@ public class HomeServlet extends HttpServlet {
         listaRuta.removeIf(ruta -> ruta.getEstado() != EstadoRuta.APROBADA);
 
         for (DtRuta ruta : listaRuta) {
-            if(ruta.getUrlImagen() == null){
-                ruta.setUrlImagen(request.getContextPath()+"/assets/rutaDefault.png");
-            }else{
-                ruta.setUrlImagen(AuxiliarFunctions.getImagePath(TipoImagen.RUTA) + "/" + ruta.getUrlImagen());
+            String basePath = request.getContextPath() + "/pictures/rutas";
+
+            if (ruta.getUrlImagen() == null || ruta.getUrlImagen().isEmpty()) {
+                ruta.setUrlImagen(request.getContextPath() + "/assets/rutaDefault.png");
+            } else {
+                ruta.setUrlImagen(basePath + "/" + ruta.getUrlImagen());
             }
         }
 
