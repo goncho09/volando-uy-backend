@@ -17,7 +17,7 @@
 
 </head>
 
-<body>
+<body class="bg-gradient-to-br from-[#fff] to-[#12445d] min-h-screen">
 
 <jsp:include page="components/header.jsp"/>
 
@@ -35,7 +35,7 @@
 
         <div class="max-w-5xl space-y-2 mx-auto grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 px-4 py-2">
             <c:forEach var="ruta" items="${rutas}">
-                <div class="bg-white rounded-2xl p-2 shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 bg-gray-300 border border-gray-100">
+                <div class="bg-gradient-to-b from-[#fff] to-[#e8f7ff] rounded-2xl p-2 shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 bg-gray-300 border border-gray-100">
                     <div class="relative h-48 overflow-hidden">
                         <img src="${ruta.urlImagen}" alt="${ruta.nombre}"
                              class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"/>

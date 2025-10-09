@@ -2,6 +2,8 @@ package uy.volando.servlets;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
+import com.app.datatypes.DtAerolinea;
+import com.app.datatypes.DtCliente;
 import com.app.datatypes.DtUsuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,6 +18,7 @@ import java.io.IOException;
 
 @WebServlet (name = "LogInServlet", urlPatterns = {"/login","/signin"})
 public class LogInServlet extends HttpServlet {
+    ISistema sistema = Factory.getSistema();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -27,7 +30,6 @@ public class LogInServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            ISistema sistema = Factory.getSistema();
 
             String name = request.getParameter("name");
             String password = request.getParameter("password");
@@ -40,8 +42,16 @@ public class LogInServlet extends HttpServlet {
                 session.setAttribute("usuarioNickname", usuario.getNickname());
                 session.setAttribute("usuarioImagen", usuario.getUrlImage());
                 sistema.borrarUsuarioSeleccionado();
+                if(usuario instanceof DtCliente){
+                    session.setAttribute("usuarioTipo", "cliente");
+                }else if(usuario instanceof DtAerolinea){
+                    session.setAttribute("usuarioTipo", "aerolinea");
+                }else{
+                    session.invalidate();
+                    request.setAttribute("error", "Ha ocurrido un error.");
+                    request.getRequestDispatcher("/WEB-INF/jsp/login/login.jsp").forward(request, response);
+                }
                 response.sendRedirect(request.getContextPath() + "/home");
-
             } else {
                 request.setAttribute("error", "Nombre de usuario o contraseña incorrectos");
                 request.getRequestDispatcher("/WEB-INF/jsp/login/login.jsp").forward(request, response);

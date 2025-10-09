@@ -74,6 +74,8 @@ public class RutasServlet extends HttpServlet {
 
             request.setAttribute("ruta", ruta);
             request.setAttribute("vuelos", vueloList);
+
+
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error: ", e);
             request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);

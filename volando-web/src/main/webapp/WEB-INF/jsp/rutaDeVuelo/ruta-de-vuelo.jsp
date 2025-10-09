@@ -16,83 +16,141 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <script src="${pageContext.request.contextPath}/scripts/header.js" defer></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css"/>
 
 </head>
 
-<body>
+<body class="bg-gradient-to-br from-[#fff] to-[#12445d] min-h-screen">
+
 <jsp:include page="../components/header.jsp"/>
 
-<main class="container my-5">
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col lg:flex-row gap-6">
 
-        <div class="row">
-            <jsp:include page="../components/miPerfil.jsp"/>
+        <!-- Sidebar -->
+        <jsp:include page="../components/miPerfil.jsp"/>
 
-            <div class="col-md-9">
-                <div class="card mb-5 border-0">
-                    <div class="row g-0">
-                        <div class="col-md-5">
-                            <img src="${ruta.urlImagen}" alt="Rio de Janeiro" class="img-fluid h-100 rounded-start"
-                                style="height:100%; object-fit:cover;">
+        <main class="flex-1">
+            <div class="bg-white rounded-xl shadow-2xl overflow-hidden mb-8">
+                <div class="flex flex-col lg:flex-row">
+                    <div class="lg:w-2/5">
+                        <img src="${ruta.urlImagen}"
+                             alt="Rio de Janeiro"
+                             class="w-full h-64 lg:h-full object-cover">
+                    </div>
+
+                    <div class="lg:w-3/5 p-6 lg:p-8">
+                        <h5 class="text-xl font-bold text-[#0c2636] mb-2 flex items-center">
+                            <i class="fas fa-route mr-2 text-[#1d6e86]"></i>
+                            Ruta de vuelo
+                        </h5>
+                        <h2 class="text-2xl font-bold text-[#12445d] mb-4">${ruta.nombre}</h2>
+                        <p class="text-gray-700 mb-4">${ruta.descripcion}</p>
+
+                        <div class="grid grid-cols-1 gap-4 mb-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-map-marker-alt text-[#1d6e86] mr-2"></i>
+                                <span class="font-semibold text-[#0c2636]">Origen:</span>
+                                <span class="ml-2 text-gray-700">${ruta.ciudadOrigen}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-map-marker-alt text-[#1d6e86] mr-2"></i>
+                                <span class="font-semibold text-[#0c2636]">Destino:</span>
+                                <span class="ml-2 text-gray-700">${ruta.ciudadDestino}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-[#1d6e86] mr-2"></i>
+                                <span class="font-semibold text-[#0c2636]">Duración:</span>
+                                <span class="ml-2 text-gray-700">${ruta.duracion} hrs</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-calendar-alt text-[#1d6e86] mr-2"></i>
+                                <span class="font-semibold text-[#0c2636]">Fecha de alta:</span>
+                                <span class="ml-2 text-gray-700">${ruta.fechaAlta}</span>
+                            </div>
                         </div>
-                        <div class="col-md-7 p-4">
-                            <h5 class="fw-bold">Ruta de vuelo</h5>
-                            <p><strong>${ruta.nombre}</strong></p>
-                            <p>${ruta.descripcion}</p>
-                            <p>Origen: ${ruta.ciudadOrigen}</p>
-                            <p>Destino: ${ruta.ciudadDestino}</p>
-                            <p>Duración: ${ruta.duracion}hrs</p>
-                            <p>Costo Turista: $${ruta.costoTurista}</p>
-                            <p>Costo Ejecutivo: $${ruta.costoEjecutivo}</p>
-                            <p>Costo equipaje extra: $${ruta.equipajeExtra}</p>
-                            <p>Fecha de alta: ${ruta.fechaAlta}</p>
-                            <p>Estado: ${ruta.estado}</p>
-                            <p>Categorias: <c:forEach var="categoria" items="${ruta.categorias}">
-                                <a style="color: var(--celeste); text-decoration: underline" href="${pageContext.request.contextPath}/home?categoria=${categoria}">${categoria}</a>
-                            </c:forEach></p>
+
+                        <div class="border-t border-gray-200 pt-4 mb-4">
+                            <h6 class="font-bold text-[#0c2636] mb-2">Costos (USD):</h6>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div class="bg-blue-50 rounded-lg p-3 text-center">
+                                    <p class="text-sm text-[#12445d]">Turista</p>
+                                    <p class="font-bold text-lg text-[#0c2636]">$${ruta.costoTurista}</p>
+                                </div>
+                                <div class="bg-blue-100 rounded-lg p-3 text-center">
+                                    <p class="text-sm text-[#12445d]">Ejecutivo</p>
+                                    <p class="font-bold text-lg text-[#0c2636]">$${ruta.costoEjecutivo}</p>
+                                </div>
+                                <div class="bg-blue-50 rounded-lg p-3 text-center">
+                                    <p class="text-sm text-[#12445d]">Equipaje Extra</p>
+                                    <p class="font-bold text-lg text-[#0c2636]">$${ruta.equipajeExtra}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center mb-4">
+                            <span class="font-semibold text-[#0c2636] mr-2">Estado:</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">${ruta.estado}</span>
+                        </div>
+
+                        <div class="flex flex-wrap gap-2">
+                            <span class="font-semibold text-[#0c2636]">Categorías:</span>
+                            <c:if test="${not empty ruta.caregorias}">
+                                <c:forEach var="categoria" items="${ruta.categorias}">
+                                    <a href="${pageContext.request.contextPath}/home?nombre=${categoria}" class="px-3 py-1 bg-[#e8f7ff] text-[#1d6e86] rounded-full text-sm hover:bg-[#2bc8c8] hover:text-white transition-colors">${categoria}</a>
+                                </c:forEach>
+                            </c:if>
                         </div>
                     </div>
                 </div>
-
-                    <section class="vuelos">
-                        <h5 class="fw-bold mb-4">VUELOS</h5>
-                        <div class="row g-4">
-                            <c:choose>
-                                <c:when test="${not empty vuelos}">
-                                    <c:forEach var="vuelo" items="${vuelos}">
-                                        <div class="col-md-4">
-                                            <div class="card shadow h-100">
-                                                <img src="${vuelo.urlImage}" alt="ImagenVuelo"
-                                                     class="card-img-top img-fluid">
-                                                <div class="card-body">
-                                                    <h6 class="card-title">${vuelo.nombre}</h6>
-                                                    <button type="button" class="btn btn-primary"
-                                                            onclick="window.location.href='${pageContext.request.contextPath}/vuelo?nombre${vuelo.nombre}'">
-                                                        Ver vuelo
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </c:forEach>
-                                </c:when>
-                                <c:otherwise>
-                                    <p>Esta ruta no tiene vuelos disponibles</p>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:if test="${not empty sessionScope.usuario}">
-                            <div class="mt-4">
-                                <button type="button" class="btn btn-primary"
-                                        onclick="window.location.href='../vuelo/crear.html'">Agregar Vuelo
-                                </button>
-                            </div>
-                            </c:if>
-                        </div>
-                    </section>
             </div>
-        </div>
-    </main>
 
+            <section class="vuelos">
+                <div class="bg-white rounded-xl shadow-2xl p-6">
+                    <h5 class="text-xl font-bold text-[#0c2636] mb-6 flex items-center">
+                        <i class="fas fa-plane mr-2 text-[#1d6e86]"></i>
+                        VUELOS DISPONIBLES
+                    </h5>
+                    <c:choose>
+                        <c:when test="${not empty vuelos}">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                                <c:forEach var="vuelo" items="${vuelos}">
+                                    <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+                                        <img src="${vuelo.urlImage}"
+                                             alt="Esto es una imagen de vuelo"
+                                             class="w-full h-40 object-cover">
+                                        <div class="p-4">
+                                            <h6 class="font-bold text-[#0c2636] mb-2">${vuelo.nombre}</h6>
+                                            <p class="text-gray-600 text-sm mb-4">Duración: ${vuelo.duracion} HORAS</p>
+                                            <button class="w-full bg-gradient-to-r from-[#1d6e86] to-[#2bc8c8] text-white py-2 rounded-lg font-medium hover:from-[#12445d] hover:to-[#269fb8] transition-all duration-300"
+                                                    onclick="window.location.href='${pageContext.request.contextPath}/vuelo?nombre=${vuelo.nombre}'">
+                                                Ver vuelo
+                                            </button>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="text-center py-8">
+                                <i class="fas fa-plane-slash text-4xl text-gray-400 mb-4"></i>
+                                <p class="text-gray-600">Esta ruta no tiene vuelos disponibles</p>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:if test="${not empty sessionScope.usuario}">
+                        <div class="text-center mt-6">
+                            <button class="bg-gradient-to-r from-[#12445d] to-[#0c2636] text-white px-6 py-3 rounded-lg font-medium hover:from-[#0c2636] hover:to-[#12445d] transition-all duration-300 flex items-center justify-center mx-auto">
+                                <i class="fas fa-plus-circle mr-2"></i>
+                                Agregar Vuelo
+                            </button>
+                        </div>
+                    </c:if>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
 </body>
 
 </html>

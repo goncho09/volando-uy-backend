@@ -51,7 +51,6 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("message", "Welcome to Volando UY!");
         request.setAttribute("appName", "Volando UY Backend");
         request.setAttribute("rutas", listaRuta);
-        request.setAttribute("categorias", s.getCategorias());
         
         // Forward to JSP page
         request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
