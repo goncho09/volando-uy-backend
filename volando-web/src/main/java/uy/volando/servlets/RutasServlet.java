@@ -1,5 +1,6 @@
 package uy.volando.servlets;
 
+import com.app.clases.Categoria;
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
 import com.app.datatypes.DtRuta;
@@ -51,7 +52,6 @@ public class RutasServlet extends HttpServlet {
                 ruta.setUrlImagen(contextPath + "/pictures/rutas/" + urlImagen);
             }
 
-
             List<DtVuelo> vueloList = s.getVuelosRutaDeVuelo(ruta);
             vueloList.removeIf(vuelo -> vuelo.getFecha().isBefore(LocalDate.now()));
 
@@ -66,9 +66,9 @@ public class RutasServlet extends HttpServlet {
                 }
 
                 if (urlImage == null || urlImage.isEmpty() || !vueloImg.exists()) {
-                    vuelo.setUrlImage(contextPath + "/assets/rutaDefault.png");
+                    vuelo.setUrlImage(contextPath + "/assets/vueloDefault.jpg");
                 } else {
-                    vuelo.setUrlImage(contextPath + "/pictures/vuelos/" + urlImagen);
+                    vuelo.setUrlImage(contextPath + "/pictures/vuelos/" + urlImage);
                 }
             }
 

@@ -70,6 +70,9 @@
                             <p>Costo equipaje extra: $${ruta.equipajeExtra}</p>
                             <p>Fecha de alta: ${ruta.fechaAlta}</p>
                             <p>Estado: ${ruta.estado}</p>
+                            <p>Categorias: <c:forEach var="categoria" items="${ruta.categorias}">
+                                <a style="color: var(--celeste); text-decoration: underline" href="${pageContext.request.contextPath}/home?categoria=${categoria}">${categoria}</a>
+                            </c:forEach></p>
                         </div>
                     </div>
                 </div>
