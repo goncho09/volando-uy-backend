@@ -32,6 +32,14 @@ public class DtUsuario {
         this.urlImage = null;
     }
 
+    public DtUsuario(DtUsuario usuario) {
+        this.nickname = usuario.getNickname();
+        this.nombre = usuario.getNombre();
+        this.email = usuario.getEmail();
+        this.password = usuario.getPassword();
+        this.urlImage = usuario.getUrlImage();
+    }
+
     public String getNickname() {
         return nickname;
     }

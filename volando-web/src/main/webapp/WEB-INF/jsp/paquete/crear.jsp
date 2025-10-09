@@ -19,7 +19,7 @@
 <body>
     <jsp:include page="../header/header.jsp" />
 
-    <main class="flex flex-col items-center  p-4 bg-gray-300 min-h-screen">
+    <main class="flex flex-col items-center  p-4 min-h-screen">
         <form action="${pageContext.request.contextPath}/paquete/crear" method="POST" class="space-y-4 flex flex-col w-full max-w-md p-6 bg-white rounded-lg shadow-xl  mt-2">
             <h2 class="mb-6 text-2xl font-bold text-center text-black">Nuevo Paquete</h2>
 
@@ -51,18 +51,17 @@
                        class="flex-grow p-2">
             </div>
 
-            <div class="flex w-full items-center flex-col">
-                <div class="flex w-full items-center justify-start space-x-2">
-                    <i class="fa fa-route  text-[var(--azul-oscuro)]"></i>
-                    <label for="rutas" class="block  font-medium text-[var(--azul-oscuro)]">Seleccione las rutas asociadas:</label>
+            <c:if test="${not empty error}">
+                <div class="text-red-600 text-base text-center my-1">
+                        ${error}
                 </div>
-                <select id="rutas" name="rutas" multiple required
-                        class="w-full mt-2 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--azul-oscuro)]">
-                    <option value="ruta1">Montevideo - Buenos Aireas</option>
-                    <option value="ruta2">Montevideo - Santiago de Chile</option>
-                    <option value="ruta3">Montevideo - Asunción</option>
-                </select>
-            </div>
+            </c:if>
+
+            <c:if test="${not empty success}">
+                <div class="text-green-600 text-base text-center my-1">
+                        ${success}
+                </div>
+            </c:if>
 
             <button type="submit"
                     class="w-full px-4 py-2 font-semibold cursor-pointer text-white bg-[var(--azul-oscuro)] rounded-md hover:bg-[var(--azul-medio)] focus:outline-none focus:ring-2 focus:ring-[var(--azul-claro)]">

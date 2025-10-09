@@ -26,6 +26,8 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.getSession().setAttribute("usuario", null);
+
         List<DtRuta> listaRuta = s.listarRutasDeVuelo();
 
         listaRuta.removeIf(ruta -> ruta.getEstado() != EstadoRuta.APROBADA);
