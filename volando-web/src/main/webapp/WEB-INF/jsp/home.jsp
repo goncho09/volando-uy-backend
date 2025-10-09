@@ -14,13 +14,12 @@
 
     <script src="${pageContext.request.contextPath}/scripts/header.js" defer></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css"/>
-    <!-- Librerias Header -->
 
 </head>
 
 <body>
 
-<jsp:include page="header/header.jsp"/>
+<jsp:include page="components/header.jsp"/>
 
 <div role="status" id="spinner" class="w-full h-[80vh] flex justify-center items-center bg-white">
     <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -56,7 +55,7 @@
                             <p class="text-sm text-black line-clamp-3">${ruta.descripcionCorta}</p>
                         </div>
 
-                        <button onclick="window.location.href='${pageContext.request.contextPath}/rutaDeVuelo?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Ruta de Vuelo</button>
+                        <button onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Ruta de Vuelo</button>
                     </div>
                 </div>
             </c:forEach>
