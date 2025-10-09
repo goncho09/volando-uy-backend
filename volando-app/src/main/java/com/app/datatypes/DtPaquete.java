@@ -26,6 +26,15 @@ public class DtPaquete {
         this.rutaEnPaquete = rutaEnPaquete;
     }
 
+    public DtPaquete(String nombre, String descripcion, int validezDias, float descuento, float costo) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.validezDias = validezDias;
+        this.descuento = descuento;
+        this.costo = costo;
+        this.rutaEnPaquete = new ArrayList<>();
+    }
+
     public RutaDeVuelo getRutaDeVuelo(String nombre){
         for (RutaEnPaquete rp : this.rutaEnPaquete) {
             if (rp.getRutaDeVuelo().getNombre().equals(nombre)){
