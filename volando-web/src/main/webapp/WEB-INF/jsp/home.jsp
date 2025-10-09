@@ -7,9 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Volando.uy</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-
-
     <!-- Librerias Header -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
@@ -33,47 +30,38 @@
     <span class="sr-only">Loading...</span>
 </div>
 
-<main id="main-content" class="container my-5 mb-4 hidden">
-    <div class="row">
+<main id="main-content" class="flex flex-col items-center sm:items-start sm:flex-row max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 justify-around  mt-5 hidden">
         <!-- Sidebar -->
-        <aside class="col-md-3 mb-4" style="position: sticky; top: 20px;">
-            <div class="card shadow">
-                <div class="card-header fw-bold">CATEGORÍAS</div>
-                <ul class="list-group list-group-flush">
+        <aside class="flex flex-col w-64 h-full bg-white p-4 border border-[var(--azul-oscuro)] rounded-md mr-6">
+                <h2 class="text-lg border-b border-[var(--azul-oscuro)]">CATEGORÍAS</h2>
+                <div class="w-full bg-[var(--azul-oscuro)] h-[1px]"></div>
+                <ul class="flex flex-col mt-1">
                     <c:forEach var="categoria" items="${categorias}">
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath}/categoria?nombre=${categoria.nombre}" class="text-decoration-none">${categoria.nombre}</a></li>
+                        <li class="decoration-[var(--azul-claro)] underline-offset-5 hover:underline"><a href="${pageContext.request.contextPath}/categoria?nombre=${categoria.nombre}" class="text-decoration-none">${categoria.nombre}</a></li>
                     </c:forEach>
-<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Nacionales</a></li>--%>
-<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Internacionales</a></li>--%>
-<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Europa</a></li>--%>
-<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">América</a></li>--%>
-<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Exclusivos</a></li>--%>
-<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Temporada</a></li>--%>
-<%--                    <li class="list-group-item"><a href="#" class="text-decoration-none">Cortos</a></li>--%>
                 </ul>
-            </div>
         </aside>
 
-        <!-- Vuelos -->
-        <div class="col-md-8 mx-auto">
+        <div class="max-w-5xl space-y-2 mx-auto grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 px-4 py-2">
             <c:forEach var="ruta" items="${rutas}">
-                <div class="card mb-5 border-0" style="max-width: 800px;">
-                    <div class="row g-0 align-items-stretch">
-                        <div class="col-md-5">
-                            <img src="${ruta.urlImagen}" alt="Vuelo" class="img-fluid h-100"
-                                 style="object-fit: cover; height: 200px;">
+                <div class="bg-white rounded-2xl p-2 shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 bg-gray-300 border border-gray-100">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="${ruta.urlImagen}" alt="${ruta.nombre}"
+                             class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"/>
+                    </div>
+
+                    <div class="p-4 flex flex-col justify-between h-40">
+                        <div>
+                            <h5 class="text-lg font-semibold text-gray-800 mb-1 truncate">${ruta.nombre}</h5>
+                            <p class="text-sm text-black line-clamp-3">${ruta.descripcionCorta}</p>
                         </div>
-                        <div class="col-md-7 p-4 d-flex flex-column justify-content-center">
-                            <h5 class="fw-bold">${ruta.nombre}</h5>
-                            <p>${ruta.descripcionCorta}</p>
-                            <button class="btn btn-outline-dark mt-2 align-self-start"
-                                    onclick="window.location.href='${pageContext.request.contextPath}/rutaDeVuelo?nombre=${ruta.nombre}'">Ver Ruta de Vuelo</button>
-                        </div>
+
+                        <button onclick="window.location.href='${pageContext.request.contextPath}/rutaDeVuelo?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Ruta de Vuelo</button>
                     </div>
                 </div>
             </c:forEach>
         </div>
-    </div>
+
 </main>
     <script>
         window.onload = ()=>{
