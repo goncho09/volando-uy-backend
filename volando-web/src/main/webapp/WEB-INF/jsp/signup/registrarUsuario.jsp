@@ -17,6 +17,10 @@
 <body>
 <div class=" h-screen flex justify-center items-center bg-[var(--azul-oscuro)]">
     <form id="form" class="flex flex-col items-center gap-4 py-6  rounded-lg shadow-lg bg-white w-[85%] md:w-128 ">
+        <a href="${pageContext.request.contextPath}/home" class="space-x-1 text-left w-full px-6">
+            <i class="fa fa-arrow-left text-[var(--azul-oscuro)]"></i>
+            <span class="decoration-[var(--azul-claro)] underline-offset-5 hover:underline">Volver al inicio</span>
+        </a>
         <h1 class="text-center text-3xl font-semibold text-[var(--azul-oscuro)]">Registrar usuario</h1>
 
         <div

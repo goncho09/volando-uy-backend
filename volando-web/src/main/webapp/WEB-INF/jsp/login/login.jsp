@@ -18,6 +18,10 @@
 <div class=" h-screen flex justify-center items-center bg-[var(--azul-oscuro)]">
     <form id="login-form"
           class="flex flex-col items-center gap-4 py-6  rounded-lg shadow-lg bg-white w-[85%] md:w-128 ">
+        <a href="${pageContext.request.contextPath}/home" class="space-x-1 text-left w-full px-6">
+            <i class="fa fa-arrow-left text-[var(--azul-oscuro)]"></i>
+            <span class="decoration-[var(--azul-claro)] underline-offset-5 hover:underline">Volver al inicio</span>
+        </a>
         <h1 class="text-center text-3xl font-semibold text-[var(--azul-oscuro)]">Iniciar sesión</h1>
         <div
                 class="flex w-[90%] md:w-2/3 items-center border-b border-gray-300 py-2 space-x-3 focus-within:border-[var(--azul-oscuro)]">
