@@ -12,7 +12,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 @WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
@@ -29,12 +31,20 @@ public class HomeServlet extends HttpServlet {
         listaRuta.removeIf(ruta -> ruta.getEstado() != EstadoRuta.APROBADA);
 
         for (DtRuta ruta : listaRuta) {
-            String basePath = request.getContextPath() + "/pictures/rutas";
+            String basePath = request.getServletContext().getRealPath("/pictures/rutas");
+            String contextPath = request.getContextPath();
 
-            if (ruta.getUrlImagen() == null || ruta.getUrlImagen().isEmpty()) {
-                ruta.setUrlImagen(request.getContextPath() + "/assets/rutaDefault.png");
+            String urlImagen = ruta.getUrlImagen();
+            File rutaImg = null;
+
+            if (urlImagen != null && !urlImagen.isEmpty()) {
+                rutaImg = new File(basePath, urlImagen);
+            }
+
+            if (urlImagen == null || urlImagen.isEmpty() || !rutaImg.exists()) {
+                ruta.setUrlImagen(contextPath + "/assets/rutaDefault.png");
             } else {
-                ruta.setUrlImagen(basePath + "/" + ruta.getUrlImagen());
+                ruta.setUrlImagen(contextPath + "/pictures/rutas/" + urlImagen);
             }
         }
 
