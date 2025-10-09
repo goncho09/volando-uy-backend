@@ -8,21 +8,12 @@
         <a href="${pageContext.request.contextPath}/home" class="text-3xl font-bold uppercase">Volando.uy</a>
 
         <c:set var="usuarioNickname" value="${sessionScope.usuarioNickname}" />
-        <c:set var="usuarioImage" value="${sessionScope.usuarioImage}" />
 
         <c:choose>
             <c:when test="${usuarioNickname != null}">
                 <div class="flex flex-col items-center space-x-3 md:flex-row" id="user-info">
                 <a class="flex items-center" href="${pageContext.request.contextPath}/perfil">
-                    <c:choose>
-                        <c:when test="${not empty usuarioImage}">
-                            <c:set var="imageSrc" value="${usuarioImage}" />
-                        </c:when>
-                        <c:otherwise>
-                            <c:set var="imageSrc" value="${pageContext.request.contextPath}/assets/default-user.png" />
-                        </c:otherwise>
-                    </c:choose>
-                    <img src="${imageSrc}" class="w-12 h-12 rounded-full mr-2" />
+                    <img src="${sessionScope.usuarioImagen}" class="w-12 h-12 rounded-full mr-2" />
                 <p class="m-0" id="nickname">${usuarioNickname}</p>
                 </a>
                 <p class="decoration-[var(--celeste-claro)] cursor-pointer underline-offset-5 m-0 hover:underline" onclick="window.location.href='${pageContext.request.contextPath}/logout'">Cerrar sesión</p>

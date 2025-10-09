@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -40,6 +41,23 @@ public class LogInServlet extends HttpServlet {
                 DtUsuario usuario = sistema.getUsuarioSeleccionado();
                 HttpSession session = request.getSession(true);
                 session.setAttribute("usuarioNickname", usuario.getNickname());
+
+                String basePath = request.getServletContext().getRealPath("/pictures/users");
+                String contextPath = request.getContextPath();
+
+                String urlImagen = usuario.getUrlImage();
+                File userImg = null;
+
+                if (urlImagen != null && !urlImagen.isEmpty()) {
+                    userImg = new File(basePath, urlImagen);
+                }
+
+                if (urlImagen == null || urlImagen.isEmpty() || !userImg.exists()) {
+                    usuario.setUrlImage(contextPath + "/assets/userDefault.png");
+                } else {
+                    usuario.setUrlImage(contextPath + "/pictures/users/" + urlImagen);
+                }
+
                 session.setAttribute("usuarioImagen", usuario.getUrlImage());
                 sistema.borrarUsuarioSeleccionado();
                 if(usuario instanceof DtCliente){

@@ -95,7 +95,7 @@
 
                         <div class="flex flex-wrap gap-2">
                             <span class="font-semibold text-[#0c2636]">Categorías:</span>
-                            <c:if test="${not empty ruta.caregorias}">
+                            <c:if test="${not empty ruta.categorias}">
                                 <c:forEach var="categoria" items="${ruta.categorias}">
                                     <a href="${pageContext.request.contextPath}/home?nombre=${categoria}" class="px-3 py-1 bg-[#e8f7ff] text-[#1d6e86] rounded-full text-sm hover:bg-[#2bc8c8] hover:text-white transition-colors">${categoria}</a>
                                 </c:forEach>
@@ -138,7 +138,7 @@
                             </div>
                         </c:otherwise>
                     </c:choose>
-                    <c:if test="${not empty sessionScope.usuario}">
+                    <c:if test="${not empty sessionScope.usuarioNickname && sessionScope.usuarioTipo eq 'aerolinea'}">
                         <div class="text-center mt-6">
                             <button class="bg-gradient-to-r from-[#12445d] to-[#0c2636] text-white px-6 py-3 rounded-lg font-medium hover:from-[#0c2636] hover:to-[#12445d] transition-all duration-300 flex items-center justify-center mx-auto">
                                 <i class="fas fa-plus-circle mr-2"></i>
