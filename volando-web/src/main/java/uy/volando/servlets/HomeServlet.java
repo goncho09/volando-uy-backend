@@ -4,8 +4,6 @@ import com.app.clases.Factory;
 import com.app.clases.ISistema;
 import com.app.datatypes.DtRuta;
 import com.app.enums.EstadoRuta;
-import com.app.enums.TipoImagen;
-import com.app.utils.AuxiliarFunctions;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 
 @WebServlet(name = "HomeServlet", urlPatterns = {"/home"})

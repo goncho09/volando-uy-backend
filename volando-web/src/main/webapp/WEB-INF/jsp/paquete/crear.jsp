@@ -10,11 +10,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css">
+    <script src="${pageContext.request.contextPath}/scripts/header.js" defer></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css"/>
+
 </head>
 
 <body>
-    <jsp:include page="../header/header.jsp" />
+    <jsp:include page="../components/header.jsp" />
 
     <main class="flex flex-col items-center  p-4 bg-gray-300 min-h-screen">
         <form action="${pageContext.request.contextPath}/paquete/crear" method="POST" class="space-y-4 flex flex-col w-full max-w-md p-6 bg-white rounded-lg shadow-xl  mt-2">
