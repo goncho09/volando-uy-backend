@@ -900,5 +900,11 @@ public class Sistema implements ISistema {
         rutaDeVueloDao.actualizar(rdv);
     };
 
+    public DtUsuario getUsuario(String nickname) {
+        Usuario u = this.usuarios.get(nickname);
+        if (u == null) return null;
+        return u.getDatos();
+    }
+
 }
 

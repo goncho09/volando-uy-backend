@@ -13,6 +13,7 @@ public interface ISistema {
     List<DtUsuario> listarUsuarios();
     void elegirUsuario(String nickname);
     DtUsuario getUsuarioSeleccionado();
+    DtUsuario getUsuario(String nickname);
 
     List<DtCliente> listarClientes();
     List<Cliente> getClientes();
