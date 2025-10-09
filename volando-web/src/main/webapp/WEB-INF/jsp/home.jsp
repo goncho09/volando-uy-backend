@@ -31,15 +31,7 @@
 
 <main id="main-content" class="flex flex-col items-center sm:items-start sm:flex-row max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 justify-around  mt-5 hidden">
         <!-- Sidebar -->
-        <aside class="flex flex-col w-64 h-full bg-white p-4 border border-[var(--azul-oscuro)] rounded-md mr-6">
-                <h2 class="text-lg border-b border-[var(--azul-oscuro)] text-semibold">CATEGORÍAS</h2>
-                <div class="w-full bg-[var(--azul-oscuro)] h-[1px]"></div>
-                <ul class="flex flex-col mt-1">
-                    <c:forEach var="categoria" items="${categorias}">
-                        <li class="decoration-[var(--azul-claro)] underline-offset-5 hover:underline"><a href="${pageContext.request.contextPath}/categoria?nombre=${categoria.nombre}" class="text-decoration-none">${categoria.nombre}</a></li>
-                    </c:forEach>
-                </ul>
-        </aside>
+        <jsp:include page="components/miPerfil.jsp"/>
 
         <div class="max-w-5xl space-y-2 mx-auto grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 px-4 py-2">
             <c:forEach var="ruta" items="${rutas}">
