@@ -13,6 +13,8 @@ public interface ISistema {
     List<DtUsuario> listarUsuarios();
     void elegirUsuario(String nickname);
     DtUsuario getUsuarioSeleccionado();
+    void borrarUsuarioSeleccionado();
+    boolean validarUsuario(String nickname, String password);
 
     List<DtCliente> listarClientes();
     List<Cliente> getClientes();
@@ -75,6 +77,7 @@ public interface ISistema {
     int agregarRutaAPaquete(DtPaquete paquete, DtRuta ruta, int cantidad, TipoAsiento tipoAsiento);
     DtPaquete getPaquete();
     Paquete buscarPaquete(DtPaquete paquete);
+    boolean existePaquete(String nombre);
 
     void altaPaquete(DtPaquete paquete);
 

@@ -162,6 +162,12 @@ public class Sistema implements ISistema {
         this.userDao.addRutaDeVuelo(aerolinea, nuevaRuta); // La agregamos a su aerolinea
     }
 
+    public boolean validarUsuario(String nickname, String password){
+        Usuario u = this.usuarios.get(nickname);
+        if(u == null) return false;
+        return u.getPassword().equals(password);
+    }
+
 
     public List<DtUsuario> listarUsuarios() {
         List <DtUsuario> usuarios = new ArrayList<>();
@@ -185,6 +191,11 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("No existe un usuario con ese nickname.");
         }
         this.usuarioSeleccionado = u;
+    }
+
+    public void borrarUsuarioSeleccionado(){
+        if(this.usuarioSeleccionado == null) throw new IllegalArgumentException("No hay un usuario seleccionado.");
+        this.usuarioSeleccionado = null;
     }
 
     public DtUsuario getUsuarioSeleccionado() {
@@ -433,6 +444,10 @@ public class Sistema implements ISistema {
         Paquete p = new Paquete(paquete);
         paqueteDao.guardar(p);
         this.paquetes.put(p.getNombre(),p);
+    }
+
+    public boolean existePaquete(String nombre){
+        return this.paquetes.containsKey(nombre);
     }
 
     public void altaCategoria(DtCategoria categoria){
