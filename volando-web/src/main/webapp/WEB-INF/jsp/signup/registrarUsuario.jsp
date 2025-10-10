@@ -47,7 +47,7 @@
             <i class="fa fa-image icon text-[var(--azul-oscuro)]"></i>
             <label for="image" class="flex-grow text-gray-500 cursor-pointer">
                 <span id="file-name" class="block">Seleccione una foto de perfil *</span>
-                <input type="file" id="image" name="image" accept="image/*" class="hidden" required>
+                <input type="file" id="image" name="image" accept="image/*" class="sr-only" required>
             </label>
         </div>
 
@@ -117,7 +117,7 @@
 
             const response = await fetch('${pageContext.request.contextPath}/register', {
                 method: 'POST',
-                body: formData // Manda FormData directamente
+                body: formData
             });
 
             const text = await response.text();

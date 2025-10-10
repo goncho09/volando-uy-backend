@@ -31,6 +31,7 @@ public interface ISistema {
     void modificarAerolinea(DtAerolinea aerolinea);
     void modificarAerolineaImagen(DtAerolinea aerolinea, String urlImagen);
     Aerolinea buscarAerolinea(DtAerolinea aerolinea);
+    DtAerolinea getAerolinea(String nickname);
 
     void cancelarAltaUsuario();
     void confirmarAltaUsuario(DtUsuario user);
@@ -63,6 +64,7 @@ public interface ISistema {
     List<DtVuelo> listarVuelos(String nombre);
     Vuelo buscarVuelo(DtVuelo vuelo);
     DtVuelo consultarVuelo(String nombre);
+    boolean existeVuelo(String nombre);
 
     void seleccionarAerolineaParaVuelo(String nickname);
     void seleccionarRuta(String nombre);

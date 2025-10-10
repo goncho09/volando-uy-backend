@@ -50,12 +50,14 @@
                        class="flex-grow p-2">
             </div>
 
+
             <p id="error-msg"
-               class="opacity-0 transition-all duration-500 text-red-600 text-base text-center transform translate-y-[-5px]">
+               class="hidden text-red-600 text-base text-center transition-all duration-300 transform origin-top -translate-y-1">
             </p>
 
             <p id="success-msg"
-               class="opacity-0 transition-all duration-500 text-green-600 text-base text-center transform translate-y-[-5px]">
+               class="hidden text-red-600 text-base text-center transition-all duration-300 transform origin-top -translate-y-1">
+                Paquete creado con éxito!
             </p>
 
             <button type="submit"
@@ -74,14 +76,12 @@
         const errorMsg = document.getElementById("error-msg");
         const successMsg = document.getElementById("success-msg");
 
-        errorMsg.textContent = "";
-        errorMsg.classList.add("opacity-0", "-translate-y-1");
-        errorMsg.classList.remove("opacity-100", "translate-y-0");
+        errorMsg.textContent = '';
+        errorMsg.classList.add('hidden');
+        errorMsg.classList.remove('translate-y-0');
 
-        successMsg.textContent = "";
-        successMsg.classList.add("opacity-0", "-translate-y-1");
-        successMsg.classList.remove("opacity-100", "translate-y-0");
-
+        successMsg.classList.add("hidden");
+        successMsg.classList.remove("translate-y-0");
 
         const response = await fetch('${pageContext.request.contextPath}/paquete/crear', {
             method: 'POST',
@@ -94,14 +94,13 @@
         const text = await response.text();
 
         if (response.ok) {
-            successMsg.textContent = 'Paquete creado con éxito';
-            successMsg.classList.remove("opacity-0", "-translate-y-1");
-            successMsg.classList.add("opacity-100", "translate-y-0");
+            successMsg.classList.remove('hidden');
+            successMsg.classList.add('translate-y-0');
             e.target.reset();
         } else {
             errorMsg.textContent = text;
-            errorMsg.classList.remove("opacity-0", "-translate-y-1");
-            errorMsg.classList.add("opacity-100", "translate-y-0");
+            errorMsg.classList.remove('hidden');
+            errorMsg.classList.add('translate-y-0');
         }
     });
 </script>
