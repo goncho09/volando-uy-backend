@@ -15,6 +15,8 @@ public interface ISistema {
     DtUsuario getUsuarioSeleccionado();
     void borrarUsuarioSeleccionado();
     boolean validarUsuario(String nickname, String password);
+    boolean existeUsuarioNickname(String nickname);
+    boolean existeUsuarioEmail(String email);
 
     List<DtCliente> listarClientes();
     List<Cliente> getClientes();

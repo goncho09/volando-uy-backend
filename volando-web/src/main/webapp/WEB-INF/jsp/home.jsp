@@ -5,14 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volando.uy</title>
+    <title>Volando.uy | Home</title>
 
     <!-- Librerias Header -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
 
-<%--    <script src="${pageContext.request.contextPath}/scripts/header.js" defer></script>--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css"/>
 
 </head>

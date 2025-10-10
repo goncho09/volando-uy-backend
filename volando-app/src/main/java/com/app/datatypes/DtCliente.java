@@ -25,15 +25,18 @@ public class DtCliente extends DtUsuario{
         this.numeroDocumento = numeroDocumento;
         this.comprasPaquetes = new ArrayList<>();
     }
-    public DtCliente(String nickname, String nombre, String email, String urlImage, String apellido, LocalDate fechaNacimiento, String nacionalidad, TipoDocumento tipoDocumento, int numeroDocumento) {
-        super(nickname, nombre, email, urlImage);
+
+    public DtCliente(DtUsuario usuario, String apellido, LocalDate fechaNacimiento, String nacionalidad, TipoDocumento tipoDocumento, int numeroDocumento) {
+        super(usuario.getNickname(), usuario.getEmail(),usuario.getNombre(),  usuario.getPassword(), usuario.getUrlImage());
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
         this.nacionalidad = nacionalidad;
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
         this.comprasPaquetes = new ArrayList<>();
+        System.out.println("DtCliente creado con nickname: " + usuario.getNickname());
     }
+
     public DtCliente(String nickname, String nombre, String email, String apellido, LocalDate fechaNacimiento, String nacionalidad, TipoDocumento tipoDocumento, int numeroDocumento) {
         super(nickname, nombre, email);
         this.apellido = apellido;

@@ -450,6 +450,19 @@ public class Sistema implements ISistema {
         return this.paquetes.containsKey(nombre);
     }
 
+    public boolean existeUsuarioNickname(String nickname){
+        return this.usuarios.containsKey(nickname);
+    }
+
+    public boolean existeUsuarioEmail(String email){
+        for (Usuario u : this.usuarios.values()) {
+            if (u.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void altaCategoria(DtCategoria categoria){
         if(categoriaDao.buscar(categoria.getNombre()) != null) { throw new IllegalArgumentException("Ya existe una categoría con ese nombre.");}
         Categoria c = new Categoria(categoria);
@@ -486,16 +499,25 @@ public class Sistema implements ISistema {
     }
 
     public void registrarCliente(DtCliente cliente){
+
+        System.out.println("llega");
         if(this.usuarios.containsKey(cliente.getNickname()) || userDao.buscar(cliente.getNickname()) != null ) {
             throw new IllegalArgumentException("Este usuario ya existe.");}
 
+        System.out.println("pasa");
         for (Usuario existente : this.usuarios.values()) {
             if (existente.getEmail().equals(cliente.getEmail())) {
+                System.out.println("Email ya existente: " + existente.getEmail());
+                System.out.println("email: " + cliente.getEmail());
                 throw new IllegalArgumentException("Ya existe un usuario con ese email.");
             }
         }
 
+        System.out.println("pasa2");
+
         confirmarAltaUsuario(cliente);
+
+        System.out.println("pasa3");
     };
 
     public void modificarCliente(DtCliente cliente){
@@ -533,8 +555,7 @@ public class Sistema implements ISistema {
                 throw new IllegalArgumentException("Ya existe un usuario con ese email.");
             }
         }
-
-        confirmarAltaUsuario(aerolinea);
+        this.confirmarAltaUsuario(aerolinea);
     };
 
     public void modificarAerolinea(DtAerolinea aerolinea){
@@ -563,6 +584,7 @@ public class Sistema implements ISistema {
     };
 
     public void confirmarAltaUsuario(DtUsuario usuario){
+        System.out.println("dasdsa");
         if(usuario instanceof DtCliente){
             Cliente newUser = new Cliente((DtCliente) usuario);
             this.usuarios.put(newUser.getNickname(),newUser);
@@ -573,17 +595,6 @@ public class Sistema implements ISistema {
             this.usuarios.put(newUser.getNickname(), newUser);
             userDao.guardar(newUser);
             //newUser.mostrarDatos(); //Debug
-        }
-    }
-
-    public void confirmarAltaUsuario(){
-        if(this.clienteTemporal != null){
-            Cliente nuevo = new Cliente(this.clienteTemporal);
-            this.usuarios.put(nuevo.getNickname(), nuevo);
-            userDao.guardar(nuevo);
-            this.clienteTemporal = null;
-        }else{
-            throw new IllegalArgumentException("Ha ocurrido un error al crear el usuario.");
         }
     }
 
