@@ -13,13 +13,19 @@ body {
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-    overflow-x: hidden;
+    overflow: hidden;
+    background: linear-gradient(to bottom right, #fff, #12445d) !important;
+    min-height: 90vh;
 }
 
 a {
     text-decoration: none;
     color: inherit;
     outline: none;
+}
+
+form{
+    background-color: white !important;
 }
 
 summary {
