@@ -30,16 +30,18 @@ public class LogInServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        try {
+        response.setContentType("text/plain;charset=UTF-8");
 
+        try {
             String name = request.getParameter("name");
             String password = request.getParameter("password");
 
-
-            if(sistema.validarUsuario(name,password)){
+            if (sistema.validarUsuario(name, password)) {
                 sistema.elegirUsuario(name);
                 DtUsuario usuario = sistema.getUsuarioSeleccionado();
+
                 HttpSession session = request.getSession(true);
+
                 session.setAttribute("usuarioNickname", usuario.getNickname());
 
                 String basePath = request.getServletContext().getRealPath("/pictures/users");
@@ -59,6 +61,7 @@ public class LogInServlet extends HttpServlet {
                 }
 
                 session.setAttribute("usuarioImagen", usuario.getUrlImage());
+
                 sistema.borrarUsuarioSeleccionado();
                 if(usuario instanceof DtCliente){
                     session.setAttribute("usuarioTipo", "cliente");
@@ -69,16 +72,17 @@ public class LogInServlet extends HttpServlet {
                     request.setAttribute("error", "Ha ocurrido un error.");
                     request.getRequestDispatcher("/WEB-INF/jsp/login/login.jsp").forward(request, response);
                 }
-                response.sendRedirect(request.getContextPath() + "/home");
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("OK");
             } else {
-                request.setAttribute("error", "Nombre de usuario o contraseña incorrectos");
-                request.getRequestDispatcher("/WEB-INF/jsp/login/login.jsp").forward(request, response);
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Nombre de usuario o contraseña incorrectos");
             }
 
         } catch (Exception ex) {
-            System.err.println(ex.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("Error interno: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
-
-
 }

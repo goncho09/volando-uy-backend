@@ -15,8 +15,7 @@
 
 <body>
 <div class=" h-screen flex justify-center items-center bg-[var(--azul-oscuro)]">
-    <form id="login-form" method="POST" action="${pageContext.request.contextPath}/login"
-          class="flex flex-col items-center gap-4 py-6  rounded-lg shadow-lg bg-white w-[85%] md:w-128 ">
+    <form id="login-form" class="flex flex-col items-center gap-4 py-6  rounded-lg shadow-lg bg-white w-[85%] md:w-128 ">
         <a href="${pageContext.request.contextPath}/home" class="space-x-1 text-left w-full px-6">
             <i class="fa fa-arrow-left text-[var(--azul-oscuro)]"></i>
             <span class="decoration-[var(--azul-claro)] underline-offset-5 hover:underline">Volver al inicio</span>
@@ -35,11 +34,9 @@
                    class="flex-grow outline-none">
         </div>
 
-        <c:if test="${not empty error}">
-            <div class="text-red-600 text-base my-1">
-                    ${error}
-            </div>
-        </c:if>
+        <p id="error-msg"
+           class="hidden text-red-600 text-sm transition-all duration-300 transform origin-top -translate-y-1">
+        </p>
 
         <button type="submit"
                 class="hover:bg-[var(--azul-claro)] w-2/3 text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Iniciar
@@ -53,6 +50,37 @@
         </div>
     </form>
 </div>
-</body>
 
+<script>
+    document.getElementById('login-form').addEventListener('submit',async(e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const params = new URLSearchParams(formData);
+        const errorMsg = document.getElementById("error-msg");
+
+        errorMsg.textContent = "";
+        errorMsg.classList.add("hidden");
+        errorMsg.classList.remove("translate-y-0");
+
+        const response = await fetch('${pageContext.request.contextPath}/login', {
+            method: 'POST',
+            body: params,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+
+        const text = await response.text();
+
+        if (response.ok) {
+            window.location.href = '${pageContext.request.contextPath}/home';
+        } else {
+            errorMsg.textContent = text;
+            errorMsg.classList.remove("hidden");
+            errorMsg.classList.add("translate-y-0");
+        }
+    });
+</script>
+
+</body>
 </html>
