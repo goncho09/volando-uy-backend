@@ -87,11 +87,11 @@
         </c:choose>
 
         <p id="error-msg"
-           class="hidden text-red-600 text-sm transition-all duration-300 text-base transform origin-top -translate-y-1">
+           class="hidden text-red-600 text-base text-center transition-all duration-300 text-base transform origin-top -translate-y-1">
         </p>
 
         <p id="success-msg"
-           class="hidden text-green-600 text-sm transition-all duration-300 text-base transform origin-top -translate-y-1">
+           class="hidden text-green-600 text-base text-center transition-all duration-300 text-base transform origin-top -translate-y-1">
             Usuario registrado con éxito. Redirigiendo al login...
         </p>
 

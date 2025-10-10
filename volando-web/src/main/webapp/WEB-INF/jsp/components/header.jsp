@@ -8,6 +8,7 @@
         <a href="${pageContext.request.contextPath}/home" class="text-3xl font-bold uppercase">Volando.uy</a>
 
         <c:set var="usuarioNickname" value="${sessionScope.usuarioNickname}" />
+        <c:set var="usuarioTipo" value="${sessionScope.usuarioTipo}" />
 
         <c:choose>
             <c:when test="${usuarioNickname != null}">
@@ -57,6 +58,7 @@
                         <details>
                             <summary>Vuelos</summary>
                             <ul class="p-2 bg-[var(--azul-oscuro)]">
+                                <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
                                 <li>
                                     <a href="${pageContext.request.contextPath}/vuelo/crear">
                                         <p
@@ -64,6 +66,7 @@
                                             Crear vuelo</p>
                                     </a>
                                 </li>
+                                </c:if>
                                 <li>
                                     <a href="${pageContext.request.contextPath}/vuelo">
                                         <p
@@ -164,12 +167,15 @@
                     <details>
                         <summary>Vuelos</summary>
                         <ul class="p-2 w-32 bg-[var(--azul-oscuro)]">
-                            <li>
-                                <a href="${pageContext.request.contextPath}/vuelo/crear">
-                                    <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
-                                        Crear vuelo</p>
-                                </a>
-                            </li>
+                            <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/vuelo/crear">
+                                        <p
+                                                class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
+                                            Crear vuelo</p>
+                                    </a>
+                                </li>
+                            </c:if>
                             <li>
                                 <a href="${pageContext.request.contextPath}/vuelo">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">

@@ -499,25 +499,17 @@ public class Sistema implements ISistema {
     }
 
     public void registrarCliente(DtCliente cliente){
-
-        System.out.println("llega");
         if(this.usuarios.containsKey(cliente.getNickname()) || userDao.buscar(cliente.getNickname()) != null ) {
             throw new IllegalArgumentException("Este usuario ya existe.");}
 
         System.out.println("pasa");
         for (Usuario existente : this.usuarios.values()) {
             if (existente.getEmail().equals(cliente.getEmail())) {
-                System.out.println("Email ya existente: " + existente.getEmail());
-                System.out.println("email: " + cliente.getEmail());
                 throw new IllegalArgumentException("Ya existe un usuario con ese email.");
             }
         }
 
-        System.out.println("pasa2");
-
         confirmarAltaUsuario(cliente);
-
-        System.out.println("pasa3");
     };
 
     public void modificarCliente(DtCliente cliente){
@@ -537,6 +529,19 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("Este usuario es aerolinea.");
         }
     };
+
+
+    public DtAerolinea getAerolinea(String nickname) {
+        Usuario u = this.usuarios.get(nickname);
+        if (u == null) {
+            throw new IllegalArgumentException("No existe un usuario con ese nickname.");
+        }
+        if (u instanceof Aerolinea a) {
+            return a.getDatos();
+        } else {
+            throw new IllegalArgumentException("El usuario no es una aerolínea.");
+        }
+    }
 
     public void modificarClienteImagen(DtCliente cliente, String urlImagen){
         Cliente c = this.buscarCliente(cliente);
@@ -658,6 +663,11 @@ public class Sistema implements ISistema {
 
         this.rutaTemporal = ruta;
     }
+
+    public boolean existeVuelo(String nombre){
+        return this.vuelos.containsKey(nombre);
+    }
+
 
     public void ingresarDatosVuelo(DtVuelo datosVuelo) {
         if (this.rutaTemporal == null) {
