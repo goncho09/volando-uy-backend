@@ -65,7 +65,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/vuelo">
+                                    <a href="${pageContext.request.contextPath}/consultaVuelo/consulta">
                                         <p
                                                 class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                             Ver vuelos</p>
@@ -171,7 +171,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/vuelo">
+                                <a href="${pageContext.request.contextPath}/consulta-vuelos">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Ver vuelos</p>
                                 </a>

@@ -78,6 +78,7 @@ public class RutasServlet extends HttpServlet {
 
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error: ", e);
+
             request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
         }
 
