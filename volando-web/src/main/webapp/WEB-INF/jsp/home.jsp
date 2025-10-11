@@ -28,11 +28,11 @@
     <span class="sr-only">Loading...</span>
 </div>
 
-<main id="main-content" class="flex flex-col items-center sm:items-start sm:flex-row max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 justify-around  mt-5 hidden">
+<main id="main-content" class="flex flex-col items-center md:items-start md:flex-row max-w-7xl md:mx-auto px-4 sm:px-6 lg:px-8 justify-center  mt-5 hidden">
         <!-- Sidebar -->
         <jsp:include page="components/miPerfil.jsp"/>
 
-        <div class="max-w-5xl space-y-2 mx-auto grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 px-4 py-2">
+        <div class="max-w-5xl space-y-2  grid gap-6 grid-cols-1 mt-2 md:m-0 sm:grid-cols-2 lg:grid-cols-4 px-4 py-2">
             <c:forEach var="ruta" items="${rutas}">
                 <div class="bg-gradient-to-b from-[#fff] to-[#e8f7ff] rounded-2xl p-2 shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 bg-gray-300 border border-gray-100">
                     <div class="relative h-48 overflow-hidden">

@@ -177,9 +177,9 @@
                                 </li>
                             </c:if>
                             <li>
-                                <a href="${pageContext.request.contextPath}/consulta-vuelos">
+                                <a href="${pageContext.request.contextPath}/vuelo/buscar">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
-                                        Ver vuelos</p>
+                                        Ver vuelo</p>
                                 </a>
                             </li>
                         </ul>

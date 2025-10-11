@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-@WebServlet (name = "CrearVueloServlet", urlPatterns = {"/vuelo/crear","/flight/new", "/flight/create", "/vuelo/new", "/vuelo/create"})
+@WebServlet (name = "CrearVueloServlet", urlPatterns = {"/vuelo/crear"})
 public class CrearVueloServlet extends HttpServlet {
 
     ISistema sistema = Factory.getSistema();

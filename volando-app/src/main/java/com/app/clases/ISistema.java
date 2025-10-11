@@ -56,6 +56,7 @@ public interface ISistema {
     void actualizarEstadoRuta(DtRuta ruta, EstadoRuta estado);
 
     boolean existeRuta(String nombre);
+    DtRuta getRutaDeVuelo(String nombre);
     RutaDeVuelo buscarRutaDeVuelo(DtRuta ruta);
     void altaRutaDeVuelo(String nickname, DtRuta datosRuta);
 
@@ -64,6 +65,7 @@ public interface ISistema {
     List<DtVuelo> listarVuelos(String nombre);
     Vuelo buscarVuelo(DtVuelo vuelo);
     DtVuelo consultarVuelo(String nombre);
+    DtVuelo getVuelo(String nombre);
     boolean existeVuelo(String nombre);
 
     void seleccionarAerolineaParaVuelo(String nickname);

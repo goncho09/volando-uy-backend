@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet (name = "CrearPaqueteServlet", urlPatterns = {"/paquete/crear","/package/new", "/package/create", "/paquete/new", "/paquete/create"})
+@WebServlet (name = "CrearPaqueteServlet", urlPatterns = {"/paquete/crear"})
 public class CrearPaqueteServlet extends HttpServlet {
 
     @Override

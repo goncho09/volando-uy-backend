@@ -668,6 +668,11 @@ public class Sistema implements ISistema {
         return this.vuelos.containsKey(nombre);
     }
 
+    public DtRuta getRutaDeVuelo(String nombre){
+        if(!this.rutasDeVuelo.containsKey(nombre)) throw new IllegalArgumentException("No existe esta ruta");
+        return  (this.rutasDeVuelo.get(nombre).getDatos());
+    }
+
 
     public void ingresarDatosVuelo(DtVuelo datosVuelo) {
         if (this.rutaTemporal == null) {
@@ -708,6 +713,15 @@ public class Sistema implements ISistema {
         this.rutaTemporal = null;
         this.aerolineaTemp = null;
         this.vueloTemporal = null;
+    }
+
+    public DtVuelo getVuelo(String nombre){
+        for (Vuelo v : this.getVuelos()) {
+            if (v.getNombre().trim().equals(nombre.trim())) {
+                return v.getDatos();
+            }
+        }
+        throw new IllegalArgumentException("No existe este vuelo");
     }
 
 

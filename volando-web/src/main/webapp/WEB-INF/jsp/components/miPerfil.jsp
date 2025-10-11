@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<aside class="w-full lg:w-96 bg-white rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 h-fit">
+<aside class="w-[90%] sm:w-2/3 md:w-80 bg-white rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 h-fit">
     <div class="p-5 bg-gradient-to-br from-[#f8fdff] to-[#e8f7ff] border-b border-[#2bc8c8]/20">
         <div class="bg-white rounded-lg p-4 shadow-sm border border-[#269fb8]/20">
             <p class="font-bold text-[#0c2636] text-lg mb-3 flex items-center">
