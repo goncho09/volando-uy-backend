@@ -113,6 +113,7 @@
                         <details>
                             <summary>Rutas de vuelo</summary>
                             <ul class="p-2 bg-[var(--azul-oscuro)]">
+                            <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
                                 <li>
                                     <a href="${pageContext.request.contextPath}/rutaDeVuelo/crear">
                                         <p
@@ -120,6 +121,7 @@
                                             Crear ruta</p>
                                     </a>
                                 </li>
+                                </c:if>
                                 <li>
                                     <a href="${pageContext.request.contextPath}/ruta-de-vuelo">
                                         <p
@@ -225,6 +227,7 @@
                                         Crear ruta</p>
                                 </a>
                             </li>
+                            </c:if>
                             <li>
                                 <a href="${pageContext.request.contextPath}/ruta-de-vuelo">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
