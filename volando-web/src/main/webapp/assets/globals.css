@@ -13,7 +13,6 @@ body {
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-    overflow-y: hidden;
     background: linear-gradient(to bottom right, #fff, #12445d) !important;
     min-height:100vh;
 }
