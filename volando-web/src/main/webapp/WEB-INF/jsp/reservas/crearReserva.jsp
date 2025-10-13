@@ -28,7 +28,7 @@
         <div class="row">
             <!-- Barra lateral -->
             <aside class="col-md-3 mb-4">
-                <jsp:include page="../components/miPerfil.jsp"/>
+                 <jsp:include page="../components/miPerfil.jsp"/>
             </aside>
 
             <!-- Contenido principal -->
@@ -44,22 +44,28 @@
                             <div class="row g-3">
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold">Aerolínea</label>
-                                    <select class="form-select" id="aerolinea-select">
+                                    <select class="form-select" id="aerolinea-select" name="aerolinea" onchange="this.form.submit()">
                                         <option value="">Selecciona una aerolínea</option>
-                                        <option value="zulufly">ZuluFly</option>
-                                        <option value="skywings">SkyWings</option>
-                                        <option value="airuruguay">Air Uruguay</option>
+                                        <c:forEach var="a" items="${aerolineas}">
+                                            <option value="${a.nickname}" ${a.nickname eq aerolineaId ? "selected" : ""}>
+                                                ${a.nombre}
+                                            </option>
+                                        </c:forEach>
                                     </select>
                                 </div>
+
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold">Ruta</label>
-                                    <select class="form-select" id="ruta-select">
+                                    <select class="form-select" name="ruta" id="ruta-select" ${empty rutas ? "disabled" : ""} onchange="this.form.submit()">
                                         <option value="">Selecciona una ruta</option>
-                                        <option value="zl1502">ZL1502 - Montevideo - Río de Janeiro</option>
-                                        <option value="zl0801">ZL0801 - Montevideo - Buenos Aires</option>
-                                        <option value="sw2001">SW2001 - Montevideo - Santiago</option>
+                                        <c:forEach var="r" items="${rutas}">
+                                            <option value="${r.id}" ${r.id eq rutaSeleccionada ? "selected" : ""}>
+                                                ${r.origen} → ${r.destino}
+                                            </option>
+                                        </c:forEach>
                                     </select>
                                 </div>
+
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold">Vuelo</label>
                                     <select class="form-select" id="vuelo-select">
@@ -208,3 +214,39 @@
 </body>
 
 </html>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const selectAerolinea = document.getElementById("aerolinea-select");
+    const selectRuta = document.getElementById("ruta-select");
+    const selectVuelo = document.getElementById("vuelo-select");
+
+
+    selectRuta.disabled = true;
+    selectVuelo.disabled = true;
+
+    selectAerolinea.addEventListener("change", function() {
+        if (selectAerolinea.value) {
+            selectRuta.disabled = false;
+        } else {
+            selectRuta.disabled = true;
+            selectVuelo.disabled = true;
+        }
+
+        // Limpiar valores previos
+        selectRuta.value = "";
+        selectVuelo.value = "";
+    });
+
+    selectRuta.addEventListener("change", function() {
+        if (selectRuta.value) {
+            selectVuelo.disabled = false;
+        } else {
+            selectVuelo.disabled = true;
+        }
+
+        selectVuelo.value = "";
+    });
+});
+</script>
+

@@ -1,15 +1,13 @@
 package uy.volando.servlets.Reserva;
 
+
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
 import com.app.clases.Reserva;
 import com.app.clases.Sistema;
 import com.app.clases.Cliente;
 
-import com.app.datatypes.DtVuelo;
-import com.app.datatypes.DtCliente;
-import com.app.datatypes.DtReserva;
-import com.app.datatypes.DtPasajero;
+import com.app.datatypes.*;
 import com.app.enums.TipoAsiento;
 
 import jakarta.servlet.annotation.WebServlet;
@@ -30,6 +28,22 @@ public class Crear extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws jakarta.servlet.ServletException, java.io.IOException {
+
+            ISistema sistema = Factory.getSistema();
+
+            request.setAttribute("aerolineas", sistema.listarAerolineas());
+
+            String aerolineaId = request.getParameter("aerolinea");
+            String rutaId = request.getParameter("ruta");
+
+            if (aerolineaId != null && !aerolineaId.isEmpty()) {
+                DtAerolinea aerolinea = sistema.getAerolinea(aerolineaId);
+                if (aerolinea != null) {
+                    List<DtRuta> rutas = sistema.listarRutasDeVuelo(aerolinea);
+                    request.setAttribute("rutas", rutas);
+                    request.setAttribute("aerolineaSeleccionada", aerolineaId);
+                }
+            }
 
         request.getRequestDispatcher("/WEB-INF/jsp/reservas/crearReserva.jsp").forward(request, response);
     }
