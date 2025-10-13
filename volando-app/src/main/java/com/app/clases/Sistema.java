@@ -796,6 +796,14 @@ public class Sistema implements ISistema {
         return  vuelos;
     }
 
+    public DtPaquete getPaquete(String nombre){
+        Paquete p = this.paquetes.get(nombre);
+        if(p == null){
+            throw new IllegalArgumentException(("El paquete no existe"));
+        }
+        return p.getDatos();
+    }
+
     public List<DtReserva> listarReservaDeVuelo(String nombreVuelo){
         List<DtReserva> reservasVuelo = new ArrayList<>();
 

@@ -35,12 +35,12 @@
     </div>
 
     <!-- Barra de búsqueda -->
-    <div class="flex items-center justify-center w-full !space-x-2 self-center text-white border-b border-white p-2
+    <form class="flex items-center justify-center w-full !bg-transparent !space-x-2 self-center text-white border-b border-white p-2
                 focus-within:border-[var(--celeste-claro)] duration-200 ease-in md:w-1/2">
-        <button><i class="fa-solid fa-magnifying-glass text-xl"></i></button>
-        <input type="text" placeholder="Buscar origen, destino, paquete, aerolínea..."
-               class="outline-none border-0 bg-transparent w-[95%] text-lg" />
-    </div>
+        <button type="submit"><i class="fa-solid fa-magnifying-glass text-xl"></i></button>
+        <input type="text" placeholder="Buscar origen, destino, paquete, aerolínea..." name="busqueda"
+               class="outline-none border-0 !|  bg-transparent w-[95%] text-lg" />
+    </form>
 
     <!-- Navbar -->
     <nav class="navbar shadow-sm flex items-center justify-center daisy">

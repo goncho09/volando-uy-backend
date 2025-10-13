@@ -2,6 +2,7 @@ package uy.volando.servlets;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
+import com.app.datatypes.DtPaquete;
 import com.app.datatypes.DtRuta;
 import com.app.enums.EstadoRuta;
 import jakarta.servlet.ServletException;
@@ -23,36 +24,70 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.getSession().setAttribute("usuario", null);
+        try {
 
-        List<DtRuta> listaRuta = s.listarRutasDeVuelo();
+            String busqueda = request.getParameter("busqueda");
 
-        listaRuta.removeIf(ruta -> ruta.getEstado() != EstadoRuta.APROBADA);
+            if (busqueda != null && !busqueda.isEmpty()) {
 
-        for (DtRuta ruta : listaRuta) {
-            String basePath = request.getServletContext().getRealPath("/pictures/rutas");
-            String contextPath = request.getContextPath();
+                if (s.existeRuta(busqueda)) {
+                    DtRuta ruta = s.getRutaDeVuelo(busqueda);
+                    String basePath = request.getServletContext().getRealPath("/pictures/rutas");
+                    String contextPath = request.getContextPath();
 
-            String urlImagen = ruta.getUrlImagen();
-            File rutaImg = null;
+                    String urlImagen = ruta.getUrlImagen();
+                    File rutaImg = null;
 
-            if (urlImagen != null && !urlImagen.isEmpty()) {
-                rutaImg = new File(basePath, urlImagen);
-            }
+                    if (urlImagen != null && !urlImagen.isEmpty()) {
+                        rutaImg = new File(basePath, urlImagen);
+                    }
 
-            if (urlImagen == null || urlImagen.isEmpty() || !rutaImg.exists()) {
-                ruta.setUrlImagen(contextPath + "/assets/rutaDefault.png");
+                    if (urlImagen == null || urlImagen.isEmpty() || !rutaImg.exists()) {
+                        ruta.setUrlImagen(contextPath + "/assets/rutaDefault.png");
+                    } else {
+                        ruta.setUrlImagen(contextPath + "/pictures/rutas/" + urlImagen);
+                    }
+                    request.setAttribute("ruta", ruta);
+
+                }else if (s.existePaquete(busqueda)) {
+                    DtPaquete paquete = s.getPaquete(busqueda);
+                    request.setAttribute("paquete", paquete);
+                }
             } else {
-                ruta.setUrlImagen(contextPath + "/pictures/rutas/" + urlImagen);
-            }
-        }
+                request.getSession().setAttribute("usuario", null);
 
-        // Set attributes to be used in JSP
-        request.setAttribute("message", "Welcome to Volando UY!");
-        request.setAttribute("appName", "Volando UY Backend");
-        request.setAttribute("rutas", listaRuta);
-        
-        // Forward to JSP page
-        request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
+                List<DtRuta> listaRuta = s.listarRutasDeVuelo();
+
+                listaRuta.removeIf(ruta -> ruta.getEstado() != EstadoRuta.APROBADA);
+
+                for (DtRuta ruta : listaRuta) {
+                    String basePath = request.getServletContext().getRealPath("/pictures/rutas");
+                    String contextPath = request.getContextPath();
+
+                    String urlImagen = ruta.getUrlImagen();
+                    File rutaImg = null;
+
+                    if (urlImagen != null && !urlImagen.isEmpty()) {
+                        rutaImg = new File(basePath, urlImagen);
+                    }
+
+                    if (urlImagen == null || urlImagen.isEmpty() || !rutaImg.exists()) {
+                        ruta.setUrlImagen(contextPath + "/assets/rutaDefault.png");
+                    } else {
+                        ruta.setUrlImagen(contextPath + "/pictures/rutas/" + urlImagen);
+                    }
+                }
+
+                request.setAttribute("rutas", listaRuta);
+            }
+
+            // Forward to JSP page
+            request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing your request.");
+            request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
+        }
     }
 }

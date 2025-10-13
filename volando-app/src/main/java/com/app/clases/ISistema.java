@@ -82,6 +82,7 @@ public interface ISistema {
     List<DtPaquete> listarPaquetesConRutas();
     int agregarRutaAPaquete(DtPaquete paquete, DtRuta ruta, int cantidad, TipoAsiento tipoAsiento);
     DtPaquete getPaquete();
+    DtPaquete getPaquete(String nombre);
     Paquete buscarPaquete(DtPaquete paquete);
     boolean existePaquete(String nombre);
 
