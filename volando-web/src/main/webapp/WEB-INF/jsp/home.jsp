@@ -79,13 +79,14 @@
                     </div>
                 </c:forEach>
             </c:when>
-            <c:otherwise>
-                <div class="p-4 flex flex-col justify-between h-40 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 bg-gray-300 border border-gray-100">
-                    <h5 class="text-lg font-semibold text-gray-800 mb-1 truncate">No se encontró ninguna busqueda.</h5>
-                </div>
-            </c:otherwise>
         </c:choose>
         </div>
+
+    <c:if test="${paquete == null && ruta == null && rutas == null}">
+        <div class="p-4 flex flex-col mb-5 justify-between rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 bg-gray-300 border border-gray-100">
+            <h5 class="text-lg font-semibold text-gray-800 mb-1 truncate">No se encontró ninguna búsqueda.</h5>
+        </div>
+    </c:if>
 
 </main>
     <script>

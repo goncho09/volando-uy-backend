@@ -35,7 +35,7 @@
     </div>
 
     <!-- Barra de búsqueda -->
-    <form class="flex items-center justify-center w-full !bg-transparent !space-x-2 self-center text-white border-b border-white p-2
+    <form id="form" class="flex items-center justify-center w-full !bg-transparent !space-x-2 self-center text-white border-b border-white p-2
                 focus-within:border-[var(--celeste-claro)] duration-200 ease-in md:w-1/2">
         <button type="submit"><i class="fa-solid fa-magnifying-glass text-xl"></i></button>
         <input type="text" placeholder="Buscar origen, destino, paquete, aerolínea..." name="busqueda"
@@ -262,6 +262,8 @@
 </header>
 
 <script defer>
+    const form = document.getElementById('form');
+
     function setupDropdowns() {
         const allDetails = document.querySelectorAll('nav details');
         allDetails.forEach((detail) => {
@@ -276,6 +278,14 @@
     }
 
     setupDropdowns();
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const query = form.busqueda.value.trim();
+        if (query) {
+            window.location.href = '${pageContext.request.contextPath}/home?busqueda=' + query;
+        }
+    });
 </script>
 
 

@@ -3,16 +3,12 @@ package uy.volando.servlets.Vuelo;
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
 import com.app.datatypes.DtAerolinea;
-import com.app.datatypes.DtRuta;
-import com.app.datatypes.DtVuelo;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 @WebServlet (name = "BuscarVueloServlet", urlPatterns = {"/vuelo/buscar"})
