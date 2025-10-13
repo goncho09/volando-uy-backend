@@ -91,7 +91,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/paquete">
+                                    <a href="${pageContext.request.contextPath}/paquete/ver">
                                         <p
                                                 class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                             Ver paquetes</p>
@@ -121,7 +121,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/ruta-de-vuelo">
+                                    <a href="${pageContext.request.contextPath}/ruta-de-vuelo/ver">
                                         <p
                                                 class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                             Ver rutas</p>
@@ -198,7 +198,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/paquete">
+                                <a href="${pageContext.request.contextPath}/paquete/ver">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Ver paquetes</p>
                                 </a>
@@ -225,7 +225,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/ruta-de-vuelo">
+                                <a href="${pageContext.request.contextPath}/ruta-de-vuelo/ver">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Ver rutas</p>
                                 </a>

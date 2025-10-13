@@ -20,7 +20,7 @@
 
 </head>
 
-<body class="bg-gradient-to-br from-[#fff] to-[#12445d] min-h-screen">
+<body>
 
 <jsp:include page="../components/header.jsp"/>
 

@@ -42,7 +42,6 @@
                 </select>
             </div>
 
-            <% System.out.println("rutaid " + request.getAttribute("rutaId")); %>
 
             <div class="flex w-full md:w-1/2 items-center border-b border-gray-300 py-2 space-x-3 focus-within:border-[var(--azul-oscuro)]">
                 <i class="fa fa-route icon text-[var(--azul-oscuro)]"></i>
@@ -51,15 +50,6 @@
                     <option value="" disabled ${empty rutaId ? "selected" : ""}>
                         Seleccione una ruta de vuelo *
                     </option>
-                    <%
-                        if(request.getAttribute("rutas") != null){
-                            for (Object r : (java.util.List) request.getAttribute("rutas")) {
-                                System.out.println("ruta: " + r);
-                            }
-                        }else{
-                            System.out.println("rutas es null");
-                        }
-                    %>
                     <c:forEach var="r" items="${rutas}">
                     <option value="${r.nombre}" ${r.nombre eq rutaId ? "selected" : ""}>
                             ${r.nombre}
