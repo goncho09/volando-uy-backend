@@ -120,7 +120,7 @@
                         </div>
 
                         <!-- Formulario de reserva -->
-                        <form id="form-reserva" method="POST" action="${pageContext.request.contextPath}/reserva/crear">
+                        <form id="form-reserva" method="POST" action="${pageContext.request.contextPath}/Reserva/Crear">
                             <!-- Datos de los pasajeros -->
                             <div class="mb-4">
                                 <h5 class="mb-3">Datos de los Pasajeros</h5>
@@ -156,10 +156,10 @@
                                         <label class="form-label">Pasajero 1</label>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <input type="text" class="form-control" placeholder="Nombre" required>
+                                                <input type="text" class="form-control" name="nombrePasajero" placeholder="Nombre" required>
                                             </div>
                                             <div class="col-md-6">
-                                                <input type="text" class="form-control" placeholder="Apellido" required>
+                                                <input type="text" class="form-control" name="apellidoPasajero" placeholder="Apellido" required>
                                             </div>
                                         </div>
                                     </div>
