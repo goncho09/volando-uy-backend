@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html lang="es">
 
 <head>
@@ -12,7 +13,6 @@
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css">
 </head>
-
 <body>
 <div class=" h-screen flex justify-center items-center bg-[var(--azul-oscuro)]">
     <form id="login-form" class="flex flex-col items-center gap-4 py-6  rounded-lg shadow-lg bg-white w-[85%] md:w-128 ">
