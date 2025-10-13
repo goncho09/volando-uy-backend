@@ -24,9 +24,10 @@
     <jsp:include page="../components/miPerfil.jsp"/>
 
 
-    <section class="flex flex-col w-full max-w-3xl bg-white p-6 rounded-lg shadow-lg mt-5 md:mt-0 md:ml-5">
+    <section class="flex flex-col items-center w-full max-w-3xl bg-white p-6 rounded-lg shadow-lg mt-5 md:mt-0 md:ml-5">
         <h2 class="text-2xl font-bold mb-6 text-center text-[#12445d]">Buscar Vuelo</h2>
-        <form id="form" class="space-y-4">
+        <form id="form" class="space-y-4 flex flex-col items-center w-full">
+
             <div class="flex w-full md:w-1/2 items-center border-b border-gray-300 py-2 space-x-3 focus-within:border-[var(--azul-oscuro)]">
                 <i class="fa fa-plane icon text-[var(--azul-oscuro)]"></i>
                 <select class="flex-grow outline-none bg-transparent text-gray-700 py-2 px-2 rounded focus:bg-gray-100 whitespace-nowrap"
@@ -58,10 +59,10 @@
                 </select>
             </div>
 
-            <div>
-                <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha (Opcional)</label>
+            <div class="flex flex-col w-full md:w-1/2 items-center">
+                <label for="fecha" class="block text-base font-medium text-gray-700">Fecha (Opcional)</label>
                 <input type="date" name="fecha"
-                       class="mt-1 block w-full md:w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"/>
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"/>
             </div>
 
             <p id="error-msg"
@@ -74,9 +75,15 @@
             </button>
 
         </form>
-        <div id="vuelosContainer" class="flex w-full md:w-1/2 items-center border-b border-gray-300 mt-3 py-2 space-x-3 focus-within:border-[var(--azul-oscuro)] ${empty vuelos ? "hidden" : ""}">
-            <i class="fa fa-route icon text-[var(--azul-oscuro)]"></i>
-            <select class="flex-grow outline-none bg-transparent text-gray-700 py-2 px-2 rounded focus:bg-gray-100"
+
+        <c:if test="${aerolineaId != null && rutaId != null && empty vuelos}">
+            <p class="text-sm text-center text-red-600 mb-1 mt-2">No se encontraron vuelos para la aerolínea y ruta seleccionadas.</p>
+        </c:if>
+
+        <div id="vuelosContainer" class="flex flex-col w-full md:w-1/2 items-center border-b border-gray-300 mt-3 py-2 space-x-3 focus-within:border-[var(--azul-oscuro)] ${empty vuelos ? "hidden" : ""}">
+            <div class="flex space-x-1 w-full items-center">
+                <i class="fa fa-route icon text-[var(--azul-oscuro)]"></i>
+            <select class="flex-grow max-w-full outline-none bg-transparent text-gray-700 py-2 px-2 rounded focus:bg-gray-100"
                     id="vuelos" name="vuelos" aria-label="Seleccione un vuelo" required>
                 <option value="" disabled selected>Seleccione un vuelo para ver su información </option>
 
@@ -84,12 +91,10 @@
                     <option value="${vuelo.nombre}">${vuelo.nombre}</option>
                 </c:forEach>
             </select>
-
-        </div>
-        <div class="mt-2">
+            </div>
 
             <button type="submit" onclick="window.location.href='${pageContext.request.contextPath}/vuelo/consulta?nombre=' + document.getElementById('vuelos').value"
-                    class="hover:bg-[var(--azul-claro)] w-full md:w-1/2 text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)] mt-2 ${empty vuelos ? "hidden" : ""}">
+                    class="mt-2 hover:bg-[var(--azul-claro)] w-full md:w-1/2 text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)] mt-2 ${empty vuelos ? "hidden" : ""}">
                 <i class="fa fa-info mr-2"></i> Ver información del vuelo
             </button>
         </div>

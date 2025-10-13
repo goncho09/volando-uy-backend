@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rutas de vuelo</title>
+    <title>Volando.uy | Ver rutas</title>
 
     <!-- Librerias Header -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -42,7 +42,7 @@
                 </thead>
                 <tbody>
                 <c:forEach var="ruta" items="${rutas}">
-                    <tr class="border-t border-[var(--azul-oscuro)] cursor-pointer hover:bg-blue-200">
+                    <tr class="border-t border-[var(--azul-oscuro)] cursor-pointer hover:bg-blue-200" onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo/buscar?nombre=${ruta.nombre}'">
                         <td class="px-4 py-2 text-center">${ruta.nombre}</td>
                         <td class="px-4 py-2 text-center">${ruta.descripcionCorta}</td>
                         <td class="px-4 py-2 text-center">${ruta.duracion}</td>
@@ -51,7 +51,7 @@
                         <td class="px-4 py-2 text-center">$${ruta.costoEjecutivo}</td>
                         <td class="px-4 py-2 text-center">$${ruta.costoTurista}</td>
                         <td class="px-4 py-2 text-center">$${ruta.equipajeExtra}</td>
-                        <td class="text-center px-4 py-2 flex items-center justify-center space-x-3">
+                        <td class="text-center px-4 py-2  space-x-3">
                             <a href="#" class="hover:scale-110 transition-transform">
                                 <i class="fa fa-edit text-xl text-green-600"></i>
                             </a>
