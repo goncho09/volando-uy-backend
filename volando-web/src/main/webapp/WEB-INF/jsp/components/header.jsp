@@ -240,7 +240,7 @@
                         <summary>Reservas</summary>
                         <ul class="p-2 w-32 bg-[var(--azul-oscuro)]">
                             <li>
-                                <a href="${pageContext.request.contextPath}/reservas/crear">
+                                <a href="${pageContext.request.contextPath}/Reserva/Crear">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Crear reserva</p>
                                 </a>
