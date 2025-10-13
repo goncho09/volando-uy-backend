@@ -17,39 +17,18 @@
 
     <script src="../header/header.js" defer></script>
     <script src="reserva.js" defer></script>
-    <link rel="stylesheet" href="../styles/globals.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css"/>
+
 </head>
 
 <body>
-    <header id="header" class="flex flex-col px-4 py-2 text-white w-[100vw] bg-[var(--azul-oscuro)]"></header>
+    <jsp:include page="../components/header.jsp"/>
 
     <main class="container my-5">
         <div class="row">
             <!-- Barra lateral -->
             <aside class="col-md-3 mb-4">
-                <div class="card mb-3 shadow">
-                    <p class="card-header fw-bold">MI PERFIL</p>
-                    <div class="card-body p-3">
-                        <ul class="list-unstyled mb-0">
-                            <li><a href="../perfil/perfil.html" class="text-decoration-none">Mi Perfil</a></li>
-                            <li><a href="../consulta-vuelo/consulta-vuelo.html" class="text-decoration-none">Consultar Vuelos</a></li>
-                            <li><a href="../paquete/paquete.html" class="text-decoration-none">Comprar Paquete</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="card shadow">
-                    <div class="card-header fw-bold">CATEGORÍAS</div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">Nacionales</a></li>
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">Internacionales</a></li>
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">Europa</a></li>
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">América</a></li>
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">Exclusivos</a></li>
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">Temporada</a></li>
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">Cortos</a></li>
-                    </ul>
-                </div>
+                <jsp:include page="../components/miPerfil.jsp"/>
             </aside>
 
             <!-- Contenido principal -->
