@@ -2,6 +2,7 @@ package uy.volando.servlets.RutasDeVuelo;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
+import com.app.datatypes.DtAerolinea;
 import com.app.datatypes.DtRuta;
 import com.app.datatypes.DtVuelo;
 import com.app.enums.EstadoRuta;
@@ -10,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,8 +73,25 @@ public class BuscarRutaServlet extends HttpServlet {
                 }
             }
 
+            boolean allowed = false;
+
+            HttpSession session = request.getSession(false);
+            if(session != null && session.getAttribute("usuarioNickname") != null && session.getAttribute("usuarioTipo") != null && session.getAttribute("usuarioTipo").equals("aerolinea")){
+                DtAerolinea a = s.getAerolinea(session.getAttribute("usuarioNickname").toString());
+                List<DtRuta> rutasAerolinea = a.listarRutasDeVuelo();
+                if(!rutasAerolinea.isEmpty()){
+                    for(DtRuta r : rutasAerolinea){
+                        if(r.getNombre().equals(nombreRuta)){
+                            allowed = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
             request.setAttribute("ruta", ruta);
             request.setAttribute("vuelos", vueloList);
+            request.setAttribute("createVueloAllowed", allowed);
 
 
         } catch (Exception e) {

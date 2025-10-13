@@ -138,7 +138,7 @@
                             </div>
                         </c:otherwise>
                     </c:choose>
-                    <c:if test="${not empty sessionScope.usuarioNickname && sessionScope.usuarioTipo eq 'aerolinea'}">
+                    <c:if test="${createVueloAllowed}">
                         <div class="text-center mt-6">
                             <button class="bg-gradient-to-r from-[#12445d] to-[#0c2636] text-white px-6 py-3 rounded-lg font-medium hover:from-[#0c2636] hover:to-[#12445d] transition-all duration-300 flex items-center justify-center mx-auto">
                                 <i class="fas fa-plus-circle mr-2"></i>
