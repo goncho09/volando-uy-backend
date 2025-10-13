@@ -18,8 +18,6 @@
 
 <body>
 
-<% System.out.println("llega1"); %>
-
  <jsp:include page="../components/header.jsp" />
 
  <main class="flex flex-col items-center md:items-start md:flex-row max-w-7xl md:mx-auto px-4 sm:px-6 lg:px-8 justify-center  mt-5">
@@ -28,7 +26,7 @@
 
 
 
-     <section class="bg-white w-full ml-8  rounded-xl shadow-2xl overflow-hidden">
+     <section class="bg-white w-full my-5 md:m-0 md:ml-8  rounded-xl shadow-2xl overflow-hidden">
          <div class="flex flex-col lg:flex-row">
 <%--             <div class="lg:w-2/5">--%>
 <%--                 <img src="${vuelo.urlImage}"--%>
@@ -72,8 +70,8 @@
                      </div>
                      <button onclick="window.location.href='${pageContext.request.contextPath}/reservas'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Reservas</button>
 
-                     <button onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Ruta de Vuelo</button>
-                 </div>>
+                     <button onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo/buscar?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Ruta de Vuelo</button>
+                 </div>
              </div>
          </div>
      </section>

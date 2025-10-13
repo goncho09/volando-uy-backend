@@ -33,7 +33,17 @@
         <jsp:include page="components/miPerfil.jsp"/>
 
         <div class="max-w-5xl space-y-2  grid gap-6 grid-cols-1 mt-2 md:m-0 sm:grid-cols-2 lg:grid-cols-4 px-4 py-2">
-            <c:forEach var="ruta" items="${rutas}">
+        <c:choose>
+            <c:when test="${paquete != null}">
+                    <div class="p-4 flex flex-col justify-between h-40 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 bg-gray-300 border border-gray-100">
+                            <h5 class="text-lg font-semibold text-gray-800 mb-1 truncate">${paquete.nombre}</h5>
+                            <p class="text-sm text-black line-clamp-3">${paquete.descripcion}</p>
+                            <p class="text-sm text-gray-600 mt-2">Precio: $${paquete.costo}</p>
+                            <p class="text-sm text-gray-600">Duración: ${paquete.validezDias} días</p>
+<%--                        <button onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo/buscar?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Ruta de Vuelo</button>--%>
+                    </div>
+            </c:when>
+            <c:when test="${ruta != null}">
                 <div class="bg-gradient-to-b from-[#fff] to-[#e8f7ff] rounded-2xl p-2 shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 bg-gray-300 border border-gray-100">
                     <div class="relative h-48 overflow-hidden">
                         <img src="${ruta.urlImagen}" alt="${ruta.nombre}"
@@ -46,11 +56,37 @@
                             <p class="text-sm text-black line-clamp-3">${ruta.descripcionCorta}</p>
                         </div>
 
-                        <button onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Ruta de Vuelo</button>
+                        <button onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo/buscar?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Ruta de Vuelo</button>
                     </div>
                 </div>
-            </c:forEach>
+            </c:when>
+            <c:when test="${rutas != null}">
+                <c:forEach var="ruta" items="${rutas}">
+                    <div class="bg-gradient-to-b from-[#fff] to-[#e8f7ff] rounded-2xl p-2 shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 bg-gray-300 border border-gray-100">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="${ruta.urlImagen}" alt="${ruta.nombre}"
+                                 class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"/>
+                        </div>
+
+                        <div class="p-4 flex flex-col justify-between h-40">
+                            <div>
+                                <h5 class="text-lg font-semibold text-gray-800 mb-1 truncate">${ruta.nombre}</h5>
+                                <p class="text-sm text-black line-clamp-3">${ruta.descripcionCorta}</p>
+                            </div>
+
+                            <button onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo/buscar?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Ruta de Vuelo</button>
+                        </div>
+                    </div>
+                </c:forEach>
+            </c:when>
+        </c:choose>
         </div>
+
+    <c:if test="${paquete == null && ruta == null && rutas == null}">
+        <div class="p-4 flex flex-col mb-5 justify-between rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 bg-gray-300 border border-gray-100">
+            <h5 class="text-lg font-semibold text-gray-800 mb-1 truncate">No se encontró ninguna búsqueda.</h5>
+        </div>
+    </c:if>
 
 </main>
     <script>

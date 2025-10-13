@@ -24,13 +24,31 @@ public class LogInServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("usuarioNickname") != null) {
+            response.sendRedirect(request.getContextPath() + "/home");
+            return;
+        }
+
         request.getRequestDispatcher("/WEB-INF/jsp/login/login.jsp").forward(request, response);
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         response.setContentType("text/plain;charset=UTF-8");
+
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("usuarioNickname") != null) {
+            response.sendRedirect(request.getContextPath() + "/home");
+            return;
+        }
 
         try {
             String name = request.getParameter("name");
@@ -40,7 +58,7 @@ public class LogInServlet extends HttpServlet {
                 sistema.elegirUsuario(name);
                 DtUsuario usuario = sistema.getUsuarioSeleccionado();
 
-                HttpSession session = request.getSession(true);
+                session = request.getSession(true);
 
                 session.setAttribute("usuarioNickname", usuario.getNickname());
 

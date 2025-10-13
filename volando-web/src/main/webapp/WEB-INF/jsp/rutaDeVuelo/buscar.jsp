@@ -20,7 +20,7 @@
 
 </head>
 
-<body class="bg-gradient-to-br from-[#fff] to-[#12445d] min-h-screen">
+<body>
 
 <jsp:include page="../components/header.jsp"/>
 
@@ -123,7 +123,7 @@
                                             <h6 class="font-bold text-[#0c2636] mb-2">${vuelo.nombre}</h6>
                                             <p class="text-gray-600 text-sm mb-4">Duración: ${vuelo.duracion} HORAS</p>
                                             <button class="w-full bg-gradient-to-r from-[#1d6e86] to-[#2bc8c8] text-white py-2 rounded-lg font-medium hover:from-[#12445d] hover:to-[#269fb8] transition-all duration-300"
-                                                    onclick="window.location.href='${pageContext.request.contextPath}/vuelo?nombre=${vuelo.nombre}'">
+                                                    onclick="window.location.href='${pageContext.request.contextPath}/vuelo/consulta?nombre=${vuelo.nombre}'">
                                                 Ver vuelo
                                             </button>
                                         </div>
@@ -138,7 +138,7 @@
                             </div>
                         </c:otherwise>
                     </c:choose>
-                    <c:if test="${not empty sessionScope.usuarioNickname && sessionScope.usuarioTipo eq 'aerolinea'}">
+                    <c:if test="${createVueloAllowed}">
                         <div class="text-center mt-6">
                             <button class="bg-gradient-to-r from-[#12445d] to-[#0c2636] text-white px-6 py-3 rounded-lg font-medium hover:from-[#0c2636] hover:to-[#12445d] transition-all duration-300 flex items-center justify-center mx-auto">
                                 <i class="fas fa-plus-circle mr-2"></i>

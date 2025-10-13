@@ -8,8 +8,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet (name = "BuscarVueloServlet", urlPatterns = {"/vuelo/buscar"})
 public class BuscarVueloServlet extends HttpServlet {
@@ -20,14 +20,16 @@ public class BuscarVueloServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            request.setAttribute("aerolineas", sistema.listarAerolineas());
+            List <DtAerolinea> aerolineas = sistema.listarAerolineas();
+            aerolineas.removeIf(aerolinea -> aerolinea.listarRutasDeVuelo().isEmpty());
+            request.setAttribute("aerolineas",aerolineas);
 
             String idAerolinea = request.getParameter("aerolinea");
             String idRuta = request.getParameter("ruta");
 
             if (idAerolinea != null && idRuta == null) {
                 DtAerolinea aerolinea = sistema.getAerolinea(idAerolinea);
-                request.setAttribute("rutas", sistema.listarRutasDeVuelo(aerolinea));
+                request.setAttribute("rutas",aerolinea.listarRutasDeVuelo());
                 request.setAttribute("aerolineaId", idAerolinea);
             }
 
@@ -36,7 +38,7 @@ public class BuscarVueloServlet extends HttpServlet {
 
                 request.setAttribute("aerolineaId", idAerolinea);
                 request.setAttribute("rutaId", idRuta);
-                request.setAttribute("rutas", sistema.listarRutasDeVuelo(aerolinea));
+                request.setAttribute("rutas", aerolinea.listarRutasDeVuelo());
                 request.setAttribute("vuelos", sistema.listarVuelos(idRuta));
             }
 
