@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet(name = "Crear", urlPatterns = {"/Reserva/Crear"})
+@WebServlet(name = "Crear", urlPatterns = {"/reserva/crear"})
 
 public class Crear extends HttpServlet{
 
@@ -40,7 +40,7 @@ public class Crear extends HttpServlet{
 
             //obtener la sesion del usuario
             HttpSession session = request.getSession(false);
-            if (session == null || !"cliente".equals(session.getAttribute("usuarioTipo"))) {
+            if (session == null || !session.getAttribute("usuarioTipo").equals("cliente")) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.getWriter().write("Debés iniciar sesión como cliente");
                 return;

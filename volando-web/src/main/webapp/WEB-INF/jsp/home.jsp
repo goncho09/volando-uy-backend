@@ -46,7 +46,7 @@
                             <p class="text-sm text-black line-clamp-3">${ruta.descripcionCorta}</p>
                         </div>
 
-                        <button onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Ruta de Vuelo</button>
+                        <button onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo/buscar?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Ruta de Vuelo</button>
                     </div>
                 </div>
             </c:forEach>

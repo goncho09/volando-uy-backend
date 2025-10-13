@@ -1,6 +1,5 @@
-package uy.volando.servlets;
+package uy.volando.servlets.RutasDeVuelo;
 
-import com.app.clases.Categoria;
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
 import com.app.datatypes.DtRuta;
@@ -19,9 +18,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "RutaServlet", urlPatterns = {"/ruta-de-vuelo"})
-public class RutasServlet extends HttpServlet {
-    private static final Logger LOGGER = Logger.getLogger(RutasServlet.class.getName());
+@WebServlet(name = "RutaServlet", urlPatterns = {"/ruta-de-vuelo/buscar"})
+public class BuscarRutaServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(BuscarRutaServlet.class.getName());
     ISistema s = Factory.getSistema();
 
     @Override
@@ -83,7 +82,7 @@ public class RutasServlet extends HttpServlet {
         }
 
         // Forward to JSP page
-        request.getRequestDispatcher("/WEB-INF/jsp/rutaDeVuelo/ruta-de-vuelo.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/rutaDeVuelo/buscar.jsp").forward(request, response);
     }
 
 

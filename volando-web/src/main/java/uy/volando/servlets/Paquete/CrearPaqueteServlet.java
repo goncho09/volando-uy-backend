@@ -1,8 +1,7 @@
-package uy.volando.servlets;
+package uy.volando.servlets.Paquete;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
-import com.app.clases.Paquete;
 import com.app.datatypes.DtPaquete;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
