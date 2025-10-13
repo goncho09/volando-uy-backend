@@ -35,12 +35,12 @@
     </div>
 
     <!-- Barra de búsqueda -->
-    <form id="form" class="flex items-center justify-center w-full !bg-transparent !space-x-2 self-center text-white border-b border-white p-2
+    <div class="flex items-center justify-center w-full !space-x-2 self-center text-white border-b border-white p-2
                 focus-within:border-[var(--celeste-claro)] duration-200 ease-in md:w-1/2">
-        <button type="submit"><i class="fa-solid fa-magnifying-glass text-xl"></i></button>
-        <input type="text" placeholder="Buscar origen, destino, paquete, aerolínea..." name="busqueda"
-               class="outline-none border-0 !|  bg-transparent w-[95%] text-lg" />
-    </form>
+        <button><i class="fa-solid fa-magnifying-glass text-xl"></i></button>
+        <input type="text" placeholder="Buscar origen, destino, paquete, aerolínea..."
+               class="outline-none border-0 bg-transparent w-[95%] text-lg" />
+    </div>
 
     <!-- Navbar -->
     <nav class="navbar shadow-sm flex items-center justify-center daisy">
@@ -91,7 +91,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/paquete/ver">
+                                    <a href="${pageContext.request.contextPath}/paquete">
                                         <p
                                                 class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                             Ver paquetes</p>
@@ -121,7 +121,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/ruta-de-vuelo/ver">
+                                    <a href="${pageContext.request.contextPath}/ruta-de-vuelo">
                                         <p
                                                 class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                             Ver rutas</p>
@@ -198,7 +198,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/paquete/ver">
+                                <a href="${pageContext.request.contextPath}/paquete">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Ver paquetes</p>
                                 </a>
@@ -225,7 +225,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/ruta-de-vuelo/ver">
+                                <a href="${pageContext.request.contextPath}/ruta-de-vuelo">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Ver rutas</p>
                                 </a>
@@ -240,7 +240,7 @@
                         <summary>Reservas</summary>
                         <ul class="p-2 w-32 bg-[var(--azul-oscuro)]">
                             <li>
-                                <a href="${pageContext.request.contextPath}/Reserva/Crear">
+                                <a href="${pageContext.request.contextPath}/reservas/crear">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Crear reserva</p>
                                 </a>
@@ -262,8 +262,6 @@
 </header>
 
 <script defer>
-    const form = document.getElementById('form');
-
     function setupDropdowns() {
         const allDetails = document.querySelectorAll('nav details');
         allDetails.forEach((detail) => {
@@ -278,14 +276,6 @@
     }
 
     setupDropdowns();
-
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const query = form.busqueda.value.trim();
-        if (query) {
-            window.location.href = '${pageContext.request.contextPath}/home?busqueda=' + query;
-        }
-    });
 </script>
 
 
