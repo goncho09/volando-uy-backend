@@ -18,7 +18,6 @@
     <script src="../header/header.js" defer></script>
     <script src="reserva.js" defer></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css"/>
-
 </head>
 
 <body>
@@ -70,9 +69,6 @@
                                     <label class="form-label fw-bold">Vuelo</label>
                                     <select class="form-select" id="vuelo-select">
                                         <option value="">Selecciona un vuelo</option>
-                                        <option value="zl1502001">ZL1502001 - 25/10/2024 12:50</option>
-                                        <option value="zl1502002">ZL1502002 - 26/10/2024 18:30</option>
-                                        <option value="zl0801001">ZL0801001 - 25/10/2024 08:00</option>
                                     </select>
                                 </div>
                             </div>
