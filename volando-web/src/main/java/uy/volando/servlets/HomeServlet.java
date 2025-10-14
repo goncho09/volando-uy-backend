@@ -2,7 +2,6 @@ package uy.volando.servlets;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
-import com.app.datatypes.DtCategoria;
 import com.app.datatypes.DtPaquete;
 import com.app.datatypes.DtRuta;
 import com.app.enums.EstadoRuta;
@@ -50,7 +49,9 @@ public class HomeServlet extends HttpServlet {
                     }
                     request.setAttribute("ruta", ruta);
 
-                }else if (s.existePaquete(busqueda)) {
+                }
+
+                if (s.existePaquete(busqueda)) {
                     DtPaquete paquete = s.getPaquete(busqueda);
                     request.setAttribute("paquete", paquete);
                 }
@@ -87,6 +88,7 @@ public class HomeServlet extends HttpServlet {
                 }
 
                 request.setAttribute("rutas", listaRuta);
+                request.setAttribute("paquetes", listaPaquete);
             }
 
             // Forward to JSP page
