@@ -57,6 +57,8 @@ public interface ISistema {
     DtRuta consultarRuta(String nombre);
     void actualizarEstadoRuta(DtRuta ruta, EstadoRuta estado);
 
+    boolean containsCategoria(DtRuta ruta, String categoria);
+
     boolean existeRuta(String nombre);
     DtRuta getRutaDeVuelo(String nombre);
     RutaDeVuelo buscarRutaDeVuelo(DtRuta ruta);
@@ -92,6 +94,7 @@ public interface ISistema {
 
     // ---------- CATEGORÍAS ---------- //
     void altaCategoria(DtCategoria categoria);
+    DtCategoria buscarCategoria(String nombre);
     List<Categoria> getCategorias();
     List<Categoria> getCategoriasPorNombre(List<String> nombres);
 

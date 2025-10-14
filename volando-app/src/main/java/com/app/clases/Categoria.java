@@ -16,6 +16,10 @@ public class Categoria {
         this.nombre = categoria.getNombre();
     }
 
+    public DtCategoria getDatos(){
+        return new DtCategoria(this.nombre);
+    }
+
     public String getNombre() {
         return nombre;
     }

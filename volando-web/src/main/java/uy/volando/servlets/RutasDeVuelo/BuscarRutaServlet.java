@@ -3,6 +3,7 @@ package uy.volando.servlets.RutasDeVuelo;
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
 import com.app.datatypes.DtAerolinea;
+import com.app.datatypes.DtPaquete;
 import com.app.datatypes.DtRuta;
 import com.app.datatypes.DtVuelo;
 import com.app.enums.EstadoRuta;
@@ -84,6 +85,9 @@ public class BuscarRutaServlet extends HttpServlet {
                 }
             }
 
+            List<DtPaquete> paqueteList = s.listarPaquetes();
+            paqueteList.removeIf(paquete -> paquete.getRutaDeVuelo(ruta.getNombre()) == null);
+
             boolean allowed = false;
 
                 DtAerolinea a = s.getAerolinea(session.getAttribute("usuarioNickname").toString());
@@ -99,7 +103,8 @@ public class BuscarRutaServlet extends HttpServlet {
 
             request.setAttribute("ruta", ruta);
             request.setAttribute("vuelos", vueloList);
-            request.setAttribute("createVueloAllowed", allowed);
+            request.setAttribute("paquetes", paqueteList);
+            request.setAttribute("rutaOwner", allowed);
 
 
         } catch (Exception e) {

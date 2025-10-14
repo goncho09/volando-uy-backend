@@ -984,5 +984,19 @@ public class Sistema implements ISistema {
         rutaDeVueloDao.actualizar(rdv);
     };
 
+    public DtCategoria buscarCategoria(String nombre){
+        DtCategoria categoria = this.categorias.get(nombre).getDatos();
+        return categoria;
+    };
+
+    public boolean containsCategoria(DtRuta ruta, String categoria){
+        for(Categoria c : ruta.getCategorias()){
+            if(c.getNombre().equals(categoria)){
+                return true;
+            }
+        }
+        return false;
+    };
+
 }
 
