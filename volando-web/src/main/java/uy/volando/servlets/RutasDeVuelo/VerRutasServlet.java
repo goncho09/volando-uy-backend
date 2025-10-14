@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -17,6 +18,18 @@ public class VerRutasServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
+
+        if(session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null || !"aerolinea".equals(session.getAttribute("usuarioTipo"))) {
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
+
         try{
             request.setAttribute("rutas", sistema.listarRutasDeVuelo());
 

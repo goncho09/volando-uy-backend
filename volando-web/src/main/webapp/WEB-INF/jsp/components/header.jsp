@@ -37,7 +37,7 @@
     <form id="formBuscar" class="flex items-center justify-center w-full !bg-transparent !space-x-2 self-center text-white border-b border-white p-2
                 focus-within:border-[var(--celeste-claro)] duration-200 ease-in md:w-1/2">
         <button type="submit"><i class="fa-solid fa-magnifying-glass text-xl"></i></button>
-        <input type="text" placeholder="Buscar origen, destino, paquete, aerolínea..." name="busqueda" id="busqueda"
+        <input type="text" placeholder="Buscar paquete, ruta de vuelo ..." name="busqueda" id="busqueda"
                class="outline-none border-0 !|  bg-transparent w-[95%] text-lg" />
     </form>
 
@@ -82,6 +82,7 @@
                         <details>
                             <summary>Paquetes</summary>
                             <ul class="p-2 bg-[var(--azul-oscuro)]">
+                            <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
                                 <li>
                                     <a href="${pageContext.request.contextPath}/paquete/crear">
                                         <p
@@ -89,6 +90,8 @@
                                             Crear paquete</p>
                                     </a>
                                 </li>
+                            </c:if>
+
                                 <li>
                                     <a href="${pageContext.request.contextPath}/paquete/ver">
                                         <p
@@ -96,6 +99,7 @@
                                             Ver paquetes</p>
                                     </a>
                                 </li>
+                        <c:if test="${usuarioTipo!= null && usuarioTipo == 'cliente'}">
                                 <li>
                                     <a href="${pageContext.request.contextPath}/ruta-en-paquete">
                                         <p
@@ -103,16 +107,18 @@
                                             Agregar ruta a paquete</p>
                                     </a>
                                 </li>
+                        </c:if>
                             </ul>
                         </details>
                     </li>
 
                     <!-- Rutas de vuelo -->
+                    <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
                     <li>
                         <details>
                             <summary>Rutas de vuelo</summary>
                             <ul class="p-2 bg-[var(--azul-oscuro)]">
-                            <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
+
                                 <li>
                                     <a href="${pageContext.request.contextPath}/ruta-de-vuelo/crear">
                                         <p
@@ -120,7 +126,7 @@
                                             Crear ruta</p>
                                     </a>
                                 </li>
-                                </c:if>
+
                                 <li>
                                     <a href="${pageContext.request.contextPath}/ruta-de-vuelo/ver">
                                         <p
@@ -131,12 +137,15 @@
                             </ul>
                         </details>
                     </li>
+                    </c:if>
 
                     <!-- Reservas -->
+                <c:if test="${usuarioTipo!= null}">
                     <li>
                         <details>
                             <summary>Reservas</summary>
                             <ul class="p-2 bg-[var(--azul-oscuro)]">
+                    <c:if test="${usuarioTipo!= null && usuarioTipo == 'cliente'}">
                                 <li>
                                     <a href="${pageContext.request.contextPath}/reservas/crear">
                                         <p
@@ -144,6 +153,7 @@
                                             Crear reserva</p>
                                     </a>
                                 </li>
+                    </c:if>
                                 <li>
                                     <a href="${pageContext.request.contextPath}/reservas/ver">
                                         <p
@@ -154,7 +164,7 @@
                             </ul>
                         </details>
                     </li>
-
+                </c:if>
                 </ul>
             </div>
         </div>
@@ -192,30 +202,34 @@
                     <details>
                         <summary>Paquetes</summary>
                         <ul class="p-2 w-32 bg-[var(--azul-oscuro)]">
+                        <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
                             <li>
                                 <a href="${pageContext.request.contextPath}/paquete/crear">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Crear paquete</p>
                                 </a>
                             </li>
+                        </c:if>
                             <li>
                                 <a href="${pageContext.request.contextPath}/paquete/ver">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Ver paquetes</p>
                                 </a>
                             </li>
+                    <c:if test="${usuarioTipo!= null && usuarioTipo == 'cliente'}">
                             <li>
                                 <a href="${pageContext.request.contextPath}/ruta-en-paquete">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Agregar ruta a paquete</p>
                                 </a>
                             </li>
+                    </c:if>
                         </ul>
                     </details>
                 </li>
 
                 <!-- Rutas de vuelo -->
-                        <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
+                <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
                 <li>
                     <details>
                         <summary>Rutas de vuelo</summary>
@@ -235,29 +249,33 @@
                         </ul>
                     </details>
                 </li>
-                        </c:if>
+                </c:if>
 
                 <!-- Reservas -->
+                <c:if test="${usuarioTipo!= null }">
                 <li>
                     <details>
                         <summary>Reservas</summary>
                         <ul class="p-2 w-32 bg-[var(--azul-oscuro)]">
+                        <c:if test="${usuarioTipo!= null && usuarioTipo == 'cliente'}">
                             <li>
                                 <a href="${pageContext.request.contextPath}/reservas/crear">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Crear reserva</p>
                                 </a>
                             </li>
+                        </c:if>
                             <li>
                                 <a href="${pageContext.request.contextPath}/reservas/ver">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Ver reservas</p>
                                 </a>
                             </li>
+
                         </ul>
                     </details>
                 </li>
-
+                </c:if>
             </ul>
         </div>
     </nav>

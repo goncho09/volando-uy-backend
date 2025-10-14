@@ -30,9 +30,20 @@ public class BuscarRutaServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String nombreRuta = request.getParameter("nombre");
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
+
+        if(session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null || !"aerolinea".equals(session.getAttribute("usuarioTipo"))) {
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
 
         try {
+            String nombreRuta = request.getParameter("nombre");
             DtRuta ruta = s.consultarRuta(nombreRuta);
             if(ruta.getEstado() != EstadoRuta.APROBADA){
                 throw new Exception("Ruta no disponible");
@@ -79,8 +90,6 @@ public class BuscarRutaServlet extends HttpServlet {
 
             boolean allowed = false;
 
-            HttpSession session = request.getSession(false);
-            if(session != null && session.getAttribute("usuarioNickname") != null && session.getAttribute("usuarioTipo") != null && session.getAttribute("usuarioTipo").equals("aerolinea")){
                 DtAerolinea a = s.getAerolinea(session.getAttribute("usuarioNickname").toString());
                 List<DtRuta> rutasAerolinea = a.listarRutasDeVuelo();
                 if(!rutasAerolinea.isEmpty()){
@@ -91,7 +100,6 @@ public class BuscarRutaServlet extends HttpServlet {
                         }
                     }
                 }
-            }
 
             request.setAttribute("ruta", ruta);
             request.setAttribute("vuelos", vueloList);

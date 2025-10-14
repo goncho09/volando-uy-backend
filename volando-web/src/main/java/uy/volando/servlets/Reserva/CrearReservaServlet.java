@@ -26,6 +26,18 @@ public class CrearReservaServlet extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+            HttpSession session = request.getSession(false);
+
+            if (session == null) {
+                request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+                return;
+            }
+
+            if(session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null || !"cliente".equals(session.getAttribute("usuarioTipo"))) {
+                request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+                return;
+            }
+
             ISistema sistema = Factory.getSistema();
 
             List <DtAerolinea> aerolineas = sistema.listarAerolineas();
@@ -43,7 +55,7 @@ public class CrearReservaServlet extends HttpServlet{
                 }
             }
 
-        request.getRequestDispatcher("/WEB-INF/jsp/reservas/crearReserva.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/reservas/crearReserva.jsp").forward(request, response);
     }
 
     @Override
@@ -112,7 +124,7 @@ public class CrearReservaServlet extends HttpServlet{
             LocalDate fecha = LocalDate.now();
             TipoAsiento tipo = TipoAsiento.valueOf(tipoAsiento.toUpperCase());
             int cantPasajes = Integer.parseInt(cantidad);
-            int equipaje = Integer.parseInt(request.getParameter("equipaje-extra"));
+            int equipaje = Integer.parseInt(equipajeExtra);
 
             DtReserva reserva = new DtReserva(fecha, tipo, cantPasajes, equipaje, pasajeros);
 

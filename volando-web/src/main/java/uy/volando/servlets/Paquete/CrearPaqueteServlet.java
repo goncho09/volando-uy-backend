@@ -3,24 +3,40 @@ package uy.volando.servlets.Paquete;
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
 import com.app.datatypes.DtPaquete;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
 
 @WebServlet (name = "CrearPaqueteServlet", urlPatterns = {"/paquete/crear"})
 public class CrearPaqueteServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws jakarta.servlet.ServletException, java.io.IOException {
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
+
+        if(session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null ){
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
 
         request.getRequestDispatcher("/WEB-INF/jsp/paquete/crear.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws jakarta.servlet.ServletException, java.io.IOException {
+            throws ServletException, IOException {
 
         try {
             ISistema sistema = Factory.getSistema();
