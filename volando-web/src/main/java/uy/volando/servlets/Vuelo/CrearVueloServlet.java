@@ -12,14 +12,17 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import uy.volando.servlets.RutasDeVuelo.BuscarRutaServlet;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet (name = "CrearVueloServlet", urlPatterns = {"/vuelo/crear"})
 public class CrearVueloServlet extends HttpServlet {
-
+    private static final Logger LOGGER = Logger.getLogger(CrearVueloServlet.class.getName());
     ISistema sistema = Factory.getSistema();
 
     @Override
@@ -29,7 +32,7 @@ public class CrearVueloServlet extends HttpServlet {
         try{
             HttpSession session = request.getSession(false);
 
-            if (session.getAttribute("usuarioTipo") == null || !session.getAttribute("usuarioTipo").equals("aerolinea")) {
+            if (session == null || session.getAttribute("usuarioTipo") == null || !session.getAttribute("usuarioTipo").equals("aerolinea")) {
                 response.sendRedirect(request.getContextPath() + "/home");
                 return;
             }
@@ -41,13 +44,19 @@ public class CrearVueloServlet extends HttpServlet {
                 return;
             }
 
+            if(request.getParameter("ruta") != null){
+                DtRuta ruta = sistema.consultarRuta(request.getParameter("ruta"));
+                request.setAttribute("seleccionarRuta", ruta);
+            }
+
             List<DtRuta> rutas = sistema.listarRutasDeVuelo(aerolinea);
             request.setAttribute("rutas", rutas);
 
+
             request.getRequestDispatcher("/WEB-INF/jsp/vuelo/crear.jsp").forward(request, response);
         } catch (Exception ex) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("Error del servidor: " + ex.getMessage());
+            LOGGER.log(Level.SEVERE, "Error: ", ex.getMessage());
+            request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
         }
     }
 
@@ -125,8 +134,8 @@ public class CrearVueloServlet extends HttpServlet {
             response.getWriter().write("Paquete creado con éxito");
 
         } catch (Exception ex) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("Error del servidor: " + ex.getMessage());
+            LOGGER.log(Level.SEVERE, "Error: ", ex.getMessage());
+            request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
         }
     }
 }

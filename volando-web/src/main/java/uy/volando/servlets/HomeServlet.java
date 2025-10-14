@@ -2,6 +2,7 @@ package uy.volando.servlets;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
+import com.app.datatypes.DtCategoria;
 import com.app.datatypes.DtPaquete;
 import com.app.datatypes.DtRuta;
 import com.app.enums.EstadoRuta;
@@ -57,8 +58,15 @@ public class HomeServlet extends HttpServlet {
                 request.getSession().setAttribute("usuario", null);
 
                 List<DtRuta> listaRuta = s.listarRutasDeVuelo();
+                List<DtPaquete> listaPaquete = s.listarPaquetes();
 
                 listaRuta.removeIf(ruta -> ruta.getEstado() != EstadoRuta.APROBADA);
+//                listaPaquete.removeIf();
+
+
+                if(request.getParameter("nombre") != null && !request.getParameter("nombre").isEmpty()){
+                    listaRuta.removeIf(ruta -> !s.containsCategoria(ruta, request.getParameter("nombre")));
+                }
 
                 for (DtRuta ruta : listaRuta) {
                     String basePath = request.getServletContext().getRealPath("/pictures/rutas");

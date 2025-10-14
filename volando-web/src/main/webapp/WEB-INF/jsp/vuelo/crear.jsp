@@ -66,7 +66,14 @@
                     name="ruta" aria-label="Seleccione la ruta de vuelo *" required>
                 <option value="" disabled selected>Seleccione la ruta de vuelo *</option>
                 <c:forEach var="ruta" items="${rutas}">
-                    <option value="${ruta.nombre}">${ruta.nombre}</option>
+                    <c:choose>
+                        <c:when test="${not empty seleccionarRuta && ruta.nombre eq seleccionarRuta}">
+                            <option value="${ruta.nombre}" selected>${ruta.nombre}</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="${ruta.nombre}">${ruta.nombre}</option>
+                        </c:otherwise>
+                    </c:choose>
                 </c:forEach>
             </select>
         </div>
