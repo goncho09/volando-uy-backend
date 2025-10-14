@@ -112,6 +112,7 @@
                         <details>
                             <summary>Rutas de vuelo</summary>
                             <ul class="p-2 bg-[var(--azul-oscuro)]">
+                            <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
                                 <li>
                                     <a href="${pageContext.request.contextPath}/ruta-de-vuelo/crear">
                                         <p
@@ -119,6 +120,7 @@
                                             Crear ruta</p>
                                     </a>
                                 </li>
+                                </c:if>
                                 <li>
                                     <a href="${pageContext.request.contextPath}/ruta-de-vuelo/ver">
                                         <p
@@ -213,6 +215,7 @@
                 </li>
 
                 <!-- Rutas de vuelo -->
+                        <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
                 <li>
                     <details>
                         <summary>Rutas de vuelo</summary>
@@ -232,6 +235,7 @@
                         </ul>
                     </details>
                 </li>
+                        </c:if>
 
                 <!-- Reservas -->
                 <li>

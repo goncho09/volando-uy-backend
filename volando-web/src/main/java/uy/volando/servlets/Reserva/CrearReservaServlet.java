@@ -3,20 +3,45 @@ package uy.volando.servlets.Reserva;
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
 import com.app.datatypes.DtCliente;
+import com.app.datatypes.*;
+
+import com.app.enums.TipoAsiento;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet(name = "Crear", urlPatterns = {"/reserva/crear"})
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+@WebServlet(name = "Crear", urlPatterns = {"/reservas/crear"})
 
 public class CrearReservaServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws jakarta.servlet.ServletException, java.io.IOException {
+            throws ServletException, IOException {
+
+            ISistema sistema = Factory.getSistema();
+
+            List <DtAerolinea> aerolineas = sistema.listarAerolineas();
+            request.setAttribute("aerolineas",aerolineas);
+
+            String aerolineaId = request.getParameter("aerolinea");
+            String rutaId = request.getParameter("ruta");
+
+            if (aerolineaId != null && !aerolineaId.isEmpty()) {
+                DtAerolinea aerolinea = sistema.getAerolinea(aerolineaId);
+                if (aerolinea != null) {
+                    List<DtRuta> rutas = sistema.listarRutasDeVuelo(aerolinea);
+                    request.setAttribute("rutas", rutas);
+                    request.setAttribute("aerolineaSeleccionada", aerolineaId);
+                }
+            }
 
         request.getRequestDispatcher("/WEB-INF/jsp/reservas/crearReserva.jsp").forward(request, response);
     }
@@ -29,14 +54,14 @@ public class CrearReservaServlet extends HttpServlet{
 
             //Datos del form
             String aerolinea = request.getParameter("aerolinea-select");
-            String ruta = request.getParameter("ruta-select");
             String vuelo = request.getParameter("vuelo-select");
             String cantidad = request.getParameter("cantidad-pasajes");
             String tipoAsiento = request.getParameter("tipo-asiento");
+            String equipajeExtra = request.getParameter("equipaje-extra");
 
             //obtener la sesion del usuario
             HttpSession session = request.getSession(false);
-            if (session == null || !session.getAttribute("usuarioTipo").equals("cliente")) {
+            if (session == null || !"cliente".equals(session.getAttribute("usuarioTipo"))) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.getWriter().write("Debés iniciar sesión como cliente");
                 return;
@@ -66,11 +91,33 @@ public class CrearReservaServlet extends HttpServlet{
             }
 
             //aca buscar el vuelo
+            DtVuelo vueloSeleccionado = sistema.getVuelo(vuelo);
+            if (vueloSeleccionado == null) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("Vuelo no encontrado");
+                return;
+            }
 
             // aca lo de los pasajeros
+            String[] nombres = request.getParameterValues("nombrePasajero");
+            String[] apellidos = request.getParameterValues("apellidoPasajero");
+            List<DtPasajero> pasajeros = new ArrayList<>();
+
+            if (nombres != null && apellidos != null) {
+                for (int i = 0; i < Math.min(nombres.length, apellidos.length); i++) {
+                    pasajeros.add(new DtPasajero(nombres[i], apellidos[i]));
+                }
+            }
+
+            LocalDate fecha = LocalDate.now();
+            TipoAsiento tipo = TipoAsiento.valueOf(tipoAsiento.toUpperCase());
+            int cantPasajes = Integer.parseInt(cantidad);
+            int equipaje = Integer.parseInt(request.getParameter("equipaje-extra"));
+
+            DtReserva reserva = new DtReserva(fecha, tipo, cantPasajes, equipaje, pasajeros);
 
             //dar alta reserva
-             //sistema.altaReserva(reserva, clienteLogueado, vueloSeleccionado);
+            sistema.altaReserva(reserva, clienteLogueado, vueloSeleccionado);
 
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().write("Reserva creada con éxito");

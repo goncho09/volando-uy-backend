@@ -21,13 +21,19 @@ public class VerReservaServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try{
-            // Se rompe este if
-            if (request.getSession(false) == null || !request.getSession(false).getAttribute("usuarioTipo").equals("cliente")) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Debés iniciar sesión como cliente");
-                request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
-                return;
-            }
+          if (request.getSession(false) == null) {
+              response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+              response.getWriter().write("Debés iniciar sesión como cliente");
+              request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+              return;
+          }
+          if (!"cliente".equals(request.getSession(false).getAttribute("usuarioTipo"))) {
+              response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+              response.getWriter().write("Debés iniciar sesión como cliente");
+              request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+              return;
+          }
+
             String nicknameCliente = (String) request.getSession().getAttribute("usuarioNickname");
             DtCliente cliente = sistema.getCliente(nicknameCliente);
             request.setAttribute("reservas", sistema.listarReservas(cliente));

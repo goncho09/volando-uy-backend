@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html lang="es">
 
@@ -17,39 +18,17 @@
 
     <script src="../header/header.js" defer></script>
     <script src="reserva.js" defer></script>
-    <link rel="stylesheet" href="../styles/globals.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css"/>
 </head>
 
 <body>
-    <header id="header" class="flex flex-col px-4 py-2 text-white w-[100vw] bg-[var(--azul-oscuro)]"></header>
+    <jsp:include page="../components/header.jsp"/>
 
     <main class="container my-5">
         <div class="row">
             <!-- Barra lateral -->
             <aside class="col-md-3 mb-4">
-                <div class="card mb-3 shadow">
-                    <p class="card-header fw-bold">MI PERFIL</p>
-                    <div class="card-body p-3">
-                        <ul class="list-unstyled mb-0">
-                            <li><a href="../perfil/perfil.html" class="text-decoration-none">Mi Perfil</a></li>
-                            <li><a href="../consulta-vuelo/consulta-vuelo.html" class="text-decoration-none">Consultar Vuelos</a></li>
-                            <li><a href="../paquete/paquete.html" class="text-decoration-none">Comprar Paquete</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="card shadow">
-                    <div class="card-header fw-bold">CATEGORÍAS</div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">Nacionales</a></li>
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">Internacionales</a></li>
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">Europa</a></li>
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">América</a></li>
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">Exclusivos</a></li>
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">Temporada</a></li>
-                        <li class="list-group-item"><a href="#" class="text-decoration-none">Cortos</a></li>
-                    </ul>
-                </div>
+                 <jsp:include page="../components/miPerfil.jsp"/>
             </aside>
 
             <!-- Contenido principal -->
@@ -65,29 +44,32 @@
                             <div class="row g-3">
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold">Aerolínea</label>
-                                    <select class="form-select" id="aerolinea-select">
+                                    <select class="form-select" id="aerolinea" name="aerolinea" onchange="this.form.submit()">
                                         <option value="">Selecciona una aerolínea</option>
-                                        <option value="zulufly">ZuluFly</option>
-                                        <option value="skywings">SkyWings</option>
-                                        <option value="airuruguay">Air Uruguay</option>
+                                        <c:forEach var="a" items="${aerolineas}">
+                                            <option value="${a.nickname}" ${a.nickname eq aerolineaId ? "selected" : ""}>
+                                                ${a.nombre}
+                                            </option>
+                                        </c:forEach>
                                     </select>
                                 </div>
+
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold">Ruta</label>
-                                    <select class="form-select" id="ruta-select">
+                                    <select class="form-select" name="ruta" id="ruta-select" ${empty rutas ? "disabled" : ""} onchange="this.form.submit()">
                                         <option value="">Selecciona una ruta</option>
-                                        <option value="zl1502">ZL1502 - Montevideo - Río de Janeiro</option>
-                                        <option value="zl0801">ZL0801 - Montevideo - Buenos Aires</option>
-                                        <option value="sw2001">SW2001 - Montevideo - Santiago</option>
+                                        <c:forEach var="r" items="${rutas}">
+                                            <option value="${r.id}" ${r.id eq rutaSeleccionada ? "selected" : ""}>
+                                                ${r.origen} → ${r.destino}
+                                            </option>
+                                        </c:forEach>
                                     </select>
                                 </div>
+
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold">Vuelo</label>
                                     <select class="form-select" id="vuelo-select">
                                         <option value="">Selecciona un vuelo</option>
-                                        <option value="zl1502001">ZL1502001 - 25/10/2024 12:50</option>
-                                        <option value="zl1502002">ZL1502002 - 26/10/2024 18:30</option>
-                                        <option value="zl0801001">ZL0801001 - 25/10/2024 08:00</option>
                                     </select>
                                 </div>
                             </div>
@@ -120,7 +102,7 @@
                         </div>
 
                         <!-- Formulario de reserva -->
-                        <form id="form-reserva" method="POST" action="${pageContext.request.contextPath}/reserva/crear">
+                        <form id="form-reserva" method="POST" action="${pageContext.request.contextPath}/Reserva/Crear">
                             <!-- Datos de los pasajeros -->
                             <div class="mb-4">
                                 <h5 class="mb-3">Datos de los Pasajeros</h5>
@@ -156,10 +138,10 @@
                                         <label class="form-label">Pasajero 1</label>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <input type="text" class="form-control" placeholder="Nombre" required>
+                                                <input type="text" class="form-control" name="nombrePasajero" placeholder="Nombre" required>
                                             </div>
                                             <div class="col-md-6">
-                                                <input type="text" class="form-control" placeholder="Apellido" required>
+                                                <input type="text" class="form-control" name="apellidoPasajero" placeholder="Apellido" required>
                                             </div>
                                         </div>
                                     </div>
@@ -229,3 +211,39 @@
 </body>
 
 </html>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const selectAerolinea = document.getElementById("aerolinea-select");
+    const selectRuta = document.getElementById("ruta-select");
+    const selectVuelo = document.getElementById("vuelo-select");
+
+
+    selectRuta.disabled = true;
+    selectVuelo.disabled = true;
+
+    selectAerolinea.addEventListener("change", function() {
+        if (selectAerolinea.value) {
+            selectRuta.disabled = false;
+        } else {
+            selectRuta.disabled = true;
+            selectVuelo.disabled = true;
+        }
+
+        // Limpiar valores previos
+        selectRuta.value = "";
+        selectVuelo.value = "";
+    });
+
+    selectRuta.addEventListener("change", function() {
+        if (selectRuta.value) {
+            selectVuelo.disabled = false;
+        } else {
+            selectVuelo.disabled = true;
+        }
+
+        selectVuelo.value = "";
+    });
+});
+</script>
+
