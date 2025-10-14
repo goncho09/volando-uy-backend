@@ -31,7 +31,8 @@ public class Crear extends HttpServlet{
 
             ISistema sistema = Factory.getSistema();
 
-            request.setAttribute("aerolineas", sistema.listarAerolineas());
+            List <DtAerolinea> aerolineas = sistema.listarAerolineas();
+            request.setAttribute("aerolineas",aerolineas);
 
             String aerolineaId = request.getParameter("aerolinea");
             String rutaId = request.getParameter("ruta");

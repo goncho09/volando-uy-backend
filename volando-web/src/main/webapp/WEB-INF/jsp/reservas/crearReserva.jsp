@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html lang="es">
 
@@ -43,7 +44,7 @@
                             <div class="row g-3">
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold">Aerolínea</label>
-                                    <select class="form-select" id="aerolinea-select" name="aerolinea" onchange="this.form.submit()">
+                                    <select class="form-select" id="aerolinea" name="aerolinea" onchange="this.form.submit()">
                                         <option value="">Selecciona una aerolínea</option>
                                         <c:forEach var="a" items="${aerolineas}">
                                             <option value="${a.nickname}" ${a.nickname eq aerolineaId ? "selected" : ""}>
