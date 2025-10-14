@@ -32,16 +32,6 @@ public class BuscarRutaServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
-        if (session == null) {
-            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
-            return;
-        }
-
-        if(session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null || !"aerolinea".equals(session.getAttribute("usuarioTipo"))) {
-            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
-            return;
-        }
-
         try {
             String nombreRuta = request.getParameter("nombre");
             DtRuta ruta = s.consultarRuta(nombreRuta);
@@ -89,17 +79,18 @@ public class BuscarRutaServlet extends HttpServlet {
             paqueteList.removeIf(paquete -> paquete.getRutaDeVuelo(ruta.getNombre()) == null);
 
             boolean allowed = false;
-
+            if(session.getAttribute("usuarioTipo") != null && session.getAttribute("usuarioNickname") != null && "aerolinea".equals(session.getAttribute("usuarioTipo"))) {
                 DtAerolinea a = s.getAerolinea(session.getAttribute("usuarioNickname").toString());
                 List<DtRuta> rutasAerolinea = a.listarRutasDeVuelo();
-                if(!rutasAerolinea.isEmpty()){
-                    for(DtRuta r : rutasAerolinea){
-                        if(r.getNombre().equals(nombreRuta)){
+                if (!rutasAerolinea.isEmpty()) {
+                    for (DtRuta r : rutasAerolinea) {
+                        if (r.getNombre().equals(nombreRuta)) {
                             allowed = true;
                             break;
                         }
                     }
                 }
+            }
 
             request.setAttribute("ruta", ruta);
             request.setAttribute("vuelos", vueloList);

@@ -62,8 +62,6 @@ public class HomeServlet extends HttpServlet {
                 List<DtPaquete> listaPaquete = s.listarPaquetes();
 
                 listaRuta.removeIf(ruta -> ruta.getEstado() != EstadoRuta.APROBADA);
-//                listaPaquete.removeIf();
-
 
                 if(request.getParameter("nombre") != null && !request.getParameter("nombre").isEmpty()){
                     listaRuta.removeIf(ruta -> !s.containsCategoria(ruta, request.getParameter("nombre")));

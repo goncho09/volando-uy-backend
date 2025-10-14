@@ -89,7 +89,8 @@
                         <div class="p-4 flex flex-col justify-between h-40">
                             <div>
                                 <h5 class="text-lg font-semibold text-gray-800 mb-1 truncate">${paquete.nombre}</h5>
-                                <p class="text-sm text-black line-clamp-3">${paquete.costo}</p>
+                                <p class="text-sm text-gray-600">Precio: $${paquete.costo}</p>
+                                <p class="text-sm text-gray-600">Duración: ${paquete.validezDias} días</p>
                             </div>
 
                             <button onclick="window.location.href='${pageContext.request.contextPath}/paquete/buscar?nombre=${paquete.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Paquete</button>
