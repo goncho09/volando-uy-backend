@@ -1,3 +1,5 @@
+<%@ page import="com.app.datatypes.DtAerolinea" %>
+<%@ page import="com.app.datatypes.DtVuelo" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -18,6 +20,8 @@
 
 <body>
 
+<c:set var="tipoUsuario" value="${sessionScope.tipoUsuario}" />
+
  <jsp:include page="../components/header.jsp" />
 
  <main class="flex flex-col items-center md:items-start md:flex-row max-w-7xl md:mx-auto px-4 sm:px-6 lg:px-8 justify-center  mt-5">
@@ -25,16 +29,14 @@
      <jsp:include page="../components/miPerfil.jsp"/>
 
 
+     <section class="flex bg-white w-full my-5 md:m-0 md:ml-8  rounded-xl shadow-2xl">
+             <div class="lg:w-2/5">
+                 <img src="${vuelo.urlImage}"
+                      alt="Imagen del vuelo"
+                      class="w-full h-64 lg:h-full object-cover">
+             </div>
 
-     <section class="bg-white w-full my-5 md:m-0 md:ml-8  rounded-xl shadow-2xl overflow-hidden">
-         <div class="flex flex-col lg:flex-row">
-<%--             <div class="lg:w-2/5">--%>
-<%--                 <img src="${vuelo.urlImage}"--%>
-<%--                      alt="Imagen del vuelo"--%>
-<%--                      class="w-full h-64 lg:h-full object-cover">--%>
-<%--             </div>--%>
-
-             <div class="lg:w-3/5 p-6 lg:p-8">
+             <div class="flex items-center w-full flex-col py-3 mb-2">
                  <h5 class="text-xl font-bold text-[#0c2636] mb-2 flex items-center">
                      <i class="fas fa-plane-departure mr-2 text-[#1d6e86]"></i>
                      Detalles del vuelo
@@ -68,12 +70,18 @@
                          <span class="font-semibold text-[#0c2636]">Cantidad reservas:</span>
                          <span class="ml-2 text-gray-700">${vuelo.cantReservas}</span>
                      </div>
-                     <button onclick="window.location.href='${pageContext.request.contextPath}/reservas'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Reservas</button>
 
-                     <button onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo/buscar?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Ruta de Vuelo</button>
+                     <c:if test="${usuarioTipo == 'aerolinea' && esDeLaAerolinea}">
+                         <button onclick="window.location.href='${pageContext.request.contextPath}/reservas'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver reservas del vuelo</button>
+                     </c:if>
+
+                     <c:if test="${usuarioTipo == 'cliente' && tieneReserva}">
+                         <button onclick="window.location.href='${pageContext.request.contextPath}/reservas'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver mis reservas</button>
+                     </c:if>
+
+                     <button onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo/buscar?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white p-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]"><i class="fa fa-info mr-2"></i> Ver información de la ruta de vuelo</button>
                  </div>
              </div>
-         </div>
      </section>
 
 

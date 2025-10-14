@@ -123,6 +123,32 @@ public class Sistema implements ISistema {
         return listaRutas;
     }
 
+    public List<DtReserva> listarReservas(DtCliente cliente, DtVuelo vuelo){
+        List<DtReserva> listaReservas = new ArrayList<>();
+        Cliente c = (Cliente)this.usuarios.get(cliente.getNickname());
+        if(c == null){
+            return listaReservas;
+        }
+        for(Reserva r : c.getReservas()){
+            if(r.getVuelo().getNombre().equals(vuelo.getNombre())){
+                listaReservas.add(r.getDatos());
+            }
+        }
+        return listaReservas;
+    }
+
+    public DtCliente getCliente(String nickname){
+        Usuario u = this.usuarios.get(nickname);
+        if(u == null) {
+            throw new IllegalArgumentException("No existe un usuario con ese nickname.");
+        }
+        if (u instanceof Cliente c) {
+            return c.getDatos();
+        } else {
+            throw new IllegalArgumentException("El usuario no es un cliente.");
+        }
+    }
+
     public DtRuta consultarRuta(String nombre) {
         if(!this.rutasDeVuelo.containsKey(nombre)) throw new IllegalArgumentException("No existe esta ruta");
         return  (this.rutasDeVuelo.get(nombre).getDatos());

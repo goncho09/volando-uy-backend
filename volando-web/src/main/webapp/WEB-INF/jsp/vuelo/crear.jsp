@@ -20,7 +20,7 @@
 <jsp:include page="../components/header.jsp" />
 
 <main class="flex flex-col items-center  p-4 min-h-screen">
-    <form id="form" class="space-y-4 flex flex-col w-full max-w-md p-6 bg-white rounded-lg shadow-xl bg-gray-300  mt-2">
+    <form id="formCrearVuelo" class="space-y-4 flex flex-col w-full max-w-md p-6 bg-white rounded-lg shadow-xl bg-gray-300  mt-2">
         <h2 class="mb-6 text-2xl font-bold text-center text-black">Nuevo Vuelo</h2>
 
         <div class="flex w-full items-center border-b border-gray-300  space-x-3 focus-within:border-[var(--azul-oscuro)]">
@@ -92,7 +92,7 @@
 
     const fileInput = document.getElementById('image');
     const fileNameSpan = document.getElementById('file-name');
-    const form = document.getElementById('form');
+    const form = document.getElementById('formCrearVuelo');
     const errorMsg = document.getElementById('error-msg');
     const successMsg = document.getElementById('success-msg');
 

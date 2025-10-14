@@ -15,7 +15,7 @@
 
 <body>
 <div class=" h-screen flex justify-center items-center bg-[var(--azul-oscuro)]">
-    <form id="form" class="flex flex-col items-center gap-4 py-6  rounded-lg shadow-lg bg-white w-[85%] md:w-128 ">
+    <form id="formRegistrarUsuarioFinal" class="flex flex-col items-center gap-4 py-6  rounded-lg shadow-lg bg-white w-[85%] md:w-128 ">
         <h1 class="text-center text-3xl font-semibold text-[var(--azul-oscuro)]">Registrar</h1>
 
 
@@ -104,7 +104,7 @@
 </body>
 
 <script>
-    document.getElementById('form').addEventListener('submit',async(e) => {
+    document.getElementById('formRegistrarUsuarioFinal').addEventListener('submit',async(e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const params = new URLSearchParams(formData);

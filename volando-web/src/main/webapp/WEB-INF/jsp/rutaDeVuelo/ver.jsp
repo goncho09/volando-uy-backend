@@ -37,6 +37,7 @@
                     <th class="px-4 py-2 text-center">Costo ejecutivo</th>
                     <th class="px-4 py-2 text-center">Costo turista</th>
                     <th class="px-4 py-2 text-center">Costo equipaje adicional</th>
+                    <th class="px-4 py-2 text-center">Estado</th>
                     <th class="px-4 py-2 text-center">Acciones</th>
                 </tr>
                 </thead>
@@ -51,6 +52,8 @@
                         <td class="px-4 py-2 text-center">$${ruta.costoEjecutivo}</td>
                         <td class="px-4 py-2 text-center">$${ruta.costoTurista}</td>
                         <td class="px-4 py-2 text-center">$${ruta.equipajeExtra}</td>
+                        <td class="px-4 py-2 text-center">$${ruta.estado}</td>
+
                         <td class="text-center px-4 py-2  space-x-3">
                             <a href="#" class="hover:scale-110 transition-transform">
                                 <i class="fa fa-edit text-xl text-green-600"></i>

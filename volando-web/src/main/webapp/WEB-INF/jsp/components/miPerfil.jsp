@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Zar
-  Date: 9/10/2025
-  Time: 13:56
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <aside class="w-[90%] sm:w-2/3 md:w-80 bg-white rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 h-fit">

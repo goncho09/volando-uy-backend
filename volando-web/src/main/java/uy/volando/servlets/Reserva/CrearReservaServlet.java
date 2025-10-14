@@ -2,10 +2,6 @@ package uy.volando.servlets.Reserva;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
-import com.app.clases.Reserva;
-import com.app.clases.Sistema;
-import com.app.datatypes.DtReserva;
-import com.app.clases.Cliente;
 import com.app.datatypes.DtCliente;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 
 @WebServlet(name = "Crear", urlPatterns = {"/reserva/crear"})
 
-public class Crear extends HttpServlet{
+public class CrearReservaServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

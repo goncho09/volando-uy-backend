@@ -3,8 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <header id="header" class="flex flex-col px-4 py-2 text-white w-[100vw] bg-[var(--azul-oscuro)]">
-    <div class="flex items-center flex-col justify-between p-2 space-y-2 w-full header-top md:flex-row md:space-y-0"
-         style="background-color: var(--azul-oscuro);">
+    <div class="flex items-center flex-col justify-between p-2 space-y-2 w-full header-top md:flex-row md:space-y-0">
         <a href="${pageContext.request.contextPath}/home" class="text-3xl font-bold uppercase">Volando.uy</a>
 
         <c:set var="usuarioNickname" value="${sessionScope.usuarioNickname}" />
@@ -35,10 +34,10 @@
     </div>
 
     <!-- Barra de búsqueda -->
-    <form id="form" class="flex items-center justify-center w-full !bg-transparent !space-x-2 self-center text-white border-b border-white p-2
+    <form id="formBuscar" class="flex items-center justify-center w-full !bg-transparent !space-x-2 self-center text-white border-b border-white p-2
                 focus-within:border-[var(--celeste-claro)] duration-200 ease-in md:w-1/2">
         <button type="submit"><i class="fa-solid fa-magnifying-glass text-xl"></i></button>
-        <input type="text" placeholder="Buscar origen, destino, paquete, aerolínea..." name="busqueda"
+        <input type="text" placeholder="Buscar origen, destino, paquete, aerolínea..." name="busqueda" id="busqueda"
                class="outline-none border-0 !|  bg-transparent w-[95%] text-lg" />
     </form>
 
@@ -68,7 +67,7 @@
                                 </li>
                                 </c:if>
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/consultaVuelo/consulta">
+                                    <a href="${pageContext.request.contextPath}/vuelo/buscar">
                                         <p
                                                 class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                             Ver vuelos</p>
@@ -144,7 +143,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="${pageContext.request.contextPath}/reservas">
+                                    <a href="${pageContext.request.contextPath}/reservas/ver">
                                         <p
                                                 class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                             Ver reservas</p>
@@ -167,7 +166,7 @@
                     <details>
                         <summary>Vuelos</summary>
                         <ul class="p-2 w-32 bg-[var(--azul-oscuro)]">
-                            <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
+                            <c:if test="${usuarioTipo != null && usuarioTipo == 'aerolinea'}">
                                 <li>
                                     <a href="${pageContext.request.contextPath}/vuelo/crear">
                                         <p
@@ -246,7 +245,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/reservas">
+                                <a href="${pageContext.request.contextPath}/reservas/ver">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Ver reservas</p>
                                 </a>
@@ -261,8 +260,8 @@
 
 </header>
 
-<script defer>
-    const form = document.getElementById('form');
+<script>
+    const form = document.getElementById('formBuscar');
 
     function setupDropdowns() {
         const allDetails = document.querySelectorAll('nav details');
@@ -281,9 +280,9 @@
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const query = form.busqueda.value.trim();
-        if (query) {
-            window.location.href = '${pageContext.request.contextPath}/home?busqueda=' + query;
+        const palabraBuscar = document.getElementById("busqueda");
+        if (palabraBuscar) {
+            window.location.href = '${pageContext.request.contextPath}/home?busqueda=' + palabraBuscar;
         }
     });
 </script>
