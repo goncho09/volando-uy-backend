@@ -7,12 +7,14 @@ import com.app.datatypes.DtAerolinea;
 import com.app.datatypes.DtPaquete;
 import com.app.datatypes.DtRuta;
 import com.app.datatypes.DtVuelo;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -24,16 +26,21 @@ public class CrearVueloServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws jakarta.servlet.ServletException, java.io.IOException {
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
+
+        if(session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null || !"aerolinea".equals(session.getAttribute("usuarioTipo"))) {
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
 
         try{
-            HttpSession session = request.getSession(false);
-
-            if (session.getAttribute("usuarioTipo") == null || !session.getAttribute("usuarioTipo").equals("aerolinea")) {
-                response.sendRedirect(request.getContextPath() + "/home");
-                return;
-            }
-
             DtAerolinea aerolinea = sistema.getAerolinea(session.getAttribute("usuarioNickname").toString());
 
             if (aerolinea == null || !aerolinea.getNickname().equals(session.getAttribute("usuarioNickname").toString())) {
@@ -53,7 +60,7 @@ public class CrearVueloServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws jakarta.servlet.ServletException, java.io.IOException {
+            throws ServletException, IOException {
 
         response.setContentType("text/plain;charset=UTF-8");
         try {

@@ -22,7 +22,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "CrearRutaServlet", urlPatterns = {"/rutaDeVuelo/crear"})
+@WebServlet(name = "CrearRutaServlet", urlPatterns = {"/ruta-de-vuelo/crear"})
 public class CrearRutaServlet extends HttpServlet {
 
     ISistema sistema = Factory.getSistema();
@@ -31,16 +31,19 @@ public class CrearRutaServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
+
+        if(session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null || !"aerolinea".equals(session.getAttribute("usuarioTipo"))) {
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
+
         try {
-            HttpSession session = request.getSession(false);
-
-            // Verificar que el usuario sea una aerolínea
-            if (session == null || session.getAttribute("usuarioTipo") == null ||
-                    !session.getAttribute("usuarioTipo").equals("aerolinea")) {
-                response.sendRedirect(request.getContextPath() + "/home");
-                return;
-            }
-
             // Obtener datos para formulario
             List<DtCiudad> dtCiudades = sistema.listarCiudades();
             List<DtCategoria> dtCategorias = getCategoriasDisponibles();
