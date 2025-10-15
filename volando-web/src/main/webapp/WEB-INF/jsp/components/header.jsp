@@ -99,6 +99,13 @@
                                             Ver paquetes</p>
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/paquete/buscar">
+                                        <p
+                                                class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
+                                            Consultar rutas de paquete</p>
+                                    </a>
+                                </li>
                         <c:if test="${usuarioTipo!= null && usuarioTipo == 'cliente'}">
                                 <li>
                                     <a href="${pageContext.request.contextPath}/ruta-en-paquete">
@@ -214,6 +221,13 @@
                                 <a href="${pageContext.request.contextPath}/paquete/ver">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Ver paquetes</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="${pageContext.request.contextPath}/paquete/buscar">
+                                    <p
+                                            class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
+                                        Consultar rutas de paquete</p>
                                 </a>
                             </li>
                     <c:if test="${usuarioTipo!= null && usuarioTipo == 'cliente'}">
