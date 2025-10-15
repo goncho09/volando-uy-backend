@@ -109,7 +109,7 @@
                                 <p class="text-gray-600 text-sm mb-3">Descripcion: ${paquete.descripcion}</p>
                             </div>
 
-                            <button onclick="window.location.href='${pageContext.request.contextPath}/paquete/buscar?nombre=${paquete.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Paquete</button>
+                            <button onclick="window.location.href='${pageContext.request.contextPath}/paquete/consulta?nombre=${paquete.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Paquete</button>
                         </div>
                     </div>
                 </c:forEach>
