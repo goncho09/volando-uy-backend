@@ -168,19 +168,20 @@
                                             <h6 class="font-bold text-[#0c2636] mb-2">${paquete.nombre}</h6>
                                             <c:choose>
                                                 <c:when test="${paquete.descuento > 0}">
-                                                    <p class="text-gray-600 text-sm mb-0">
+                                                    <b class="text-[#960018] text-xs">Ahorra
+                                                        un ${paquete.descuento}%</b>
+                                                    <p class="text-gray-600 text-sm">
                                                         Costo (USD):
                                                         <b class="text-[#960018] text-sm">
-                                                                ${paquete.costo}
+                                                            $${paquete.costo - (paquete.costo * (paquete.descuento / 100))}
                                                         </b>
-                                                        <span class="line-through text-gray-400 ml-2">
-                                                                ${paquete.costo / (1 - (paquete.descuento / 100))}
+                                                        <span class="line-through text-gray-400 text-[0.6rem]">
+                                                            $${paquete.costo}
                                                         </span>
                                                     </p>
-                                                    <p class="mb-4"><b class="text-[#960018] text-sm mb-4">Ahorra un ${paquete.descuento}%</b></p>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <p class="text-gray-600 text-sm mb-4">Costo (USD): ${paquete.costo}</p>
+                                                    <p class="text-gray-600 text-sm">Costo (USD): $${paquete.costo}</p>
                                                 </c:otherwise>
                                             </c:choose>
 
