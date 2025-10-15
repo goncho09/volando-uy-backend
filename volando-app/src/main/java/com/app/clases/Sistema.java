@@ -807,6 +807,7 @@ public class Sistema implements ISistema {
         Cliente c = buscarCliente(cliente);
         Paquete p = buscarPaquete(paquete);
 
+
         for(CompraPaquete cp : c.getComprasPaquetes()){
             if (cp.getPaquete().equals(p)){
                 throw new IllegalArgumentException("El cliente ya ha comprado este paquete.");
@@ -825,13 +826,26 @@ public class Sistema implements ISistema {
         Paquete p = buscarPaquete(paquete);
         RutaDeVuelo ruta = buscarRutaDeVuelo(dataRuta);
 
+        float nuevoCosto = p.getCosto();
+
+        if(tipoAsiento == TipoAsiento.EJECUTIVO){
+            nuevoCosto += ruta.getCostoEjecutivo() * cantidad;
+        }else if(tipoAsiento == TipoAsiento.TURISTA){
+            nuevoCosto += ruta.getCostoTurista() * cantidad;
+        }
+
         for (RutaEnPaquete rep : p.getRutaEnPaquete()){
             if (rep.getRutaDeVuelo().getNombre().equals(ruta.getNombre()) && rep.getTipoAsiento() == tipoAsiento){
+                p.setCosto(nuevoCosto);
+                System.out.println(nuevoCosto);
                 return paqueteDao.actualizarCantidadRutaEnPaquete(p,rep,cantidad);
             }
         }
 
         RutaEnPaquete rp = new RutaEnPaquete(cantidad,tipoAsiento,ruta);
+        p.setCosto(nuevoCosto);
+        System.out.println(nuevoCosto);
+
 
         paqueteDao.addRutaEnPaquete(p, rp);
 

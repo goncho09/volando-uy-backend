@@ -135,7 +135,6 @@ public class Main extends JFrame {
     private JComboBox JComboBoxPaqueteConsultaPaqueteRutaVuelo;
     private JButton JButtonConsultarPaquete;
     private JPanel JPanelCategorias;
-    private JSpinner JSpinnerCostoAltaPaquete;
     private JComboBox JComboBoxAerolineaConsultaRuta;
     private JComboBox JComboBoxRutaVueloAgregarRuta;
     private JButton ButtonConfirmarAgregarRutaPaquete;
@@ -297,7 +296,6 @@ public class Main extends JFrame {
         JSpinnerDuracionAltaVueloMinuto.setModel(new SpinnerNumberModel(0, 0, 59, 1));
 
         JSpinnerDescuentoAltaPaquete.setModel(new SpinnerNumberModel(0, 0, 100, 1));
-        JSpinnerCostoAltaPaquete.setModel(new SpinnerNumberModel(1.0, 1.0, 1_000_000.0, 1.0));
         JSpinnerPeriodoAltaPaquete.setModel(new SpinnerNumberModel(1, 1, 1_000_000, 1));
 
 
@@ -933,26 +931,19 @@ public class Main extends JFrame {
                 try {
                     Integer periodo = (Integer) JSpinnerPeriodoAltaPaquete.getValue();
                     Integer descuento = (Integer) JSpinnerDescuentoAltaPaquete.getValue();
-                    float costo = ((Double) JSpinnerCostoAltaPaquete.getValue()).floatValue();
 
                     if(periodo < 1){
                         new VentanaMensaje("El período debe ser 1 o más.");
                         return;
                     }
 
-                    if(costo < 1){
-                        new VentanaMensaje("El costo debe ser 1 o más.");
-                        return;
-                    }
-
-                    s.altaPaquete(new DtPaquete(nombreAltaPaquete.getText(),descripcionAltaPaquete.getText(),periodo,descuento,costo, new ArrayList<>()));
+                    s.altaPaquete(new DtPaquete(nombreAltaPaquete.getText(),descripcionAltaPaquete.getText(),periodo,descuento,0, new ArrayList<>()));
                     new VentanaMensaje("Paquete creado correctamente.");
                     auxiliar.cargarPaqueteComboBox();
                     auxiliar.cargarPaqueteNoCompradoComboBox();
                     auxiliar.limpiarJTextField(nombreAltaPaquete,descripcionAltaPaquete);
                     JSpinnerPeriodoAltaPaquete.setValue(1);
                     JSpinnerDescuentoAltaPaquete.setValue(0);
-                    JSpinnerCostoAltaPaquete.setValue(1.0);
                 } catch (Exception ex){
                     new VentanaMensaje(ex.getMessage());
                 }

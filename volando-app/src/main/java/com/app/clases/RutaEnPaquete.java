@@ -42,14 +42,11 @@ public class RutaEnPaquete {
         this.tipoAsiento = tipoAsiento;
     }
 
-    public RutaDeVuelo getRutaDeVuelo() {
-        return rutaDeVuelo;
-    }
+    public RutaDeVuelo getRutaDeVuelo() {return rutaDeVuelo;}
 
     public void setRutaDeVuelo(RutaDeVuelo rutaDeVuelo) {
         this.rutaDeVuelo = rutaDeVuelo;
     }
-
 
     @Override
     public String toString() {return this.rutaDeVuelo.getNombre();}
