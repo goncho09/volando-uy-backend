@@ -89,8 +89,24 @@
                         <div class="p-4 flex flex-col justify-between h-40">
                             <div>
                                 <h5 class="text-lg font-semibold text-gray-800 mb-1 truncate">${paquete.nombre}</h5>
-                                <p class="text-sm text-gray-600">Precio: $${paquete.costo}</p>
-                                <p class="text-sm text-gray-600">Duración: ${paquete.validezDias} días</p>
+                                <c:choose>
+                                    <c:when test="${paquete.descuento > 0}">
+                                        <b class="text-[#960018] text-xs">Ahorra un ${paquete.descuento}%</b>
+                                        <p class="text-gray-600 text-sm">
+                                            Costo (USD):
+                                            <b class="text-[#960018] text-sm">
+                                                    $${paquete.costo - (paquete.costo * (paquete.descuento / 100))}
+                                            </b>
+                                            <span class="line-through text-gray-400 text-[0.6rem]">
+                                                    $${paquete.costo}
+                                            </span>
+                                        </p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p class="text-gray-600 text-sm">Costo (USD): $${paquete.costo}</p>
+                                    </c:otherwise>
+                                </c:choose>
+                                <p class="text-gray-600 text-sm mb-3">Descripcion: ${paquete.descripcion}</p>
                             </div>
 
                             <button onclick="window.location.href='${pageContext.request.contextPath}/paquete/buscar?nombre=${paquete.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Paquete</button>
