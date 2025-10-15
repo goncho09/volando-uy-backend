@@ -69,11 +69,11 @@ public class ConsultaVueloServlet extends HttpServlet {
                 }
 
             }
-            request.getRequestDispatcher("/WEB-INF/jsp/vuelo/consulta.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/vuelo/buscar.jsp").forward(request, response);
 
         } catch (Exception ex) {
             request.setAttribute("error", "Error al cargar la consulta de vuelos");
-            request.getRequestDispatcher("/WEB-INF/jsp/vuelo/consulta.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/vuelo/buscar.jsp").forward(request, response);
             System.err.println("Error al obtener parametros: " + ex.getMessage());
         }
     }
