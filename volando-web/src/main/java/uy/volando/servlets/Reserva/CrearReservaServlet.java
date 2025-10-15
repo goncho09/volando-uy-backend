@@ -2,6 +2,7 @@ package uy.volando.servlets.Reserva;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
+import com.app.clases.RutaEnPaquete;
 import com.app.datatypes.DtCliente;
 import com.app.datatypes.*;
 
@@ -23,39 +24,77 @@ import java.util.List;
 public class CrearReservaServlet extends HttpServlet{
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-            HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("usuarioTipo") == null ||
+                !session.getAttribute("usuarioTipo").equals("cliente")) {
+            response.sendRedirect(request.getContextPath() + "/home");
+            return;
+        }
 
-            if (session == null) {
-                request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
-                return;
+        ISistema sistema = Factory.getSistema();
+
+        String nicknameCliente = (String) session.getAttribute("usuarioNickname");
+        DtCliente cliente = sistema.getCliente(nicknameCliente);
+
+        String idAerolinea = request.getParameter("aerolinea");
+        String idRuta = request.getParameter("ruta");
+
+        List<DtAerolinea> aerolineas = sistema.listarAerolineas();
+        aerolineas.removeIf(a -> a.listarRutasDeVuelo().isEmpty());
+        request.setAttribute("aerolineas", aerolineas);
+
+        if (idAerolinea != null) {
+            DtAerolinea aerolinea = sistema.getAerolinea(idAerolinea);
+            request.setAttribute("rutas", aerolinea.listarRutasDeVuelo());
+            request.setAttribute("aerolineaId", idAerolinea);
+        }
+
+
+        if (idRuta != null && idAerolinea != null) {
+            DtAerolinea aerolinea = sistema.getAerolinea(idAerolinea);
+            request.setAttribute("aerolineaId", idAerolinea);
+            request.setAttribute("rutaId", idRuta);
+            request.setAttribute("rutas", aerolinea.listarRutasDeVuelo());
+            request.setAttribute("vuelos", sistema.listarVuelos(idRuta));
+        }
+
+        if (idRuta != null) {
+            DtRuta ruta = sistema.getRutaDeVuelo(idRuta);
+            if (ruta != null) {
+                double precioTurista = ruta.getCostoTurista();
+                double precioEjecutivo = ruta.getCostoEjecutivo();
+                double precioEquipaje = ruta.getEquipajeExtra();
+
+                request.setAttribute("precioTurista", precioTurista);
+                request.setAttribute("precioEjecutivo", precioEjecutivo);
+                request.setAttribute("precioEquipaje", precioEquipaje);
             }
+        }
 
-            if(session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null || !"cliente".equals(session.getAttribute("usuarioTipo"))) {
-                request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
-                return;
-            }
+        if (cliente != null) {
+            List<DtPaquete> paquetesCliente = sistema.listarPaquetes(cliente);
+            List<DtPaquete> paquetesFiltrados = new ArrayList<>();
+            LocalDate hoy = LocalDate.now();
 
-            ISistema sistema = Factory.getSistema();
-
-            List <DtAerolinea> aerolineas = sistema.listarAerolineas();
-            request.setAttribute("aerolineas",aerolineas);
-
-            String aerolineaId = request.getParameter("aerolinea");
-            String rutaId = request.getParameter("ruta");
-
-            if (aerolineaId != null && !aerolineaId.isEmpty()) {
-                DtAerolinea aerolinea = sistema.getAerolinea(aerolineaId);
-                if (aerolinea != null) {
-                    List<DtRuta> rutas = sistema.listarRutasDeVuelo(aerolinea);
-                    request.setAttribute("rutas", rutas);
-                    request.setAttribute("aerolineaSeleccionada", aerolineaId);
+            if (idRuta != null) {
+                for (DtPaquete paquete : paquetesCliente) {
+                    for (RutaEnPaquete rep : paquete.getRutaEnPaquete()) {
+                        if (rep.getRutaDeVuelo() != null && rep.getRutaDeVuelo().getNombre().equals(idRuta)) {
+                            paquetesFiltrados.add(paquete);
+                            break;
+                        }
+                    }
                 }
+            } else {
+                paquetesFiltrados.addAll(paquetesCliente);
             }
 
-            request.getRequestDispatcher("/WEB-INF/jsp/reservas/crearReserva.jsp").forward(request, response);
+            request.setAttribute("paquetes", paquetesFiltrados);
+        }
+
+        request.getRequestDispatcher("/WEB-INF/jsp/reservas/crearReserva.jsp").forward(request, response);
     }
 
     @Override
@@ -65,8 +104,8 @@ public class CrearReservaServlet extends HttpServlet{
             ISistema sistema = Factory.getSistema();
 
             //Datos del form
-            String aerolinea = request.getParameter("aerolinea-select");
-            String vuelo = request.getParameter("vuelo-select");
+            String aerolinea = request.getParameter("aerolinea");
+            String vuelo = request.getParameter("vuelo");
             String cantidad = request.getParameter("cantidad-pasajes");
             String tipoAsiento = request.getParameter("tipo-asiento");
             String equipajeExtra = request.getParameter("equipaje-extra");

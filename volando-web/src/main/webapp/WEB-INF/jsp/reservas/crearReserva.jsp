@@ -41,39 +41,52 @@
                         <!-- Selección de vuelo -->
                         <div class="mb-4">
                             <h5 class="mb-3">Selecciona tu Vuelo</h5>
-                            <div class="row g-3">
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Aerolínea</label>
-                                    <select class="form-select" id="aerolinea" name="aerolinea" onchange="this.form.submit()">
-                                        <option value="">Selecciona una aerolínea</option>
-                                        <c:forEach var="a" items="${aerolineas}">
+                            <form method="GET" action="${pageContext.request.contextPath}/reservas/crear">
+                                <div class="row g-3">
+                                    <!-- Aerolínea -->
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Aerolínea</label>
+                                        <select class="form-select" name="aerolinea" onchange="this.form.submit()">
+                                            <option value="" disabled ${empty aerolineaId ? "selected" : ""}>
+                                                Seleccione una aerolínea *
+                                            </option>
+                                            <c:forEach var="a" items="${aerolineas}">
                                             <option value="${a.nickname}" ${a.nickname eq aerolineaId ? "selected" : ""}>
                                                 ${a.nombre}
                                             </option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
 
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Ruta</label>
-                                    <select class="form-select" name="ruta" id="ruta-select" ${empty rutas ? "disabled" : ""} onchange="this.form.submit()">
-                                        <option value="">Selecciona una ruta</option>
-                                        <c:forEach var="r" items="${rutas}">
-                                            <option value="${r.id}" ${r.id eq rutaSeleccionada ? "selected" : ""}>
-                                                ${r.origen} → ${r.destino}
+                                    <!-- Ruta -->
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Ruta</label>
+                                        <select class="form-select" name="ruta" ${empty rutas ? "disabled" : ""} onchange="this.form.submit()">
+                                            <option value="" disabled ${empty rutaId ? "selected" : ""}>
+                                                Seleccione una ruta de vuelo *
                                             </option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
+                                            <c:forEach var="r" items="${rutas}">
+                                            <option value="${r.nombre}" ${r.nombre eq rutaId ? "selected" : ""}>
+                                                ${r.nombre}
+                                            </option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
 
-                                <div class="col-md-4">
-                                    <label class="form-label fw-bold">Vuelo</label>
-                                    <select class="form-select" id="vuelo-select">
-                                        <option value="">Selecciona un vuelo</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+                                    <!-- Vuelo -->
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Vuelo</label>
+                                        <select class="form-select" name="vuelo" ${empty vuelos ? "disabled" : ""}>
+                                            <option value="" disabled ${empty vueloId ? "selected" : ""}>
+                                                Seleccione un vuelo *
+                                            </option>
+                                            <c:forEach var="vuelo" items="${vuelos}">
+                                                <option value="${vuelo.nombre}">${vuelo.nombre}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                            </form>
+
 
                         <!-- Información del vuelo seleccionado -->
                         <div id="info-vuelo" class="card mb-4 bg-light d-none">
@@ -120,8 +133,12 @@
                                     <div class="col-md-6">
                                         <label for="tipo-asiento" class="form-label">Tipo de asiento</label>
                                         <select class="form-select" id="tipo-asiento">
-                                            <option value="turista">Turista - USD 75</option>
-                                            <option value="ejecutivo">Ejecutivo - USD 190</option>
+                                            <option value="turista">
+                                                Turista - USD ${precioTurista}
+                                            </option>
+                                            <option value="ejecutivo">
+                                                Ejecutivo - USD ${precioEjecutivo}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -129,7 +146,7 @@
                                 <div class="mb-3">
                                     <label for="equipaje-extra" class="form-label">Unidades de equipaje extra</label>
                                     <input type="number" class="form-control" id="equipaje-extra" min="0" max="5" value="0">
-                                    <div class="form-text">Costo por unidad: USD 30</div>
+                                    <div class="form-text">Costo por unidad: ${precioEquipaje}</div>
                                 </div>
 
                                 <!-- Nombres de pasajeros -->
@@ -168,14 +185,19 @@
 
                                 <!-- Selector de paquete -->
                                 <div id="selector-paquete" class="mt-3 d-none">
-                                    <label for="paquete" class="form-label">Selecciona un paquete</label>
-                                    <select class="form-select" id="paquete">
-                                        <option value="">-- Selecciona un paquete --</option>
-                                        <option value="paquete1">Paquete Sudamérica (3 rutas disponibles)</option>
-                                        <option value="paquete2">Paquete Europa (2 rutas disponibles)</option>
-                                        <option value="paquete3">Paquete Nacional (5 rutas disponibles)</option>
+                                    <label for="paquete" class="form-label fw-bold">Selecciona un paquete</label>
+                                    <select class="form-select" id="paquete" name="paquete">
+                                        <option value="" disabled ${empty paqueteId ? "selected" : ""}>
+                                             Seleccione un paquete *
+                                        </option>
+                                        <c:forEach var="p" items="${paquetes}">
+                                        <option value="${p.nombre}">
+                                            ${p.nombre}
+                                        </option>
+                                        </c:forEach>
                                     </select>
                                 </div>
+
                             </div>
 
                             <!-- Resumen de costos -->
@@ -183,11 +205,11 @@
                                 <h5 class="mb-3">Resumen de Costos</h5>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p><strong>Pasajes:</strong> <span id="costo-pasajes">USD 75</span></p>
-                                        <p><strong>Equipaje extra:</strong> <span id="costo-equipaje">USD 0</span></p>
+                                        <p><strong>Pasajes:</strong> <span id="costo-pasajes">USD </span></p>
+                                        <p><strong>Equipaje extra:</strong> <span id="costo-equipaje">USD </span></p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p><strong>Total:</strong> <span id="total" class="fw-bold">USD 75</span></p>
+                                        <p><strong>Total:</strong> <span id="total" class="fw-bold">USD </span></p>
                                     </div>
                                 </div>
                             </div>
@@ -213,37 +235,22 @@
 </html>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const selectAerolinea = document.getElementById("aerolinea-select");
-    const selectRuta = document.getElementById("ruta-select");
-    const selectVuelo = document.getElementById("vuelo-select");
+document.addEventListener("DOMContentLoaded", () => {
+    const pagoGeneral = document.getElementById("pago-general");
+    const pagoPaquete = document.getElementById("pago-paquete");
+    const selectorPaquete = document.getElementById("selector-paquete");
 
-
-    selectRuta.disabled = true;
-    selectVuelo.disabled = true;
-
-    selectAerolinea.addEventListener("change", function() {
-        if (selectAerolinea.value) {
-            selectRuta.disabled = false;
+    const togglePaquete = () => {
+        if (pagoPaquete.checked) {
+            selectorPaquete.classList.remove("d-none"); // mostrar
         } else {
-            selectRuta.disabled = true;
-            selectVuelo.disabled = true;
+            selectorPaquete.classList.add("d-none"); // ocultar
         }
+    };
 
-        // Limpiar valores previos
-        selectRuta.value = "";
-        selectVuelo.value = "";
-    });
+    pagoGeneral.addEventListener("change", togglePaquete);
+    pagoPaquete.addEventListener("change", togglePaquete);
 
-    selectRuta.addEventListener("change", function() {
-        if (selectRuta.value) {
-            selectVuelo.disabled = false;
-        } else {
-            selectVuelo.disabled = true;
-        }
-
-        selectVuelo.value = "";
-    });
+    togglePaquete();
 });
 </script>
-
