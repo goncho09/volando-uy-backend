@@ -27,7 +27,12 @@
 
     <section class="flex flex-col w-full bg-white p-6 rounded-lg shadow-lg mt-5 md:mt-0 md:ml-5">
 
-    <c:if test="${usuarioTipo == 'cliente'}">
+        <c:if test="${empty reservas}">
+            <div class="mb-4 p-4 rounded-lg text-white bg-red-500">
+                <p class="text-center">No hay reservas.</p>
+            </div>
+        </c:if>
+
         <c:if test="${not empty reservas}">
             <div class="w-full overflow-x-auto">
                 <table class="min-w-full border border-gray-200 rounded-lg shadow-sm text-sm md:text-base">
@@ -40,6 +45,11 @@
                         <th class="px-4 py-2 text-center">Tipo de asiento</th>
                         <th class="px-4 py-2 text-center">Vuelo</th>
                         <th class="px-4 py-2 text-center">Paquete</th>
+
+                        <c:if test="${usuarioTipo != null && usuarioTipo == 'aerolinea'}">
+                            <th class="px-4 py-2 text-center">Cliente</th>
+                        </c:if>
+
                         <th class="px-4 py-2 text-center">Acciones</th>
                     </tr>
                     </thead>
@@ -53,6 +63,11 @@
                             <td class="px-4 py-2 text-center">${reserva.tipoAsiento}</td>
                             <td class="px-4 py-2 text-center">${reserva.vuelo != null ? reserva.vuelo.nombre : 'N/A'}</td>
                             <td class="px-4 py-2 text-center">${reserva.paquete != null ? reserva.paquete.nombre : 'N/A'}</td>
+
+                            <c:if test="${usuarioTipo != null && usuarioTipo == 'aerolinea'}">
+                                <th class="px-4 py-2 text-center">${reserva.cliente}</th>
+                            </c:if>
+
                             <td class="text-center px-4 py-2  space-x-3">
                                 <a href="#" class="hover:scale-110 transition-transform">
                                     <i class="fa fa-edit text-xl text-green-600"></i>
@@ -70,12 +85,8 @@
                 </table>
             </div>
         </c:if>
-        <c:if test="${empty reservas}">
-            <div class="mb-4 p-4 rounded-lg text-white bg-red-500">
-                <p class="text-center">No tienes reservas realizadas.</p>
-            </div>
-        </c:if>
-    </c:if>
+
+
 
     </section>
 </main>

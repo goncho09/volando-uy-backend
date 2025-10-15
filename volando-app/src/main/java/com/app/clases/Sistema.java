@@ -137,6 +137,33 @@ public class Sistema implements ISistema {
         return listaReservas;
     }
 
+    public boolean aerolineaTieneRuta(DtAerolinea aerolinea,String nombre){
+        Aerolinea a = (Aerolinea)this.usuarios.get(aerolinea.getNickname());
+        if(a == null){
+            return false;
+        }
+        for(RutaDeVuelo r : a.getRutasDeVuelo()){
+            if(r.getNombre().equals(nombre)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List <DtReserva> listarReservas(DtAerolinea aerolinea) {
+        List<DtReserva> listaReservas = new ArrayList<>();
+        Aerolinea a = (Aerolinea)this.usuarios.get(aerolinea.getNickname());
+        if(a == null){
+            return listaReservas;
+        }
+        for(Reserva r : this.reservas){
+            if(this.aerolineaTieneRuta(aerolinea, r.getVuelo().getRutaDeVuelo().getNombre())){
+                listaReservas.add(r.getDatos());
+            }
+        }
+        return listaReservas;
+    }
+
     public DtCliente getCliente(String nickname){
         Usuario u = this.usuarios.get(nickname);
         if(u == null) {
