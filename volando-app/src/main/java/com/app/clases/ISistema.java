@@ -33,6 +33,7 @@ public interface ISistema {
     void modificarAerolineaImagen(DtAerolinea aerolinea, String urlImagen);
     Aerolinea buscarAerolinea(DtAerolinea aerolinea);
     DtAerolinea getAerolinea(String nickname);
+    boolean aerolineaTieneRuta(DtAerolinea aerolinea,String nombre);
 
     void cancelarAltaUsuario();
     void confirmarAltaUsuario(DtUsuario user);
@@ -42,6 +43,7 @@ public interface ISistema {
     List<DtReserva> listarReservas(DtVuelo vuelo); // Devuelve las reservas de un vuelo en específico
     List<DtReserva> listarReservas(DtCliente cliente); // Devuelve las reservas de un cliente en específico
     List<DtReserva> listarReservas(DtCliente cliente, DtVuelo vuelo); // Devuelve las reservas de un cliente en un vuelo en específico
+    List <DtReserva> listarReservas(DtAerolinea aerolinea); // Devuelve las reservas de una aerolínea en específico
 
     void altaReserva(DtReserva reserva, DtCliente cliente, DtVuelo vuelo); //Reserva de un Vuelo
 
