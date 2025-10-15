@@ -106,7 +106,7 @@
             </div>
 
             <section class="vuelos">
-                <div class="bg-white rounded-xl shadow-2xl p-6">
+                <div class="bg-white rounded-xl shadow-2xl p-6 mb-8">
                     <h5 class="text-xl font-bold text-[#0c2636] mb-6 flex items-center">
                         <i class="fas fa-plane mr-2 text-[#1d6e86]"></i>
                         VUELOS DISPONIBLES
@@ -121,7 +121,7 @@
                                              class="w-full h-40 object-cover">
                                         <div class="p-4">
                                             <h6 class="font-bold text-[#0c2636] mb-2">${vuelo.nombre}</h6>
-                                            <p class="text-gray-600 text-sm mb-4">Duración: ${vuelo.duracion} HORAS</p>
+                                            <p class="text-gray-600 text-sm mb-4">Duración: ${vuelo.duracion} hrs</p>
                                             <button class="w-full bg-gradient-to-r from-[#1d6e86] to-[#2bc8c8] text-white py-2 rounded-lg font-medium hover:from-[#12445d] hover:to-[#269fb8] transition-all duration-300"
                                                     onclick="window.location.href='${pageContext.request.contextPath}/vuelo/consulta?nombre=${vuelo.nombre}'">
                                                 Ver vuelo
@@ -138,11 +138,73 @@
                             </div>
                         </c:otherwise>
                     </c:choose>
-                    <c:if test="${createVueloAllowed}">
+                    <c:if test="${rutaOwner}">
+                        <div class="text-center mt-6">
+                            <button class="bg-gradient-to-r from-[#12445d] to-[#0c2636] text-white px-6 py-3 rounded-lg font-medium hover:from-[#0c2636] hover:to-[#12445d] transition-all duration-300 flex items-center justify-center mx-auto"
+                                onclick="window.location.href='${pageContext.request.contextPath}/vuelo/crear?ruta=${ruta.nombre}'">
+                                <i class="fas fa-plus-circle mr-2"></i>
+                                Agregar Vuelo
+                            </button>
+                        </div>
+                    </c:if>
+                </div>
+            </section>
+
+            <section class="paquetes">
+                <div class="bg-white rounded-xl shadow-2xl p-6">
+                    <h5 class="text-xl font-bold text-[#0c2636] mb-6 flex items-center">
+                        <i class="fa-solid fa-boxes-packing mr-2 text-[#1d6e86]"></i>
+                        PAQUETES DISPONIBLES
+                    </h5>
+                    <c:choose>
+                        <c:when test="${not empty paquetes}">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                                <c:forEach var="paquete" items="${paquetes}">
+                                    <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+                                        <img src="${pageContext.request.contextPath}/assets/packageDefault.png"
+                                             alt="Esto es una imagen de paquete"
+                                             class="w-full h-40 object-cover">
+                                        <div class="p-4">
+                                            <h6 class="font-bold text-[#0c2636] mb-2">${paquete.nombre}</h6>
+                                            <c:choose>
+                                                <c:when test="${paquete.descuento > 0}">
+                                                    <p class="text-gray-600 text-sm mb-0">
+                                                        Costo (USD):
+                                                        <b class="text-[#960018] text-sm">
+                                                                ${paquete.costo}
+                                                        </b>
+                                                        <span class="line-through text-gray-400 ml-2">
+                                                                ${paquete.costo / (1 - (paquete.descuento / 100))}
+                                                        </span>
+                                                    </p>
+                                                    <p class="mb-4"><b class="text-[#960018] text-sm mb-4">Ahorra un ${paquete.descuento}%</b></p>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <p class="text-gray-600 text-sm mb-4">Costo (USD): ${paquete.costo}</p>
+                                                </c:otherwise>
+                                            </c:choose>
+
+                                            <button class="w-full bg-gradient-to-r from-[#1d6e86] to-[#2bc8c8] text-white py-2 rounded-lg font-medium hover:from-[#12445d] hover:to-[#269fb8] transition-all duration-300"
+                                                    onclick="window.location.href='${pageContext.request.contextPath}/paquete/consulta?nombre=${paquete.nombre}'">
+                                                Ver paquete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="text-center py-8">
+                                <i class="fa-solid fa-square-xmark text-4xl text-gray-400 mb-4"></i>
+                                <p class="text-gray-600">Esta ruta no tiene paquetes disponibles</p>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:if test="${rutaOwner}">
                         <div class="text-center mt-6">
                             <button class="bg-gradient-to-r from-[#12445d] to-[#0c2636] text-white px-6 py-3 rounded-lg font-medium hover:from-[#0c2636] hover:to-[#12445d] transition-all duration-300 flex items-center justify-center mx-auto">
                                 <i class="fas fa-plus-circle mr-2"></i>
-                                Agregar Vuelo
+                                Crear Paquete
                             </button>
                         </div>
                     </c:if>
