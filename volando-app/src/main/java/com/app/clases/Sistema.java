@@ -1110,5 +1110,17 @@ public class Sistema implements ISistema {
 
     ;
 
+    public boolean clienteTienePaquete(String nickname, String nombrePaquete){
+        DtCliente c = getCliente(nickname);
+        Cliente cliente = buscarCliente(c);
+        DtPaquete paquete = getPaquete(nombrePaquete);
+        for(CompraPaquete paquetesComprados : cliente.getComprasPaquetes()){
+            if(paquetesComprados.getPaquete().getNombre().equals(paquete.getNombre())){
+                return true;
+            }
+        }
+        return false;
+    };
+
 }
 

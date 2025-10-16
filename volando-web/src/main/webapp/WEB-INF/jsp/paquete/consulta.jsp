@@ -28,24 +28,22 @@
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden card-hover border border-gray-100">
             <!-- Encabezado con imagen y título -->
             <div class="relative">
-                <div class="h-48 bg-gradient-to-r from-[#0c2636] to-[#12445d] flex items-center justify-center">
-                    <div class="text-center text-white px-4">
-                        <h1 class="text-3xl font-bold mb-2">Paquete de Viaje</h1>
-                        <p class="text-lg opacity-90">Disfruta de una experiencia única con nuestras rutas seleccionadas</p>
-                    </div>
+                <div class="h-28 bg-gradient-to-r from-[#0c2636] to-[#12445d] flex flex-col items-center justify-center text-center text-white p-4">
+                    <h1 class="text-3xl font-bold mb-2">Paquete de Viaje</h1>
+                    <p class="text-lg opacity-90">Disfruta de una experiencia única con nuestras rutas seleccionadas</p>
                 </div>
             </div>
 
             <!-- Contenido principal -->
             <div class="p-6 md:p-8">
+                <h2 class="text-xl font-bold text-[#12445d] mb-4 flex items-center">
+                    <i class="fas fa-info-circle mr-2"></i> Información del Paquete
+                </h2>
                 <!-- Información general del paquete -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <!-- Columna 1: Detalles principales -->
                     <div class="md:col-span-2">
                         <div class="mb-6">
-                            <h2 class="text-xl font-bold text-[#12445d] mb-4 flex items-center">
-                                <i class="fas fa-info-circle mr-2"></i> Información del Paquete
-                            </h2>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div class="bg-gray-50 p-4 rounded-lg">
                                     <p class="text-sm text-gray-500">Nombre</p>
@@ -100,7 +98,7 @@
                                         <span>Descuento:</span>
                                         <span class="font-medium">-$${paquete.costo * (paquete.descuento / 100)}</span>
                                     </div>
-                                    <div class="border-t border-gray-300 pt-2 flex justify-between font-bold text-lg">
+                                    <div class="border-t border-gray-300 pt-2 flex flex-col items-center font-bold text-lg">
                                         <span class="text-[#12445d]">Total:</span>
                                         <span class="text-[#960018]">$${paquete.costo - (paquete.costo * (paquete.descuento / 100))} USD</span>
                                     </div>
@@ -114,19 +112,39 @@
                                     </div>
                                     <div class="flex justify-between">
                                     </div>
-                                    <div class="border-t border-gray-300 pt-2 flex justify-between font-bold text-base">
+                                    <div class="border-t border-gray-300 pt-2 flex flex-col items-center font-bold text-base">
                                         <span class="text-[#12445d]">Total:</span>
                                         <span>$${paquete.costo} USD</span>
                                     </div>
                                 </div>
                             </c:otherwise>
                         </c:choose>
-
                         <div class="text-center mt-6">
-                            <button class="bg-[#12445d] hover:bg-[#0c2636] text-white font-bold py-3 px-6 rounded-lg w-full transition-colors duration-300 flex items-center justify-center">
-                                <i class="fas fa-shopping-cart mr-2"></i> Reservar Ahora
-                            </button>
-                            <p class="text-xs text-gray-500 mt-2">Pago seguro • Cancelación flexible</p>
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.usuarioTipo && sessionScope.usuarioTipo eq 'cliente'}">
+                                <c:choose>
+                                    <c:when test="${comprado}">
+                                        <button class="bg-[#88E788] text-white font-bold p-3 rounded-lg w-full justify-around transition-colors duration-300 flex items-center justify-center disabled">
+                                            <i class="fa-solid fa-check"></i> Ya comprado
+                                        </button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button class="bg-[#12445d] hover:bg-[#0c2636] text-white font-bold p-3 rounded-lg w-full transition-colors duration-300 flex items-center justify-center"
+                                        onclick="window.location.href='${pageContext.request.contextPath}/paquete/comprar?nombre=${paquete.nombre}'">
+                                            <i class="fas fa-shopping-cart mr-2"></i> Comprar
+                                        </button>
+                                        <p class="text-xs text-gray-500 mt-2">Compra segura · Sin devoluciones.</p>
+                                    </c:otherwise>
+                                </c:choose>
+
+                            </c:when>
+                            <c:when test="${not empty sessionScope.usuarioTipo && sessionScope.usuarioTipo eq 'aerolinea'}">
+                                    <p class="text-base text-gray-500 mt-2">Inicia sesion como cliente para comprar un paquete.</p>
+                            </c:when>
+                            <c:otherwise>
+                                    <p class="text-base text-gray-500 mt-2">Debes iniciar sesion para comprar un paquete.</p>
+                            </c:otherwise>
+                        </c:choose>
                         </div>
                     </div>
                 </div>
@@ -138,25 +156,37 @@
                     </h2>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                        <!-- Ruta 1 -->
-                        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 card-hover cursor-pointer"
-                             onclick="window.location.href='#'">
-                            <div class="h-40 bg-gradient-to-br from-blue-100 to-cyan-100 flex items-center justify-center">
-                                <i class="fas fa-plane-departure text-4xl text-[#12445d]"></i>
-                            </div>
-                            <div class="p-4">
-                                <h3 class="font-bold text-[#0c2636] mb-2">Madrid - París</h3>
-                                <div class="flex items-center text-sm text-gray-600 mb-2">
-                                    <i class="fas fa-chair mr-2"></i>
-                                    <span>Clase Ejecutiva</span>
+                        <c:forEach var="ruta" items="${paquete.rutaEnPaquete}">
+                            <!-- Ruta 1 -->
+                            <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 card-hover cursor-pointer"
+                                 onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo/buscar?nombre=${ruta.rutaDeVuelo.nombre}'">
+                                <div class="h-40 flex items-center justify-center">
+                                    <img src="${ruta.rutaDeVuelo.urlImagen}" alt="${ruta.rutaDeVuelo.nombre}"
+                                         class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"/>
                                 </div>
-                                <div class="flex items-center text-sm text-gray-600">
-                                    <i class="fas fa-ticket-alt mr-2"></i>
-                                    <span>2 pasajes incluidos</span>
+                                <div class="p-4">
+                                    <h3 class="font-bold text-[#0c2636] mb-2">${ruta.rutaDeVuelo.nombre}</h3>
+                                    <c:choose>
+                                        <c:when test="${ruta.tipoAsiento.toString() eq 'EJECUTIVO'}">
+                                            <div class="flex items-center text-sm text-gray-600 mb-2">
+                                                <i class="fa fa-couch text-[var(--azul-oscuro)] mr-2"></i>
+                                                <span>Clase Ejecutiva</span>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="flex items-center text-sm text-gray-600 mb-2">
+                                                <i class="fas fa-chair text-[var(--azul-oscuro)] mr-2"></i>
+                                                <span>Clase Turista</span>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <div class="flex items-center text-sm text-gray-600">
+                                        <i class="fas fa-ticket-alt mr-2"></i>
+                                        <span>${ruta.cantidad} pasajes incluidos</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
+                        </c:forEach>
                     </div>
                 </div>
             </div>

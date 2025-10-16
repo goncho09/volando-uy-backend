@@ -1,9 +1,9 @@
 package uy.volando.servlets.Paquete;
 
-import com.app.clases.Factory;
-import com.app.clases.ISistema;
-import com.app.clases.RutaEnPaquete;
+import com.app.clases.*;
+import com.app.datatypes.DtCliente;
 import com.app.datatypes.DtPaquete;
+import com.app.datatypes.DtRuta;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet (name = "ConsultarPaqueteServlet", urlPatterns = {"/paquete/consulta"})
@@ -27,14 +28,18 @@ public class ConsultarPaqueteServlet extends HttpServlet {
             String nombre = request.getParameter("nombre");
 
             DtPaquete paquete = sistema.getPaquete(nombre);
+            List<RutaEnPaquete> rutaEnPaqueteList = paquete.getRutaEnPaquete();
+            List<DtRuta> rutasDelPaquete = new ArrayList<DtRuta>();
+
             // Deberia estar??
             if (paquete == null) request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
 
             String basePath = request.getServletContext().getRealPath("/pictures/rutas");
             String contextPath = request.getContextPath();
 
-            for (RutaEnPaquete rp : paquete.getRutaEnPaquete()) {
-                String urlImagen = rp.getRutaDeVuelo().getUrlImagen();
+            for (RutaEnPaquete rp : rutaEnPaqueteList) {
+                RutaDeVuelo rutaPaquete = rp.getRutaDeVuelo();
+                String urlImagen = rutaPaquete.getUrlImagen();
                 File rutaImg = null;
 
                 if (urlImagen != null && !urlImagen.isEmpty()) {
@@ -42,13 +47,23 @@ public class ConsultarPaqueteServlet extends HttpServlet {
                 }
 
                 if (urlImagen == null || urlImagen.isEmpty() || !rutaImg.exists()) {
-                    rp.getRutaDeVuelo().setUrlImagen(contextPath + "/assets/rutaDefault.png");
+                    rutaPaquete.setUrlImagen(contextPath + "/assets/rutaDefault.png");
                 } else {
-                    rp.getRutaDeVuelo().setUrlImagen(contextPath + "/pictures/rutas/" + urlImagen);
+                    rutaPaquete.setUrlImagen(contextPath + "/pictures/rutas/" + urlImagen);
                 }
             }
 
+            boolean comprado = false;
+
+            if(request.getSession(false).getAttribute("usuarioNickname") != null && request.getSession(false).getAttribute("usuarioTipo").equals("cliente")){
+                System.out.println(comprado);
+                comprado = sistema.clienteTienePaquete(request.getSession(false).getAttribute("usuarioNickname").toString(), paquete.getNombre());
+                System.out.println(comprado);
+            }
+
             request.setAttribute("paquete", paquete);
+            request.setAttribute("comprado", comprado);
+
             request.getRequestDispatcher("/WEB-INF/jsp/paquete/consulta.jsp").forward(request, response);
         } catch (Exception ex) {
             System.out.println("error: " + ex.getMessage());
