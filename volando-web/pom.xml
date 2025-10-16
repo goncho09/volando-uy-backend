@@ -61,7 +61,13 @@
             <artifactId>volando-app</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.16.1</version>  <!-- Versión actual estable -->
+        </dependency>
     </dependencies>
+
 
     <build>
         <finalName>volando-uy-backend</finalName>

@@ -30,16 +30,25 @@ public class RegistrarUsuarioServlet extends HttpServlet {
             ISistema sistema = Factory.getSistema();
 
             String nickname = request.getParameter("nickname");
+            if (nickname == null || nickname.trim().isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Nickname requerido.");
+                return;
+            }
 
-            if(sistema.existeUsuarioNickname(nickname)) {
+            if (sistema.existeUsuarioNickname(nickname)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("Ya existe un usuario con ese nickname.");
                 return;
             }
 
             String email = request.getParameter("email");
-
-            if(sistema.existeUsuarioEmail(email)) {
+            if (email == null || email.trim().isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Email requerido.");
+                return;
+            }
+            if (sistema.existeUsuarioEmail(email)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("Ya existe un usuario con ese email.");
                 return;
@@ -47,25 +56,35 @@ public class RegistrarUsuarioServlet extends HttpServlet {
 
             String password = request.getParameter("password");
             String confirmPassword = request.getParameter("confirm-password");
-
             if (!password.equals(confirmPassword)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("Las contraseñas no coinciden.");
                 return;
             }
 
-            String fotoPerfil = request.getParameter("image");
+            // TODO: Upload imagen (ej: Part imagePart = request.getPart("image"); si suben file)
+            String fotoPerfil = request.getParameter("image");  // Asume base64 o path; ajusta
             String nombre = request.getParameter("name");
             String tipoUsuario = request.getParameter("role");
 
-            response.setStatus(HttpServletResponse.SC_OK);
+            if (nombre == null || nombre.trim().isEmpty() || tipoUsuario == null || tipoUsuario.trim().isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Nombre y tipo de usuario requeridos.");
+                return;
+            }
 
             HttpSession session = request.getSession(true);
+            session.setAttribute("datosUsuario", new DtUsuario(nickname, email, nombre, password, fotoPerfil));
+            session.setAttribute("tipoUsuario", tipoUsuario);
 
-            session.setAttribute("datosUsuario",new DtUsuario(nickname,email,nombre,password,fotoPerfil));
-            session.setAttribute("tipoUsuario",tipoUsuario);
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().write("Datos iniciales guardados. Continúe al siguiente paso.");
+
         } catch (Exception e) {
-            request.setAttribute("errorMessage", e.getMessage());
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("Error: " + e.getMessage());
+            // Opcional: request.setAttribute("errorMessage", e.getMessage()); request.getRequestDispatcher("/WEB-INF/jsp/signup/registrarUsuario.jsp").forward(request, response);
         }
     }
 }
