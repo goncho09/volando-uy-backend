@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ page import="com.app.datatypes.DtUsuario" %>
 <%@ page import="com.app.enums.TipoDocumento" %>
 
 <c:set var="usuario" value="${sessionScope.usuario}"/>
@@ -25,8 +24,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <script src="${contextPath}/scripts/header.js" defer></script>
     <link rel="stylesheet" href="${contextPath}/assets/globals.css"/>
+
 </head>
 
 <body>
@@ -80,7 +79,18 @@
                         <c:choose>
                             <c:when test="${usuario != null}">
                                 <h5 class="fw-bold">Perfil - Usuario</h5>
-                                <h3 class="h4 h-md-3"><strong><c:out value="${not empty usuario.nombre ? usuario.nombre : 'N/A'}"/></strong></h3>
+                                <h3 class="h4 h-md-3">
+                                    <strong>
+                                        <c:choose>
+                                            <c:when test="${not empty usuario.nombre}">
+                                                <c:out value="${usuario.nombre}"/> <c:out value="${usuario.apellido}"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                N/A
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </strong>
+                                </h3>
                                 <p class="mb-0" style="opacity: 0.5;"><c:out value="${not empty usuario.nickname ? usuario.nickname : 'N/A'}"/> / <c:out value="${not empty usuario.email ? usuario.email : 'N/A'}"/></p>
                             </c:when>
                             <c:otherwise>

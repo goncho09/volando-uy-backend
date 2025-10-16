@@ -15,7 +15,7 @@
 
 <body>
 <div class=" h-screen flex justify-center items-center bg-[var(--azul-oscuro)]">
-    <form id="form" class="flex flex-col items-center gap-4 py-6  rounded-lg shadow-lg bg-white w-[85%] md:w-128 ">
+    <form id="form" class="flex flex-col items-center gap-4 py-6  rounded-lg shadow-lg bg-white w-[85%] md:w-128" enctype="multipart/form-data">
         <a href="${pageContext.request.contextPath}/home" class="space-x-1 text-left w-full px-6">
             <i class="fa fa-arrow-left text-[var(--azul-oscuro)]"></i>
             <span class="decoration-[var(--azul-claro)] underline-offset-5 hover:underline">Volver al inicio</span>
@@ -104,33 +104,26 @@
         const file = fileInput.files[0];
         if (!file) return alert("Seleccione una imagen");
 
-        const reader = new FileReader();
-        reader.onload = async (event) => {
-            const base64Image = event.target.result; // Base64 de la imagen
+        const formData = new FormData(form);
 
-            const formData = new FormData(form);
-            formData.set("image", base64Image); // Sobrescribe el input con Base64
+        errorMsg.textContent = '';
+        errorMsg.classList.add('hidden');
+        errorMsg.classList.remove('translate-y-0');
 
-            errorMsg.textContent = '';
-            errorMsg.classList.add('hidden');
-            errorMsg.classList.remove('translate-y-0');
+        const response = await fetch(`${pageContext.request.contextPath}/register`, {
+            method: 'POST',
+            body: formData
+        });
 
-            const response = await fetch('${pageContext.request.contextPath}/register', {
-                method: 'POST',
-                body: formData
-            });
+        const text = await response.text();
 
-            const text = await response.text();
-
-            if (!response.ok) {
-                errorMsg.textContent = text;
-                errorMsg.classList.remove('hidden');
-                errorMsg.classList.add('translate-y-0');
-            } else {
-                window.location.href = '${pageContext.request.contextPath}/register/final';
-            }
-        };
-        reader.readAsDataURL(file);
+        if (!response.ok) {
+            errorMsg.textContent = text;
+            errorMsg.classList.remove('hidden');
+            errorMsg.classList.add('translate-y-0');
+        } else {
+            window.location.href = '${pageContext.request.contextPath}/register/final';
+        }
     });
 
 

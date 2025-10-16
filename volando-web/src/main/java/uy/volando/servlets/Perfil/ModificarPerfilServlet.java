@@ -4,6 +4,8 @@ import com.app.clases.Factory;
 import com.app.clases.ISistema;
 import com.app.datatypes.*;
 import com.app.enums.TipoDocumento;
+import com.app.enums.TipoImagen;
+import com.app.utils.AuxiliarFunctions;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,21 +17,18 @@ import jakarta.servlet.http.Part;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@MultipartConfig(
-        location = "",
-        fileSizeThreshold = 1024 * 1024,  // 1MB
-        maxFileSize = 1024 * 1024 * 5,    // 5MB
-        maxRequestSize = 1024 * 1024 * 10 // 10MB
-)
+@MultipartConfig
 @WebServlet(name = "ModificarPerfilServlet", urlPatterns = {"/modificar-perfil"})
 public class ModificarPerfilServlet extends HttpServlet {
-    private static final String UPLOAD_DIR = "/pictures/users";  // Path relativo para URL
+    ISistema sistema = Factory.getSistema();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -43,9 +42,9 @@ public class ModificarPerfilServlet extends HttpServlet {
             return;
         }
 
+
         String usuarioTipo = (String) session.getAttribute("usuarioTipo");
         String nickname = (String) session.getAttribute("usuarioNickname");
-        ISistema sistema = Factory.getSistema();
 
         String success = null;
         String error = null;
@@ -59,42 +58,24 @@ public class ModificarPerfilServlet extends HttpServlet {
                 sistema.borrarUsuarioSeleccionado();
             }
 
-            // Manejo de imagen primero (común)
-            Part filePart = null;
-            try {
-                filePart = request.getPart("imagen");
-                System.out.println(">>> FilePart obtenido: " + (filePart != null ? "OK (size=" + filePart.getSize() + ")" : "NULL"));  // Debug mejorado
-            } catch (Exception e) {
-                System.out.println(">>> Error getPart imagen: " + e.getMessage());
-                e.printStackTrace();
-                error = "Error procesando imagen: " + e.getMessage();
-            }
-            String nuevaUrlImagen = null;
-            if (filePart != null && filePart.getSize() > 0) {
-                String submittedFileName = filePart.getSubmittedFileName();
-                String extension = "jpg";  // Default
-                if (submittedFileName != null && submittedFileName.contains(".")) {
-                    extension = submittedFileName.substring(submittedFileName.lastIndexOf(".") + 1).toLowerCase();
-                    if (!extension.matches("(?i)(jpg|jpeg|png|gif)")) {  // Valida mejor (case-insensitive)
-                        throw new IOException("Tipo de imagen no permitido: " + extension);
-                    }
+            String fotoPerfil = usuarioActual.getUrlImage();
+
+            Part filePart = request.getPart("imagen");
+
+            if (filePart != null || filePart.getSize() > 0) {
+                // Crear archivo temporal
+                String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                File tempFile = File.createTempFile("upload-", "-" + fileName);
+
+                try (InputStream input = filePart.getInputStream()) {
+                    Files.copy(input, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 }
-                String fileName = "user_" + UUID.randomUUID().toString() + "." + extension;
-                String uploadPath = getServletContext().getRealPath(UPLOAD_DIR);
-                File uploadDir = new File(uploadPath);
-                if (!uploadDir.exists()) {
-                    if (!uploadDir.mkdirs()) {
-                        throw new IOException("No se pudo crear directorio: " + uploadPath);
-                    }
-                }
-                Path filePath = Paths.get(uploadPath, fileName);
-                try (var inputStream = filePart.getInputStream()) {
-                    Files.copy(inputStream, filePath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-                }
-                nuevaUrlImagen = request.getContextPath() + UPLOAD_DIR + "/" + fileName;  // Path absoluto para JSP
-                System.out.println(">>> Imagen subida exitosa: diskPath=" + filePath + ", urlParaJSP=" + nuevaUrlImagen);  // Debug
-            } else {
-                System.out.println(">>> No hay imagen nueva (filePart null o vacío)");  // Debug
+
+                AuxiliarFunctions.borrarImagen(usuarioActual.getUrlImage(), TipoImagen.USUARIO);
+                File imagenGuardada = AuxiliarFunctions.guardarImagen(tempFile, TipoImagen.USUARIO);
+                fotoPerfil = imagenGuardada.getName();
+
+                usuarioActual.setUrlImage(fotoPerfil);
             }
 
             // Actualiza campos comunes (nombre)
@@ -118,37 +99,46 @@ public class ModificarPerfilServlet extends HttpServlet {
                     throw new IllegalArgumentException("Faltan campos requeridos para cliente");
                 }
 
+                DtUsuario actualizarDatosUser = new DtUsuario(
+                        usuarioActual.getNickname(),
+                        usuarioActual.getNombre(),
+                        usuarioActual.getEmail()
+                );
+
                 // Crea DtCliente actualizado (usa valores actuales si no hay nuevos, pero como es form, asume siempre)
                 DtCliente clienteActual = new DtCliente(
-                        usuarioActual.getNickname(),
-                        usuarioActual.getNombre(),  // Ya actualizado arriba
-                        usuarioActual.getEmail(),
+                        actualizarDatosUser,
                         apellido.trim(),
                         LocalDate.parse(fechaNacStr),  // Asume válido del JS
                         nacionalidad.trim(),
                         TipoDocumento.valueOf(tipoDocStr),
                         Integer.parseInt(numDocStr)
                 );
+
                 // Copia comprasPaquetes si es necesario (de original)
                 if (usuarioActual instanceof DtCliente) {
                     clienteActual.setComprasPaquetes(((DtCliente) usuarioActual).getComprasPaquetes());
                 }
 
                 // Actualiza imagen en el objeto (usando setter de DtUsuario)
-                if (nuevaUrlImagen != null) {
-                    clienteActual.setUrlImage(nuevaUrlImagen);
-                    System.out.println(">>> Imagen seteada en clienteActual: " + nuevaUrlImagen);
+                fotoPerfil = usuarioActual.getUrlImage();
+                if (fotoPerfil != null) {
+                    clienteActual.setUrlImage(fotoPerfil);
+                    System.out.println(">>> Imagen seteada en clienteActual: " + fotoPerfil);
                 }
 
-                // Actualiza en sistema (incluye imagen)
+                // Actualiza en sistema (excluye imagen)
                 sistema.modificarCliente(clienteActual);
+                if(filePart != null && filePart.getSize() > 0) {
+                    sistema.modificarClienteImagen(clienteActual, fotoPerfil);
+                }
 
                 // Recarga para verificar BD
                 usuarioRecargado = sistema.getCliente(nickname);
                 System.out.println(">>> Cliente recargado post-mod: nombre='" + usuarioRecargado.getNombre() +
                         "', imagenBD='" + usuarioRecargado.getUrlImage() + "'");  // Debug clave: ¿coincide con nueva?
 
-                if (nuevaUrlImagen != null && !nuevaUrlImagen.equals(usuarioRecargado.getUrlImage())) {
+                if (fotoPerfil != null && !fotoPerfil.equals(usuarioRecargado.getUrlImage())) {
                     System.out.println(">>> WARNING: Imagen NO persistió en BD! Usando sesión como fallback.");
                 }
 
@@ -173,9 +163,9 @@ public class ModificarPerfilServlet extends HttpServlet {
                 }
 
                 // Actualiza imagen en el objeto (usando setter de DtUsuario)
-                if (nuevaUrlImagen != null) {
-                    aerolineaActual.setUrlImage(nuevaUrlImagen);
-                    System.out.println(">>> Imagen seteada en aerolineaActual: " + nuevaUrlImagen);
+                if (fotoPerfil != null) {
+                    aerolineaActual.setUrlImage(fotoPerfil);
+                    System.out.println(">>> Imagen seteada en aerolineaActual: " + fotoPerfil);
                 }
 
                 // Actualiza en sistema (incluye imagen)
@@ -186,7 +176,7 @@ public class ModificarPerfilServlet extends HttpServlet {
                 System.out.println(">>> Aerolinea recargada post-mod: nombre='" + usuarioRecargado.getNombre() +
                         "', imagenBD='" + usuarioRecargado.getUrlImage() + "'");  // Debug clave
 
-                if (nuevaUrlImagen != null && !nuevaUrlImagen.equals(usuarioRecargado.getUrlImage())) {
+                if (fotoPerfil != null && !fotoPerfil.equals(usuarioRecargado.getUrlImage())) {
                     System.out.println(">>> WARNING: Imagen NO persistió en BD! Usando sesión como fallback.");
                 }
             } else {
@@ -197,9 +187,10 @@ public class ModificarPerfilServlet extends HttpServlet {
             if (usuarioRecargado != null) {
                 session.setAttribute("usuario", usuarioRecargado);
             }
+
             // Siempre prioriza nueva imagen en sesión (fallback si BD falla)
-            if (nuevaUrlImagen != null) {
-                session.setAttribute("usuarioImagen", nuevaUrlImagen);
+            if (fotoPerfil != null) {
+                session.setAttribute("usuarioImagen", fotoPerfil);
                 session.setAttribute("ultimoUpdateImagen", System.currentTimeMillis());  // Timestamp
                 System.out.println(">>> Timestamp update seteado: " + session.getAttribute("ultimoUpdateImagen"));
             }

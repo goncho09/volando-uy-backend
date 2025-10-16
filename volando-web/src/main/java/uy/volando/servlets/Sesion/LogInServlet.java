@@ -67,12 +67,14 @@ public class LogInServlet extends HttpServlet {
                     userImg = new File(basePath, urlImagen);
                 }
 
+                System.out.println(usuario.getUrlImage());
                 if (urlImagen == null || urlImagen.isEmpty() || !userImg.exists()) {
                     usuario.setUrlImage(contextPath + "/assets/userDefault.png");
                 } else {
                     usuario.setUrlImage(contextPath + "/pictures/users/" + urlImagen);
                 }
 
+                System.out.println(usuario.getUrlImage());
                 session.setAttribute("usuarioImagen", usuario.getUrlImage());
 
                 sistema.borrarUsuarioSeleccionado();

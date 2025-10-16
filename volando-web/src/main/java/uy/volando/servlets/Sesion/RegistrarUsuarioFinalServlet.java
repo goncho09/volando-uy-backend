@@ -48,9 +48,6 @@ public class RegistrarUsuarioFinalServlet extends HttpServlet {
 
             ISistema sistema = Factory.getSistema();
 
-            // TODO: Manejar carga de imágenes (usa request.getPart("imagen") si suben en este step)
-            dtUsuarioTemp.setUrlImage("pictures/users/default.png");  // Temporal
-
             String nickname = dtUsuarioTemp.getNickname();  // Para auto-login después
 
             if (tipoUsuario.equals("aerolinea")) {

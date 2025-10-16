@@ -49,20 +49,29 @@ public class PerfilServlet extends HttpServlet {
                 sistema.elegirUsuario(nickname);
                 DtUsuario usuario = sistema.getUsuarioSeleccionado();
 
-                // Actualiza urlImage (lógica común) - Fix: Normaliza a relative path para check
-                String relativeImagen = normalizarARelativePath(usuario.getUrlImage(), request.getContextPath());
-                String basePath = request.getServletContext().getRealPath("/pictures/users");
-                String urlImagen;
-                if (relativeImagen == null || relativeImagen.isEmpty() || !new File(basePath, extraerFilename(relativeImagen)).exists()) {
-                    urlImagen = request.getContextPath() + "/assets/userDefault.png";
-                } else {
-                    urlImagen = request.getContextPath() + relativeImagen;  // Full para src
-                }
-                usuario.setUrlImage(relativeImagen);  // Guarda relative en objeto
                 session.setAttribute("usuario", usuario);
-                session.setAttribute("usuarioImagen", urlImagen);  // Full para JSP
                 sistema.borrarUsuarioSeleccionado();
-                System.out.println(">>> Usuario recargado desde nickname: " + usuario.getNickname() + ", imagen relative: " + relativeImagen + ", full: " + urlImagen);
+
+                String basePath = request.getServletContext().getRealPath("/pictures/users");
+                String contextPath = request.getContextPath();
+
+                String urlImagen = usuario.getUrlImage();
+                File userImg = null;
+
+                if (urlImagen != null && !urlImagen.isEmpty()) {
+                    userImg = new File(basePath, urlImagen);
+                }
+
+                System.out.println(usuario.getUrlImage());
+                if (urlImagen == null || urlImagen.isEmpty() || !userImg.exists()) {
+                    usuario.setUrlImage(contextPath + "/assets/userDefault.png");
+                } else {
+                    usuario.setUrlImage(contextPath + "/pictures/users/" + urlImagen);
+                }
+
+                session.setAttribute("usuarioImagen", usuario.getUrlImage());
+
+                System.out.println(">>> Usuario recargado desde nickname: " + usuario.getNickname() + ", imagen: " + urlImagen);
             } catch (Exception e) {
                 System.out.println(">>> Error recargando usuario: " + e.getMessage());
                 session.invalidate();

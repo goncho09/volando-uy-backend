@@ -3,11 +3,20 @@ package uy.volando.servlets.Sesion;
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
 import com.app.datatypes.DtUsuario;
+import com.app.enums.TipoImagen;
+import com.app.utils.AuxiliarFunctions;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 @MultipartConfig
 @WebServlet(name = "RegistrarUsuario", urlPatterns = {"/register","/signup","/registrar"})
@@ -62,8 +71,7 @@ public class RegistrarUsuarioServlet extends HttpServlet {
                 return;
             }
 
-            // TODO: Upload imagen (ej: Part imagePart = request.getPart("image"); si suben file)
-            String fotoPerfil = request.getParameter("image");  // Asume base64 o path; ajusta
+            Part filePart = request.getPart("image");
             String nombre = request.getParameter("name");
             String tipoUsuario = request.getParameter("role");
 
@@ -72,6 +80,24 @@ public class RegistrarUsuarioServlet extends HttpServlet {
                 response.getWriter().write("Nombre y tipo de usuario requeridos.");
                 return;
             }
+
+            if (filePart == null || filePart.getSize() == 0) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Debe seleccionar una imagen");
+                return;
+            }
+
+            // Crear archivo temporal
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            File tempFile = File.createTempFile("upload-", "-" + fileName);
+
+            try (InputStream input = filePart.getInputStream()) {
+                Files.copy(input, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            File imagenGuardada = AuxiliarFunctions.guardarImagen(tempFile, TipoImagen.USUARIO);
+
+            String fotoPerfil = imagenGuardada.getName();
 
             HttpSession session = request.getSession(true);
             session.setAttribute("datosUsuario", new DtUsuario(nickname, email, nombre, password, fotoPerfil));
