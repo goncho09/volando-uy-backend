@@ -30,9 +30,8 @@ public class LogInServlet extends HttpServlet {
         response.setDateHeader("Expires", 0);
 
         HttpSession session = request.getSession(false);
-
-        if (session != null) {
-            request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
+        if (session != null && session.getAttribute("usuarioNickname") != null) {
+            response.sendRedirect(request.getContextPath() + "/home");
             return;
         }
 
