@@ -18,6 +18,8 @@ public interface ISistema {
     boolean existeUsuarioNickname(String nickname);
     boolean existeUsuarioEmail(String email);
 
+    boolean clienteTienePaquete(String nickname, String nombrePaquete);
+
     List<DtCliente> listarClientes();
     List<Cliente> getClientes();
     void registrarCliente(DtCliente cliente);

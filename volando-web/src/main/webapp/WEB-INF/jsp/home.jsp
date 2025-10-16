@@ -32,7 +32,7 @@
         <!-- Sidebar -->
         <jsp:include page="components/miPerfil.jsp"/>
 
-        <div class="max-w-5xl space-y-2  grid gap-6 grid-cols-1 mt-2 md:m-0 sm:grid-cols-2 lg:grid-cols-4 px-4 py-2">
+        <div class="max-w-5xl grid gap-6 grid-cols-1 mt-2 md:m-0 sm:grid-cols-2 lg:grid-cols-4 px-4 py-2">
             <c:if test="${paquete != null}">
                     <div class="p-4 flex flex-col justify-between h-40 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 bg-gray-300 border border-gray-100">
                             <h5 class="text-lg font-semibold text-gray-800 mb-1 truncate">${paquete.nombre}</h5>
@@ -93,7 +93,6 @@
                                     <c:when test="${paquete.descuento > 0}">
                                         <b class="text-[#960018] text-xs">Ahorra un ${paquete.descuento}%</b>
                                         <p class="text-gray-600 text-sm">
-                                            Costo (USD):
                                             <b class="text-[#960018] text-sm">
                                                     $${paquete.costo - (paquete.costo * (paquete.descuento / 100))}
                                             </b>
@@ -103,7 +102,7 @@
                                         </p>
                                     </c:when>
                                     <c:otherwise>
-                                        <p class="text-gray-600 text-sm">Costo (USD): $${paquete.costo}</p>
+                                        <p class="text-gray-600 text-sm">$${paquete.costo}</p>
                                     </c:otherwise>
                                 </c:choose>
                                 <p class="text-gray-600 text-sm mb-3">Descripcion: ${paquete.descripcion}</p>
