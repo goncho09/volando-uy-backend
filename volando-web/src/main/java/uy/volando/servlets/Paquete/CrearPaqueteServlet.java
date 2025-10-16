@@ -31,6 +31,11 @@ public class CrearPaqueteServlet extends HttpServlet {
             return;
         }
 
+        if(!session.getAttribute("usuarioTipo").equals("aerolinea")){
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
+
         request.getRequestDispatcher("/WEB-INF/jsp/paquete/crear.jsp").forward(request, response);
     }
 

@@ -30,8 +30,9 @@ public class LogInServlet extends HttpServlet {
         response.setDateHeader("Expires", 0);
 
         HttpSession session = request.getSession(false);
-        if (session != null && session.getAttribute("usuarioNickname") != null) {
-            response.sendRedirect(request.getContextPath() + "/home");
+
+        if (session != null) {
+            request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
             return;
         }
 
@@ -41,14 +42,7 @@ public class LogInServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        response.setContentType("text/plain;charset=UTF-8");
-
         HttpSession session = request.getSession(false);
-        if (session != null && session.getAttribute("usuarioNickname") != null) {
-            response.sendRedirect(request.getContextPath() + "/home");
-            return;
-        }
 
         try {
             String name = request.getParameter("name");

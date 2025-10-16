@@ -70,7 +70,7 @@
                                     <a href="${pageContext.request.contextPath}/vuelo/buscar">
                                         <p
                                                 class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
-                                            Ver vuelos</p>
+                                            Buscar vuelo</p>
                                     </a>
                                 </li>
                             </ul>
@@ -197,7 +197,7 @@
                             <li>
                                 <a href="${pageContext.request.contextPath}/vuelo/buscar">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
-                                        Ver vuelo</p>
+                                        Buscar vuelo</p>
                                 </a>
                             </li>
                         </ul>

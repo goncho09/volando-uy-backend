@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -19,7 +20,24 @@ public class VerPaquetesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        try{
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
+
+        if(session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null ){
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
+
+        if(!session.getAttribute("usuarioTipo").equals("aerolinea")){
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
+
+        try {
             request.setAttribute("paquetes", sistema.listarPaquetes());
 
             request.getRequestDispatcher("/WEB-INF/jsp/paquete/ver.jsp").forward(request, response);

@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -21,15 +22,14 @@ public class VerReservaServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        if (request.getSession(false) == null) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Debés iniciar sesión");
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
             request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
             return;
         }
-        if (request.getSession(false).getAttribute("usuarioTipo") == null || request.getSession(false).getAttribute("usuarioNickname") == null) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Debés iniciar sesión");
+
+        if (session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null) {
             request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
             return;
         }

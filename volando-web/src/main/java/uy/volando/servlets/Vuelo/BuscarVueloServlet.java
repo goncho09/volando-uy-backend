@@ -3,12 +3,17 @@ package uy.volando.servlets.Vuelo;
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
 import com.app.datatypes.DtAerolinea;
+import com.app.datatypes.DtRuta;
+import com.app.datatypes.DtVuelo;
+import com.app.enums.EstadoRuta;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet (name = "BuscarVueloServlet", urlPatterns = {"/vuelo/buscar"})
@@ -26,10 +31,16 @@ public class BuscarVueloServlet extends HttpServlet {
 
             String idAerolinea = request.getParameter("aerolinea");
             String idRuta = request.getParameter("ruta");
+            String fecha = request.getParameter("fecha");
 
             if (idAerolinea != null && idRuta == null) {
                 DtAerolinea aerolinea = sistema.getAerolinea(idAerolinea);
-                request.setAttribute("rutas",aerolinea.listarRutasDeVuelo());
+                List<DtRuta> rutasAerolinea = aerolinea.listarRutasDeVuelo();
+
+                rutasAerolinea.removeIf(ruta -> (ruta.getEstado() != EstadoRuta.APROBADA));
+                rutasAerolinea.removeIf(ruta -> (sistema.listarVuelos(ruta.getNombre()).isEmpty()));
+
+                request.setAttribute("rutas",rutasAerolinea);
                 request.setAttribute("aerolineaId", idAerolinea);
             }
 
@@ -39,7 +50,10 @@ public class BuscarVueloServlet extends HttpServlet {
                 request.setAttribute("aerolineaId", idAerolinea);
                 request.setAttribute("rutaId", idRuta);
                 request.setAttribute("rutas", aerolinea.listarRutasDeVuelo());
-                request.setAttribute("vuelos", sistema.listarVuelos(idRuta));
+
+                LocalDate fechaVuelo = fecha != null && !fecha.isEmpty() ? LocalDate.parse(fecha) : null;
+                List <DtVuelo> vuelos = sistema.listarVuelos(idRuta,fechaVuelo);
+                request.setAttribute("vuelos",vuelos );
             }
 
             request.getRequestDispatcher("/WEB-INF/jsp/vuelo/buscar.jsp").forward(request, response);

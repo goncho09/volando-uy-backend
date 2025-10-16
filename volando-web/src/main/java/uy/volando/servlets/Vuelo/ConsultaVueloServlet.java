@@ -22,8 +22,9 @@ public class ConsultaVueloServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        try {
 
+
+        try {
             String idVuelo = request.getParameter("nombre");
 
             DtVuelo vuelo = sistema.getVuelo(idVuelo);
@@ -69,7 +70,7 @@ public class ConsultaVueloServlet extends HttpServlet {
                 }
 
             }
-            request.getRequestDispatcher("/WEB-INF/jsp/vuelo/buscar.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/vuelo/consulta.jsp").forward(request, response);
 
         } catch (Exception ex) {
             request.setAttribute("error", "Error al cargar la consulta de vuelos");

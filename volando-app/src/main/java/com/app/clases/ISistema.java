@@ -5,6 +5,7 @@ import com.app.datatypes.*;
 import com.app.enums.EstadoRuta;
 import com.app.enums.TipoAsiento;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ISistema {
@@ -68,7 +69,8 @@ public interface ISistema {
 
     // ---------- VUELOS ---------- //
     List<DtVuelo> listarVuelos();
-    List<DtVuelo> listarVuelos(String nombre);
+    List<DtVuelo> listarVuelos(String nombreRuta); // Busca vuelos por nombre de ruta
+    List<DtVuelo> listarVuelos(String nombreRuta, LocalDate fecha); // Busca vuelos por nombre de ruta y fecha opcional
     Vuelo buscarVuelo(DtVuelo vuelo);
     DtVuelo consultarVuelo(String nombre);
     DtVuelo getVuelo(String nombre);

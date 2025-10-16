@@ -38,7 +38,12 @@ public class CrearRutaServlet extends HttpServlet {
             return;
         }
 
-        if(session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null || !"aerolinea".equals(session.getAttribute("usuarioTipo"))) {
+        if (session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null) {
+            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            return;
+        }
+
+        if (!session.getAttribute("usuarioTipo").equals("aerolinea")) {
             request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
             return;
         }
