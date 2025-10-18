@@ -2018,7 +2018,7 @@
                               <text value="Pago con paquete"/>
                             </properties>
                           </component>
-                          <component id="497f2" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+                          <component id="497f2" class="javax.swing.JComboBox" binding="JComboBoxSeleccionarPaqueteReserva">
                             <constraints>
                               <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>

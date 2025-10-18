@@ -177,7 +177,7 @@ public class Main extends JFrame {
     private JTextField descripcionCortaAltaRutaDeVuelo;
     private JRadioButton pagoGeneralRadioButton;
     private JRadioButton pagoConPaqueteRadioButton;
-    private JComboBox comboBox1;
+    private JComboBox JComboBoxSeleccionarPaqueteReserva;
 
 
     public Main() {
@@ -226,6 +226,7 @@ public class Main extends JFrame {
         JComboBoxvueloReserva.setEnabled(false);
         JComboBoxSeleccionarClienteReserva.setEnabled(false);
         JComboBoxtipoAsientoReserva.setEnabled(false);
+        JComboBoxSeleccionarPaqueteReserva.setEnabled(false);
         JButtonVerVueloReservaButton.setEnabled(false);
         aprobarButtonAceptarRechazarRuta.setEnabled(false);
         rechazarButtonAceptarRechazarRuta.setEnabled(false);
@@ -1130,6 +1131,38 @@ public class Main extends JFrame {
                 }
             }
         });
+
+        pagoConPaqueteRadioButton.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    JComboBoxSeleccionarPaqueteReserva.setEnabled(true);
+                } else {
+                    JComboBoxSeleccionarPaqueteReserva.setEnabled(false);
+                    JComboBoxSeleccionarPaqueteReserva.setSelectedIndex(-1);
+                }
+            }
+        });
+
+        JComboBoxSeleccionarClienteReserva.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED){
+                    DtCliente cliente = (DtCliente) JComboBoxSeleccionarClienteReserva.getSelectedItem();
+                    if(cliente == null){
+                        new VentanaMensaje("Ha ocurrido un error..");
+                        return;
+                    }
+
+                    // Llenamos el combo de paquetes del cliente
+                    auxiliar.cargarPaqueteClienteComboBox(cliente);
+                    JComboBoxSeleccionarPaqueteReserva.setModel(auxiliar.getComboPaqueteClienteModel());
+                    JComboBoxSeleccionarPaqueteReserva.setEnabled(true);
+                }
+            }
+        });
+
+
         JComboBoxrutaDeVueloReserva.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
