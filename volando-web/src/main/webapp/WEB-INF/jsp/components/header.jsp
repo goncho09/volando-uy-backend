@@ -216,13 +216,13 @@
                                         Crear paquete</p>
                                 </a>
                             </li>
-                        </c:if>
                             <li>
                                 <a href="${pageContext.request.contextPath}/paquete/ver">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Ver paquetes</p>
                                 </a>
                             </li>
+                        </c:if>
                             <li>
                                 <a href="${pageContext.request.contextPath}/paquete/buscar">
                                     <p
@@ -230,13 +230,15 @@
                                         Consultar rutas de paquete</p>
                                 </a>
                             </li>
-                    <c:if test="${usuarioTipo!= null && usuarioTipo == 'cliente'}">
+                        <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
                             <li>
                                 <a href="${pageContext.request.contextPath}/ruta-en-paquete">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
                                         Agregar ruta a paquete</p>
                                 </a>
                             </li>
+                         </c:if>
+                     <c:if test="${usuarioTipo!= null && usuarioTipo == 'cliente'}">
                             <li>
                                 <a href="${pageContext.request.contextPath}/paquete/comprar">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
