@@ -175,6 +175,9 @@ public class Main extends JFrame {
     private JButton rechazarButtonAceptarRechazarRuta;
     private JLabel estadoRutaText;
     private JTextField descripcionCortaAltaRutaDeVuelo;
+    private JRadioButton pagoGeneralRadioButton;
+    private JRadioButton pagoConPaqueteRadioButton;
+    private JComboBox comboBox1;
 
 
     public Main() {
