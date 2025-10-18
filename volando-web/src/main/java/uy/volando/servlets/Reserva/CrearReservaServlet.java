@@ -25,8 +25,6 @@ public class CrearReservaServlet extends HttpServlet {
 
     ISistema sistema = Factory.getSistema();
 
-
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

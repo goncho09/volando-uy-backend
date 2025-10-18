@@ -237,6 +237,13 @@
                                         Agregar ruta a paquete</p>
                                 </a>
                             </li>
+                            <li>
+                                <a href="${pageContext.request.contextPath}/paquete/comprar">
+                                    <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
+                                    Comprar paquete</p>
+                                </a>
+                            </li>
+
                     </c:if>
                         </ul>
                     </details>
