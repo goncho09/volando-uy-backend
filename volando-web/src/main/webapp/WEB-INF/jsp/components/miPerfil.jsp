@@ -23,7 +23,7 @@
                             </a>
                         </c:if>
                         <c:if test="${sessionScope.usuarioTipo == 'cliente'}">
-                            <a href="${pageContext.request.contextPath}/reserva/crear"
+                            <a href="${pageContext.request.contextPath}/reservas/crear"
                                class="flex items-center py-2 px-3 rounded-lg hover:bg-[#e8f7ff] transition-all duration-200 text-[#12445d] group border border-transparent hover:border-[#2bc8c8]/30">
                                 <i class="fas fa-plane mr-2 text-[#1d6e86] group-hover:text-[#2bc8c8]"></i>
                                 Reservar un Vuelo
