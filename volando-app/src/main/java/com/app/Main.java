@@ -409,6 +409,23 @@ public class Main extends JFrame {
                     return;
                 }
 
+                MetodoPago metodoPago;
+                final DtPaquete[] paqueteSeleccionado = new DtPaquete[1];
+
+                if (pagoConPaqueteRadioButton.isSelected()) {
+                    metodoPago = MetodoPago.PAQUETE;
+                    paqueteSeleccionado[0] = (DtPaquete) JComboBoxSeleccionarPaqueteReserva.getSelectedItem();
+                    if (paqueteSeleccionado[0] == null) {
+                        new VentanaMensaje("Debe seleccionar un paquete");
+                        return;
+                    }
+                } else if (pagoGeneralRadioButton.isSelected()) {
+                    metodoPago = MetodoPago.GENERAL;
+                } else {
+                    new VentanaMensaje("Debe seleccionar un método de pago");
+                    return;
+                }
+
                 AgregarPasajero ventanaPasajes = new AgregarPasajero(pasajes);
                 setEnabled(false);
 
@@ -418,13 +435,29 @@ public class Main extends JFrame {
                         setEnabled(true);
                         List<DtPasajero> listaPasajes = ventanaPasajes.getPasajes();
                         if(listaPasajes.size() == pasajes){
-                            DtReserva reserva = new DtReserva(
-                                    fecha,
-                                    tipoAsiento,
-                                    pasajes,
-                                    equipajeExtra,
-                                    listaPasajes
-                            );
+                            DtReserva reserva;
+
+                            if (metodoPago == MetodoPago.PAQUETE) {
+                                reserva = new DtReserva(
+                                        fecha,
+                                        tipoAsiento,
+                                        pasajes,
+                                        equipajeExtra,
+                                        listaPasajes,
+                                        metodoPago,
+                                        paqueteSeleccionado[0]
+                                );
+                            } else {
+                                reserva = new DtReserva(
+                                        fecha,
+                                        tipoAsiento,
+                                        pasajes,
+                                        equipajeExtra,
+                                        listaPasajes,
+                                        metodoPago
+                                );
+                            }
+
                             try{
                                 s.altaReserva(reserva, cliente, vuelo);
                                 new VentanaMensaje("Reserva realizada exitosamente");
@@ -1154,7 +1187,6 @@ public class Main extends JFrame {
                         return;
                     }
 
-                    // Llenamos el combo de paquetes del cliente
                     auxiliar.cargarPaqueteClienteComboBox(cliente);
                     JComboBoxSeleccionarPaqueteReserva.setModel(auxiliar.getComboPaqueteClienteModel());
                     JComboBoxSeleccionarPaqueteReserva.setEnabled(true);

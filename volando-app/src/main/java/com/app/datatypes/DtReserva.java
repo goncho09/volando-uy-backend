@@ -4,6 +4,7 @@ import com.app.clases.Cliente;
 import com.app.clases.Paquete;
 import com.app.clases.Vuelo;
 import com.app.enums.TipoAsiento;
+import com.app.enums.MetodoPago;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,10 +19,12 @@ public class DtReserva {
     private Cliente cliente;
     private Vuelo vuelo;
     private Paquete paquete;
+    private MetodoPago metodoPago;
+    private DtPaquete paquetePago;
 
     public DtReserva() {}
 
-    public DtReserva(LocalDate fecha, TipoAsiento tipoAsiento, int cantPasajes, int equipajeExtra, float costo, List<DtPasajero> pasajeros, Cliente cliente, Vuelo vuelo, Paquete paquete) {
+    public DtReserva(LocalDate fecha, TipoAsiento tipoAsiento, int cantPasajes, int equipajeExtra, float costo, List<DtPasajero> pasajeros, Cliente cliente, Vuelo vuelo, Paquete paquete, MetodoPago metodoPago) {
         this.fecha = fecha;
         this.tipoAsiento = tipoAsiento;
         this.cantPasajes = cantPasajes;
@@ -31,6 +34,7 @@ public class DtReserva {
         this.cliente = cliente;
         this.vuelo = vuelo;
         this.paquete = paquete;
+        this.metodoPago = metodoPago;
     }
 
     public DtReserva(LocalDate fecha, TipoAsiento tipoAsiento, int cantPasajes, int equipajeExtra, float costo, List<DtPasajero> pasajeros, Cliente cliente, Vuelo vuelo) {
@@ -57,12 +61,23 @@ public class DtReserva {
         this.paquete = paquete;
     }
 
-    public DtReserva(LocalDate fecha, TipoAsiento tipoAsiento, int cantPasajes, int equipajeExtra,List<DtPasajero> pasajeros) {
+    public DtReserva(LocalDate fecha, TipoAsiento tipoAsiento, int cantPasajes, int equipajeExtra,List<DtPasajero> pasajeros, MetodoPago metodoPago, DtPaquete paquetePago) {
         this.fecha = fecha;
         this.tipoAsiento = tipoAsiento;
         this.cantPasajes = cantPasajes;
         this.equipajeExtra = equipajeExtra;
         this.pasajeros = pasajeros;
+        this.metodoPago = metodoPago;
+        this.paquetePago = paquetePago;
+    }
+
+    public DtReserva(LocalDate fecha, TipoAsiento tipoAsiento, int cantPasajes, int equipajeExtra,List<DtPasajero> pasajeros, MetodoPago metodoPago) {
+        this.fecha = fecha;
+        this.tipoAsiento = tipoAsiento;
+        this.cantPasajes = cantPasajes;
+        this.equipajeExtra = equipajeExtra;
+        this.pasajeros = pasajeros;
+        this.metodoPago = metodoPago;
     }
 
     public LocalDate getFecha() {
@@ -136,6 +151,23 @@ public class DtReserva {
     public void setPaquete(Paquete paquete) {
         this.paquete = paquete;
     }
+
+    public MetodoPago getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(MetodoPago metodoPago) {
+        this.metodoPago = metodoPago;
+    }
+
+    public DtPaquete getPaquetePago() {
+        return paquetePago;
+    }
+
+    public void setPaquetePago(DtPaquete paquetePago) {
+        this.paquetePago = paquetePago;
+    }
+
 
     @Override
     public String toString() {

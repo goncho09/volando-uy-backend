@@ -3,6 +3,7 @@ package com.app.clases;
 import com.app.DAOs.*;
 import com.app.datatypes.*;
 import com.app.enums.EstadoRuta;
+import com.app.enums.MetodoPago;
 import com.app.enums.TipoAsiento;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -295,7 +296,8 @@ public class Sistema implements ISistema {
                         r.getPasajeros(),
                         c, // Cliente
                         r.getVuelo(),
-                        r.getPaquete()
+                        r.getPaquete(),
+                        r.getMetodoPago()
                 ));
             }
             return dtReservas;
@@ -1016,10 +1018,29 @@ public class Sistema implements ISistema {
         float costoEquipaje = reserva.getEquipajeExtra() * v.getRutaDeVuelo().getEquipajeExtra();
         float costo = (costoAsiento * cantPasajes) + costoEquipaje;
 
+        if(reserva.getMetodoPago() == MetodoPago.PAQUETE){
+            int pasajesRestantes = cantPasajes;
+            List<DtPaquete> paquetesComprados = listarPaquetes(cliente);
+
+            for (DtPaquete p : paquetesComprados){
+                Paquete paq = buscarPaquete(p);
+                for (RutaEnPaquete rep : paq.getRutaEnPaquete()){
+                    if(rep.getRutaDeVuelo().equals(v.getRutaDeVuelo())) {
+                        int descontar = Math.min(pasajesRestantes, rep.getCantidad());
+                        rep.setCantidad(rep.getCantidad() - descontar);
+                        pasajesRestantes -= descontar;
+                        if (pasajesRestantes == 0) break;
+                    }
+                }
+                if(pasajesRestantes == 0) break;
+            }
+            costo = pasajesRestantes * (reserva.getTipoAsiento() == TipoAsiento.EJECUTIVO ? v.getRutaDeVuelo().getCostoEjecutivo() : v.getRutaDeVuelo().getCostoTurista());
+            costo += reserva.getEquipajeExtra() * v.getRutaDeVuelo().getEquipajeExtra();
+        }
+
         if (c.existeVueloReserva(v)) {
             throw new IllegalArgumentException("Ya existe una reserva para este vuelo. Cambie el Cliente, Aerolinea o RutaDeVuelo.");
         }
-        ;
 
         if (cantPasajes != reserva.getPasajeros().size()) {
             throw new IllegalArgumentException("La cantidad de pasajeros no coincide");

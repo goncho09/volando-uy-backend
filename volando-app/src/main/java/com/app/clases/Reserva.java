@@ -3,6 +3,7 @@ package com.app.clases;
 import com.app.datatypes.DtPasajero;
 import com.app.datatypes.DtReserva;
 import com.app.enums.TipoAsiento;
+import com.app.enums.MetodoPago;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ public class Reserva {
     private int cantPasajes;
     private int equipajeExtra;
     private float costo;
+    private MetodoPago metodoPago;
 
     @OneToMany // Una reserva "puede" tener 1 o más pasajeros (1-N)
     @JoinColumn(name="reserva_id", nullable = false) // nullable = false indica que debe existir obligatoriamente 1 pasaje.
@@ -58,6 +60,7 @@ public class Reserva {
         this.cliente = reserva.getCliente();
         this.vuelo = reserva.getVuelo();
         this.paquete = reserva.getPaquete();
+        this.metodoPago = reserva.getMetodoPago();
     }
 
     public LocalDate getFecha() {
@@ -132,6 +135,14 @@ public class Reserva {
         this.paquete = paquete;
     }
 
+    public MetodoPago getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(MetodoPago metodoPago) {
+        this.metodoPago = metodoPago;
+    }
+
     public DtReserva getDatos() {
         return new DtReserva(
                 this.fecha,
@@ -142,7 +153,8 @@ public class Reserva {
                 this.pasajeros,
                 this.cliente,
                 this.vuelo,
-                this.paquete
+                this.paquete,
+                this.metodoPago
         );
     }
 }
