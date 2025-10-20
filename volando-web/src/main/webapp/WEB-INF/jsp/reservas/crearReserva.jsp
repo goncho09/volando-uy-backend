@@ -40,7 +40,8 @@
                             <div class="row g-3">
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold">Aerolínea</label>
-                                    <select class="form-select" name="aerolinea" required>
+                                    <select class="form-select" name="aerolinea"
+                                        onchange="window.location.href='?aerolinea=' + this.value;">
                                         <option value="" disabled ${empty aerolineaId ? "selected" : ""}>Seleccione una aerolínea *</option>
                                         <c:forEach var="a" items="${aerolineas}">
                                             <option value="${a.nickname}" ${a.nickname eq aerolineaId ? "selected" : ""}>${a.nombre}</option>
@@ -50,7 +51,9 @@
 
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold">Ruta</label>
-                                    <select class="form-select" name="ruta" ${empty rutas ? "disabled" : ""} required>
+                                    <select class="form-select" name="ruta"
+                                        ${empty rutas ? "disabled" : ""}
+                                        onchange="window.location.href='?aerolinea=${aerolineaId}&ruta=' + this.value;">
                                         <option value="" disabled ${empty rutaId ? "selected" : ""}>Seleccione una ruta de vuelo *</option>
                                         <c:forEach var="r" items="${rutas}">
                                             <option value="${r.nombre}" ${r.nombre eq rutaId ? "selected" : ""}>${r.nombre}</option>
@@ -60,7 +63,7 @@
 
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold">Vuelo</label>
-                                    <select class="form-select" name="vuelo" ${empty vuelos ? "disabled" : ""} required>
+                                    <select class="form-select" name="vuelo" ${empty vuelos ? "disabled" : ""}>
                                         <option value="" disabled ${empty vueloId ? "selected" : ""}>Seleccione un vuelo *</option>
                                         <c:forEach var="v" items="${vuelos}">
                                             <option value="${v.nombre}">${v.nombre}</option>
@@ -70,24 +73,24 @@
                             </div>
                         </div>
 
+
                         <!-- Datos de los pasajeros -->
                         <div class="mb-4">
                             <h5 class="mb-3">Datos de los Pasajeros</h5>
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="cantidad-pasajes" class="form-label">Cantidad de pasajes</label>
-                                    <select class="form-select" id="cantidad-pasajes" name="cantidad-pasajes" required>
-                                        <option value="1">1 pasajero</option>
-                                        <option value="2">2 pasajeros</option>
-                                        <option value="3">3 pasajeros</option>
-                                        <option value="4">4 pasajeros</option>
-                                    </select>
+                                    <input type="number" class="form-control" id="cantidad-pasajes" name="cantidad-pasajes" min="1" value="1">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="tipo-asiento" class="form-label">Tipo de asiento</label>
-                                    <select class="form-select" id="tipo-asiento" name="tipo-asiento" required>
-                                        <option value="TURISTA">Turista - USD ${precioTurista}</option>
-                                        <option value="EJECUTIVO">Ejecutivo - USD ${precioEjecutivo}</option>
+                                    <select class="form-select" id="tipo-asiento" name="tipo-asiento">
+                                        <option value="turista">
+                                            Turista - USD ${precioTurista}
+                                        </option>
+                                        <option value="ejecutivo">
+                                            Ejecutivo - USD ${precioEjecutivo}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -99,17 +102,7 @@
                             </div>
 
                             <div id="nombres-pasajeros" class="mt-3">
-                                <div class="pasajero mb-3">
-                                    <label class="form-label">Pasajero 1</label>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" name="nombrePasajero" placeholder="Nombre" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" name="apellidoPasajero" placeholder="Apellido" required>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
 
@@ -167,5 +160,42 @@ document.addEventListener("DOMContentLoaded", () => {
     togglePaquete();
 });
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const cantidadPasajesSelect = document.getElementById("cantidad-pasajes");
+    const pasajerosDiv = document.getElementById("nombres-pasajeros");
+
+    const generarCamposPasajeros = () => {
+        const cantidad = parseInt(cantidadPasajesSelect.value);
+        pasajerosDiv.innerHTML = ""; // Limpiar los campos previos
+
+        for (let i = 1; i <= cantidad; i++) {
+            const divPasajero = document.createElement("div");
+            divPasajero.classList.add("pasajero", "mb-3");
+
+            divPasajero.innerHTML = `
+                <label class="form-label">Pasajero ${i}</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="nombrePasajero" placeholder="Nombre" required>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="apellidoPasajero" placeholder="Apellido" required>
+                    </div>
+                </div>
+            `;
+            pasajerosDiv.appendChild(divPasajero);
+        }
+    };
+
+    // Generar campos al cargar la página
+    generarCamposPasajeros();
+
+    // Generar campos cada vez que cambie la cantidad de pasajes
+    cantidadPasajesSelect.addEventListener("change", generarCamposPasajeros);
+});
+</script>
+
 </body>
 </html>

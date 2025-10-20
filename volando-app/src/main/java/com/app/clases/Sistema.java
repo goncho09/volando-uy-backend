@@ -1079,8 +1079,6 @@ public class Sistema implements ISistema {
         return listaReservas;
     }
 
-    ;
-
     public List<DtReserva> listarReservas(DtVuelo vuelo) {
         String nombre = vuelo.getNombre();
         List<DtReserva> listaReservas = new ArrayList<>();
