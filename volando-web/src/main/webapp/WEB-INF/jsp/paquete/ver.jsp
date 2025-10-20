@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                 <c:forEach var="paquete" items="${paquetes}">
-                    <tr class="border-t border-[var(--azul-oscuro)] cursor-pointer hover:bg-blue-200">
+                    <tr class="border-t border-[var(--azul-oscuro)] cursor-pointer hover:bg-blue-200" onclick="window.location.href='${pageContext.request.contextPath}/paquete/consulta?nombre=${paquete.nombre}'">
                         <td class="text-center px-4 py-2">${paquete.nombre}</td>
                         <td class="text-center px-4 py-2">${paquete.descripcion}</td>
                         <td class="text-center px-4 py-2">$${paquete.costo}</td>

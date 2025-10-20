@@ -52,7 +52,7 @@
                      </div>
                      <div class="flex items-center">
                          <i class="fas fa-clock text-[#1d6e86] mr-2"></i>
-                         <span class="font-semibold text-[#0c2636]">Duración:</span>
+                         <span class="font-semibold text-[#0c2636]">Hora de salida:</span>
                          <span class="ml-2 text-gray-700">${vuelo.duracion} hrs</span>
                      </div>
                      <div class="flex items-center">

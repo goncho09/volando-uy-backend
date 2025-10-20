@@ -2,6 +2,7 @@ package uy.volando.servlets.Paquete;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
+import com.app.datatypes.DtAerolinea;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -38,7 +39,9 @@ public class VerPaquetesServlet extends HttpServlet {
         }
 
         try {
-            request.setAttribute("paquetes", sistema.listarPaquetes());
+
+            DtAerolinea aerolinea = (DtAerolinea) sistema.getAerolinea(session.getAttribute("usuarioNickname").toString());
+            request.setAttribute("paquetes", sistema.listarPaquetes(aerolinea));
 
             request.getRequestDispatcher("/WEB-INF/jsp/paquete/ver.jsp").forward(request, response);
         } catch (Exception e) {

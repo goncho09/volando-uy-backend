@@ -2,6 +2,7 @@ package uy.volando.servlets.RutasDeVuelo;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
+import com.app.datatypes.DtAerolinea;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -36,7 +37,9 @@ public class VerRutasServlet extends HttpServlet {
         }
 
         try{
-            request.setAttribute("rutas", sistema.listarRutasDeVuelo());
+
+            DtAerolinea aerolineaIniciada = (DtAerolinea) sistema.getAerolinea(session.getAttribute("usuarioNickname").toString());
+            request.setAttribute("rutas", sistema.listarRutasDeVuelo(aerolineaIniciada));
 
             request.getRequestDispatcher("/WEB-INF/jsp/rutaDeVuelo/ver.jsp").forward(request, response);
         } catch (Exception e) {

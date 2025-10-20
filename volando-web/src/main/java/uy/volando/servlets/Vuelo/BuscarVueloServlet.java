@@ -25,8 +25,21 @@ public class BuscarVueloServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            List <DtAerolinea> aerolineas = sistema.listarAerolineas();
-            aerolineas.removeIf(aerolinea -> aerolinea.listarRutasDeVuelo().isEmpty());
+            List<DtAerolinea> aerolineas = sistema.listarAerolineas();
+
+            aerolineas.removeIf(aerolinea -> {
+                List<DtRuta> rutas = aerolinea.listarRutasDeVuelo();
+                if(rutas == null) return true;
+
+                rutas.removeIf(ruta-> {
+                    if(ruta.getEstado() != EstadoRuta.APROBADA){return true;}
+                    List<DtVuelo> vuelos = sistema.listarVuelos(ruta.getNombre());
+                    return vuelos == null || vuelos.isEmpty();
+                });
+
+                return rutas.isEmpty();
+            });
+
             request.setAttribute("aerolineas",aerolineas);
 
             String idAerolinea = request.getParameter("aerolinea");

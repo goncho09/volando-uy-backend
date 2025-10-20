@@ -20,7 +20,7 @@
 <jsp:include page="../components/header.jsp" />
 
 <main class="flex flex-col items-center  p-4 min-h-screen">
-    <form id="formCrearVuelo" class="space-y-4 flex flex-col w-full max-w-md p-6 bg-white rounded-lg shadow-xl bg-gray-300  mt-2">
+    <form id="formCrearVuelo" class="space-y-4 flex flex-col w-full max-w-md p-6 bg-white rounded-lg shadow-xl bg-gray-300 mt-2" enctype="multipart/form-data">
         <h2 class="mb-6 text-2xl font-bold text-center text-black">Nuevo Vuelo</h2>
 
         <div class="flex w-full items-center border-b border-gray-300  space-x-3 focus-within:border-[var(--azul-oscuro)]">
@@ -99,25 +99,19 @@
 
     const fileInput = document.getElementById('image');
     const fileNameSpan = document.getElementById('file-name');
-    const form = document.getElementById('formCrearVuelo');
+    const formVuelo = document.getElementById('formCrearVuelo');
     const errorMsg = document.getElementById('error-msg');
     const successMsg = document.getElementById('success-msg');
 
     fileInput.addEventListener('change', () => {
         const file = fileInput.files[0];
-        fileNameSpan.textContent = file ? file.name : 'Seleccione una foto de perfil';
+        fileNameSpan.textContent = file ? file.name : 'Seleccione una imagen';
     });
 
-    form.addEventListener('submit', async (e) => {
+    formVuelo.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // TODO : Guardar foto
-        const file = fileInput.files[0];
-
-        const formData = new FormData(form);
-        const params = new URLSearchParams(formData);
-
-
+        const formData = new FormData(formVuelo);
 
         errorMsg.textContent = '';
         errorMsg.classList.add('hidden');
@@ -126,23 +120,22 @@
         successMsg.classList.add("hidden");
         successMsg.classList.remove("translate-y-0");
 
-        const response = await fetch('${pageContext.request.contextPath}/vuelo/crear', {
-                method: 'POST',
-                body: params,
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        const response = await fetch(`${pageContext.request.contextPath}/vuelo/crear`, {
+            method: 'POST',
+            body: formData,
         });
 
         const text = await response.text();
 
-        if (response.ok){
-                successMsg.classList.remove('hidden');
-                successMsg.classList.add('translate-y-0');
-                e.target.reset();
-                fileNameSpan.textContent = 'Seleccione una foto del vuelo *';
+        if (response.ok) {
+            successMsg.classList.remove('hidden');
+            successMsg.classList.add('translate-y-0');
+            e.target.reset();
+            fileNameSpan.textContent = 'Seleccione una foto del vuelo *';
         } else {
-                errorMsg.textContent = text;
-                errorMsg.classList.remove('hidden');
-                errorMsg.classList.add('translate-y-0');
+            errorMsg.textContent = text;
+            errorMsg.classList.remove('hidden');
+            errorMsg.classList.add('translate-y-0');
         }
     });
 

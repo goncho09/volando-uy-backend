@@ -7,21 +7,28 @@ import com.app.datatypes.DtAerolinea;
 import com.app.datatypes.DtPaquete;
 import com.app.datatypes.DtRuta;
 import com.app.datatypes.DtVuelo;
+import com.app.enums.EstadoRuta;
+import com.app.enums.TipoImagen;
+import com.app.utils.AuxiliarFunctions;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 import uy.volando.servlets.RutasDeVuelo.BuscarRutaServlet;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@MultipartConfig
 @WebServlet (name = "CrearVueloServlet", urlPatterns = {"/vuelo/crear"})
 public class CrearVueloServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(CrearVueloServlet.class.getName());
@@ -57,6 +64,9 @@ public class CrearVueloServlet extends HttpServlet {
             }
 
             List<DtRuta> rutas = sistema.listarRutasDeVuelo(aerolinea);
+
+            rutas.removeIf(ruta -> ruta.getEstado() != EstadoRuta.APROBADA);
+
             request.setAttribute("rutas", rutas);
 
 
@@ -79,11 +89,8 @@ public class CrearVueloServlet extends HttpServlet {
             String fechaStr = request.getParameter("fecha");
             String maxEjecutivosStr = request.getParameter("max-ejecutivos");
             String maxTuristasStr = request.getParameter("max-turistas");
-            String imagen = "pictures/vuelos/default.png";
-            //String imagenStr = request.getParameter("image");
             String rutaStr = request.getParameter("ruta");
-
-
+            Part filePart = request.getPart("image");
 
             if (nombre == null || duracionStr == null || fechaStr == null || maxEjecutivosStr == null || maxTuristasStr == null || rutaStr == null ||
                 nombre.isEmpty() || duracionStr.isEmpty() || fechaStr.isEmpty() || maxEjecutivosStr.isEmpty() || maxTuristasStr.isEmpty() || rutaStr.isEmpty()) {
@@ -131,6 +138,23 @@ public class CrearVueloServlet extends HttpServlet {
                 return;
             }
 
+            if (filePart == null || filePart.getSize() == 0) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Debe seleccionar una imagen");
+                return;
+            }
+
+            // Crear archivo temporal
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            File tempFile = File.createTempFile("upload-", "-" + fileName);
+
+            try (InputStream input = filePart.getInputStream()) {
+                Files.copy(input, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            File imagenGuardada = AuxiliarFunctions.guardarImagen(tempFile, TipoImagen.VUELO);
+
+            String imagen = imagenGuardada.getName();
 
             sistema.seleccionarAerolineaParaVuelo(request.getSession().getAttribute("usuarioNickname").toString());
             sistema.seleccionarRuta(rutaStr);
@@ -138,7 +162,7 @@ public class CrearVueloServlet extends HttpServlet {
             sistema.confirmarAltaVuelo();
 
             response.setStatus(HttpServletResponse.SC_OK);
-            response.getWriter().write("Paquete creado con éxito");
+            response.getWriter().write("Vuelo creado con éxito");
 
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error: ", ex.getMessage());

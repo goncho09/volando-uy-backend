@@ -9,9 +9,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Sistema implements ISistema {
     private static Sistema instancia;
@@ -359,6 +358,29 @@ public class Sistema implements ISistema {
             listaPaquetes.add(cp.getPaquete().getDatos());
         }
         return listaPaquetes;
+    }
+
+    public List<DtPaquete> listarPaquetes(DtAerolinea a) {
+        Aerolinea aerolinea = (Aerolinea) this.usuarios.get(a.getNickname());
+        if (aerolinea == null) {
+            throw new RuntimeException("Aerolinea no encontrada");
+        }
+
+        List<DtRuta> rutasAerolinea = a.listarRutasDeVuelo();
+        if (rutasAerolinea == null || rutasAerolinea.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // Conjunto de nombres de rutas de la aerolínea para búsqueda rápida
+        Set<String> nombresRutas = rutasAerolinea.stream()
+                .map(DtRuta::getNombre)
+                .collect(Collectors.toSet());
+
+        // Filtrar paquetes que contengan alguna de esas rutas
+        return this.listarPaquetes().stream()
+                .filter(p -> p.getRutaEnPaquete().stream()
+                        .anyMatch(rp -> nombresRutas.contains(rp.getRutaDeVuelo().getNombre())))
+                .collect(Collectors.toList());
     }
 
     public List<DtPaquete> listarPaquetesNoComprados() {

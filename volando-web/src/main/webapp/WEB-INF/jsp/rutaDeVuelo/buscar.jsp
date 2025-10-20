@@ -121,7 +121,8 @@
                                              class="w-full h-40 object-cover">
                                         <div class="p-4">
                                             <h6 class="font-bold text-[#0c2636] mb-2">${vuelo.nombre}</h6>
-                                            <p class="text-gray-600 text-sm mb-4">Duración: ${vuelo.duracion} hrs</p>
+                                            <p class="text-gray-600 text-sm">Fecha: ${vuelo.fecha}</p>
+                                            <p class="text-gray-600 text-sm mb-4">Hora de Salida: ${vuelo.duracion} hrs</p>
                                             <button class="w-full bg-gradient-to-r from-[#1d6e86] to-[#2bc8c8] text-white py-2 rounded-lg font-medium hover:from-[#12445d] hover:to-[#269fb8] transition-all duration-300"
                                                     onclick="window.location.href='${pageContext.request.contextPath}/vuelo/consulta?nombre=${vuelo.nombre}'">
                                                 Ver vuelo

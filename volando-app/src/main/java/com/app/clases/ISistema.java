@@ -88,6 +88,7 @@ public interface ISistema {
     // ---------- PAQUETES ---------- //
     List<DtPaquete> listarPaquetes();
     List<DtPaquete> listarPaquetes(DtCliente cliente); // Lista todos los paquetes comprados por un cliente.
+    List<DtPaquete> listarPaquetes(DtAerolinea aerolinea);
     List<DtPaquete> listarPaquetesNoComprados();
     List<DtPaquete> listarPaquetesConRutas();
     int agregarRutaAPaquete(DtPaquete paquete, DtRuta ruta, int cantidad, TipoAsiento tipoAsiento);

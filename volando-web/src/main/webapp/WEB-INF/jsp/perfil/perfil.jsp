@@ -33,30 +33,8 @@
 
 <main class="container-fluid my-3 px-3">
     <div class="row">
-        <aside class="col-12 col-md-3 mb-4">
-            <div class="card mb-3 shadow">
-                <p class="card-header fw-bold">MI PERFIL</p>
-                <div class="card-body p-3">
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="#" class="text-decoration-none">Nueva Ruta</a></li>
-                        <li><a href="#" class="text-decoration-none">Nuevo Vuelo</a></li>
-                    </ul>
-                </div>
-            </div>
 
-            <div class="card shadow">
-                <div class="card-header fw-bold">CATEGORÍAS</div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">Nacionales</a></li>
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">Internacionales</a></li>
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">Europa</a></li>
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">América</a></li>
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">Exclusivos</a></li>
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">Temporada</a></li>
-                    <li class="list-group-item"><a href="#" class="text-decoration-none">Cortos</a></li>
-                </ul>
-            </div>
-        </aside>
+        <jsp:include page="../components/miPerfil.jsp"/>
 
         <div class="col-12 col-md-9">
             <!-- Error global si hay -->
@@ -82,9 +60,12 @@
                                 <h3 class="h4 h-md-3">
                                     <strong>
                                         <c:choose>
-                                            <c:when test="${not empty usuario.nombre}">
+                                            <c:when test="${usuarioTipo == 'cliente'}">
                                                 <c:out value="${usuario.nombre}"/> <c:out value="${usuario.apellido}"/>
                                             </c:when>
+                                            <c:when test="${usuarioTipo == 'aerolinea'}">
+                                            <c:out value="${usuario.nombre}"/>
+                                        </c:when>
                                             <c:otherwise>
                                                 N/A
                                             </c:otherwise>
