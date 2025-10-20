@@ -8,7 +8,7 @@
     <display-name>Volando UY Backend</display-name>
     
     <welcome-file-list>
-        <welcome-file>/WEB-INF/jsp/home.jsp</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
     <error-page>
