@@ -133,7 +133,7 @@
 
                         <!-- Botón confirmar -->
                         <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='../consulta-vuelo/consulta-vuelo.html'">← Volver a Consultar Vuelos</button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='../vuelo/consulta'">← Volver a Consultar Vuelos</button>
                             <button type="submit" class="btn btn-primary" style="background-color: var(--azul-oscuro); border-color: var(--azul-oscuro);">Confirmar Reserva</button>
                         </div>
                     </form>
