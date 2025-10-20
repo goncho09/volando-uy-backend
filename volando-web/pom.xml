@@ -15,8 +15,6 @@
     <version>1.0.0</version>
     <packaging>war</packaging>
 
-
-
     <name>Volando Web</name>
 
     <dependencies>
@@ -56,11 +54,6 @@
             <version>3.0.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>uy.volando</groupId>
-            <artifactId>volando-app</artifactId>
-            <version>1.0.0</version>
-        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
