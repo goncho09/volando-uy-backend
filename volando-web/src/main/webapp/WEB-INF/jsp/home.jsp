@@ -105,7 +105,7 @@
                                         <p class="text-gray-600 text-sm">$${paquete.costo}</p>
                                     </c:otherwise>
                                 </c:choose>
-                                <p class="text-gray-600 text-sm mb-3">Descripcion: ${paquete.descripcion}</p>
+                                <p class="text-gray-600 text-sm mb-3">CantRutas: ${paquete.rutaEnPaquete.size()}</p>
                             </div>
 
                             <button onclick="window.location.href='${pageContext.request.contextPath}/paquete/consulta?nombre=${paquete.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Paquete</button>
