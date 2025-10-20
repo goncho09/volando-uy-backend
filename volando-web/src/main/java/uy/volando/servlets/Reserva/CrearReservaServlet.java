@@ -6,6 +6,7 @@ import com.app.clases.RutaEnPaquete;
 import com.app.datatypes.DtCliente;
 import com.app.datatypes.*;
 
+import com.app.enums.MetodoPago;
 import com.app.enums.TipoAsiento;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -111,46 +112,58 @@ public class CrearReservaServlet extends HttpServlet {
     }
 
         @Override
-        protected void doPost (HttpServletRequest request, HttpServletResponse response)throws
-        jakarta.servlet.ServletException, java.io.IOException {
-
+        protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             HttpSession session = request.getSession(false);
 
-            if (session == null) {
+            if (session == null || session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null) {
                 request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
                 return;
             }
 
-            if (session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null) {
-                request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
-                return;
-            }
-
-            if (!session.getAttribute("usuarioTipo").equals("cliente")) {
+            if (!"cliente".equals(session.getAttribute("usuarioTipo"))) {
                 request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
                 return;
             }
 
             try {
-                ISistema sistema = Factory.getSistema();
-
-                //Datos del form
-                String aerolinea = request.getParameter("aerolinea");
-                String vuelo = request.getParameter("vuelo");
-                String cantidad = request.getParameter("cantidad-pasajes");
-                String tipoAsiento = request.getParameter("tipo-asiento");
-                String equipajeExtra = request.getParameter("equipaje-extra");
-
                 String nicknameCliente = (String) session.getAttribute("usuarioNickname");
                 DtCliente clienteLogueado = sistema.getCliente(nicknameCliente);
 
-                if (aerolinea == null || vuelo == null || tipoAsiento == null) {
+                String aerolinea = request.getParameter("aerolinea");
+                String vuelo = request.getParameter("vuelo");
+                String cantidad = request.getParameter("cantidad-pasajes");
+                String tipoAsientoStr = request.getParameter("tipo-asiento");
+                String equipajeExtra = request.getParameter("equipaje-extra");
+                String metodoPagoStr = request.getParameter("metodo-pago");
+                String paqueteNombre = request.getParameter("paquete");
+
+                String[] nombres = request.getParameterValues("nombrePasajero");
+                String[] apellidos = request.getParameterValues("apellidoPasajero");
+
+                if (aerolinea == null || vuelo == null || tipoAsientoStr == null || cantidad == null || equipajeExtra == null) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("Faltan datos obligatorios");
                     return;
                 }
 
-                //aca buscar el vuelo
+                int cantPasajes = Integer.parseInt(cantidad);
+                int equipaje = Integer.parseInt(equipajeExtra);
+                TipoAsiento tipo = TipoAsiento.valueOf(tipoAsientoStr.toUpperCase());
+
+                List<DtPasajero> pasajeros = new ArrayList<>();
+                if (nombres != null && apellidos != null) {
+                    for (int i = 0; i < Math.min(nombres.length, apellidos.length); i++) {
+                        pasajeros.add(new DtPasajero(nombres[i], apellidos[i]));
+                    }
+                }
+
+                if (pasajeros.size() != cantPasajes) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("La cantidad de pasajeros no coincide con la cantidad indicada");
+                    return;
+                }
+
+
                 DtVuelo vueloSeleccionado = sistema.getVuelo(vuelo);
                 if (vueloSeleccionado == null) {
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -158,35 +171,64 @@ public class CrearReservaServlet extends HttpServlet {
                     return;
                 }
 
-                // aca lo de los pasajeros
-                String[] nombres = request.getParameterValues("nombrePasajero");
-                String[] apellidos = request.getParameterValues("apellidoPasajero");
-                List<DtPasajero> pasajeros = new ArrayList<>();
+                MetodoPago metodoPago;
+                DtPaquete paqueteSeleccionado = null;
 
-                if (nombres != null && apellidos != null) {
-                    for (int i = 0; i < Math.min(nombres.length, apellidos.length); i++) {
-                        pasajeros.add(new DtPasajero(nombres[i], apellidos[i]));
+                if ("pago-paquete".equals(metodoPagoStr)) {
+                    metodoPago = MetodoPago.PAQUETE;
+                    if (paqueteNombre == null || paqueteNombre.isEmpty()) {
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        response.getWriter().write("Debe seleccionar un paquete");
+                        return;
                     }
+
+                    List<DtPaquete> paquetesCliente = sistema.listarPaquetes(clienteLogueado);
+                    for (DtPaquete p : paquetesCliente) {
+                        if (p.getNombre().equals(paqueteNombre)) {
+                            paqueteSeleccionado = p;
+                            break;
+                        }
+                    }
+
+                    if (paqueteSeleccionado == null) {
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        response.getWriter().write("Paquete inválido");
+                        return;
+                    }
+
+                } else if ("pago-general".equals(metodoPagoStr)) {
+                    metodoPago = MetodoPago.GENERAL;
+                } else {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("Debe seleccionar un método de pago");
+                    return;
                 }
 
+                DtReserva reserva;
                 LocalDate fecha = LocalDate.now();
-                TipoAsiento tipo = TipoAsiento.valueOf(tipoAsiento.toUpperCase());
-                int cantPasajes = Integer.parseInt(cantidad);
-                int equipaje = Integer.parseInt(equipajeExtra);
 
-                DtReserva reserva = new DtReserva(fecha, tipo, cantPasajes, equipaje, pasajeros);
+                if (metodoPago == MetodoPago.PAQUETE) {
+                    reserva = new DtReserva(fecha, tipo, cantPasajes, equipaje, pasajeros, metodoPago, paqueteSeleccionado);
+                } else {
+                    reserva = new DtReserva(fecha, tipo, cantPasajes, equipaje, pasajeros, metodoPago);
+                }
 
-                //dar alta reserva
                 sistema.altaReserva(reserva, clienteLogueado, vueloSeleccionado);
 
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("Reserva creada con éxito");
 
+            } catch (IllegalArgumentException ex) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Error: " + ex.getMessage());
             } catch (Exception ex) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("Error del servidor: " + ex.getMessage());
+                ex.printStackTrace();
             }
-
         }
 
-    }
+
+
+
+}
