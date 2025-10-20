@@ -70,6 +70,7 @@ public class RutaDeVuelo {
     public RutaDeVuelo(DtRuta ruta) {
         this.nombre = ruta.getNombre();
         this.descripcion = ruta.getDescripcion();
+        this.descripcionCorta = ruta.getDescripcionCorta();
         this.duracion = ruta.getDuracion();
         this.costoTurista = ruta.getCostoTurista();
         this.costoEjecutivo = ruta.getCostoEjecutivo();

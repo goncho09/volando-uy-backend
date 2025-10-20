@@ -22,7 +22,7 @@
 
 <section class="flex flex-col items-center w-full max-w-3xl bg-white p-6 rounded-lg shadow-xl mt-2">        <h2 class="text-2xl font-bold mb-6 text-center text-[#12445d]">Nueva Ruta de Vuelo</h2>
 
-        <form id="formCrearRuta" class="space-y-4 flex flex-col items-center w-full">
+        <form id="formCrearRuta" class="space-y-4 flex flex-col items-center w-full" enctype="multipart/form-data">
              <!-- Nombre -->
                         <!-- Nombre -->
                         <div class="flex w-full items-center border-b border-gray-300 py-2 space-x-3 focus-within:border-[var(--azul-oscuro)]">
@@ -46,7 +46,7 @@
             <!-- Hora de Salida -->
             <div class="flex w-full items-center border-b border-gray-300 py-2 space-x-3 focus-within:border-[var(--azul-oscuro)]">
                 <i class="fa fa-clock text-[var(--azul-oscuro)]"></i>
-                <label class="text-gray-500 mr-2">Hora de salida:</label>
+                <label class="text-gray-500 mr-2">Duración del viaje:</label>
                 <input type="time" name="hora" required class="flex-grow outline-none bg-transparent text-gray-700 py-2 px-2 rounded focus:bg-gray-100">
             </div>
 
@@ -142,8 +142,6 @@
 </body>
 
 <script>
-// DEBUG TEMPORAL - Agrega esto al principio del script
-console.log("=== DEBUG: JavaScript cargado ===");
 
 const formCrearRuta = document.getElementById('formCrearRuta');
 
@@ -152,64 +150,20 @@ const fileNameSpan = document.getElementById('file-name');
 const errorMsg = document.getElementById('error-msg');
 const successMsg = document.getElementById('success-msg');
 
+fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    fileNameSpan.textContent = file ? file.name : 'Seleccione una imagen para la ruta (opcional)';
+});
+
     formCrearRuta.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        console.log("=== DEBUG JS: Formulario enviado ==="); // ← TEST BORRAR
-
-        // Obtener valores del formulario
-        const nombre = document.querySelector('input[name="nombre"]').value;
-        const descripcionCorta = document.querySelector('input[name="descripcionCorta"]').value;
-        const descripcion = document.querySelector('textarea[name="descripcion"]').value;
-        const hora = document.querySelector('input[name="hora"]').value;
-        const costoTurista = document.querySelector('input[name="costoTurista"]').value;
-        const costoEjecutivo = document.querySelector('input[name="costoEjecutivo"]').value;
-        const costoEquipajeExtra = document.querySelector('input[name="costoEquipajeExtra"]').value;
-        const ciudadOrigen = document.querySelector('select[name="ciudadOrigen"]').value;
-        const ciudadDestino = document.querySelector('select[name="ciudadDestino"]').value;
-
-        // Obtener categorías seleccionadas
-        const categoriasSelect = document.querySelector('select[name="categorias"]');
-        const categoriasSeleccionadas = Array.from(categoriasSelect.selectedOptions).map(option => option.value);
-
-        // Validaciones básicas
-        if (!nombre || !descripcionCorta || !descripcion || !hora || !costoTurista || !costoEjecutivo ||
-            !costoEquipajeExtra || !ciudadOrigen || !ciudadDestino || categoriasSeleccionadas.length === 0) {
-            mostrarError('Por favor, complete todos los campos obligatorios.');
-            return;
-        }
-
-        if (ciudadOrigen === ciudadDestino) {
-            mostrarError('La ciudad origen y destino no pueden ser la misma.');
-            return;
-        }
-
-        if (parseFloat(costoTurista) <= 0 || parseFloat(costoEjecutivo) <= 0 || parseFloat(costoEquipajeExtra) < 0) {
-            mostrarError('Los costos deben ser números positivos.');
-            return;
-        }
-
-        // Preparar datos para enviar
-        const params = new URLSearchParams();
-        params.append('nombre', nombre);
-        params.append('descripcionCorta', descripcionCorta);
-        params.append('descripcion', descripcion);
-        params.append('hora', hora);
-        params.append('costoTurista', costoTurista);
-        params.append('costoEjecutivo', costoEjecutivo);
-        params.append('costoEquipajeExtra', costoEquipajeExtra);
-        params.append('ciudadOrigen', ciudadOrigen);
-        params.append('ciudadDestino', ciudadDestino);
-        categoriasSeleccionadas.forEach(cat => params.append('categorias', cat));
-
-        // Limpiar mensajes
-        ocultarMensajes();
+        const formData = new FormData(formCrearRuta);
 
         try {
-            const response = await fetch('${pageContext.request.contextPath}/rutaDeVuelo/crear', {
+            const response = await fetch('${pageContext.request.contextPath}/ruta-de-vuelo/crear', {
                 method: 'POST',
-                body: params,
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: formData,
             });
 
             const text = await response.text();

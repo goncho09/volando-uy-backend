@@ -9,19 +9,25 @@ import com.app.datatypes.DtCategoria;
 import com.app.datatypes.DtCiudad;
 import com.app.datatypes.DtRuta;
 import com.app.enums.EstadoRuta;
+import com.app.enums.TipoImagen;
+import com.app.utils.AuxiliarFunctions;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@MultipartConfig
 @WebServlet(name = "CrearRutaServlet", urlPatterns = {"/ruta-de-vuelo/crear"})
 public class CrearRutaServlet extends HttpServlet {
 
@@ -90,6 +96,7 @@ public class CrearRutaServlet extends HttpServlet {
             String ciudadOrigenStr = request.getParameter("ciudadOrigen");
             String ciudadDestinoStr = request.getParameter("ciudadDestino");
             String[] categoriasArray = request.getParameterValues("categorias");
+            Part filePart = request.getPart("image");
 
             // Validar campos obligatorios
             if (nombre == null || descripcionCorta == null || descripcion == null || horaStr == null ||
@@ -174,8 +181,24 @@ public class CrearRutaServlet extends HttpServlet {
                 return;
             }
 
-            // Crear DtRuta
-            String imagen = "pictures/rutas/default.png";
+            if (filePart == null || filePart.getSize() == 0) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Debe seleccionar una imagen");
+                return;
+            }
+
+            // Crear archivo temporal
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            File tempFile = File.createTempFile("upload-", "-" + fileName);
+
+            try (InputStream input = filePart.getInputStream()) {
+                Files.copy(input, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            File imagenGuardada = AuxiliarFunctions.guardarImagen(tempFile, TipoImagen.RUTA);
+
+            String imagen = imagenGuardada.getName();
+
             LocalDate fechaAlta = LocalDate.now();
 
             DtRuta ruta = new DtRuta(
