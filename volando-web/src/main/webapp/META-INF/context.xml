@@ -1,8 +1,0 @@
-<Context>
-    <Resources>
-        <!-- Servir imágenes desde el home del usuario -->
-        <PreResources className="org.apache.catalina.webresources.DirResourceSet"
-                      base="${user.home}/lab-pa-g2-pictures"
-                      webAppMount="/pictures"/>
-    </Resources>
-</Context>
