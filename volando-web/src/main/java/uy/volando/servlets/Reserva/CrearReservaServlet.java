@@ -6,6 +6,7 @@ import com.app.clases.RutaEnPaquete;
 import com.app.datatypes.DtCliente;
 import com.app.datatypes.*;
 
+import com.app.enums.EstadoRuta;
 import com.app.enums.MetodoPago;
 import com.app.enums.TipoAsiento;
 import jakarta.servlet.ServletException;
@@ -54,12 +55,34 @@ public class CrearReservaServlet extends HttpServlet {
             String idRuta = request.getParameter("ruta");
 
             List<DtAerolinea> aerolineas = sistema.listarAerolineas();
-            aerolineas.removeIf(a -> a.listarRutasDeVuelo().isEmpty());
+
+            aerolineas.removeIf(aerolinea -> {
+                List<DtRuta> rutas = aerolinea.listarRutasDeVuelo();
+                if (rutas == null || rutas.isEmpty()) {
+                    return true;
+                }
+                for (DtRuta ruta : rutas) {
+                    if (ruta.getEstado() == EstadoRuta.APROBADA) {
+                        List<DtVuelo> vuelos = sistema.listarVuelos(ruta.getNombre());
+                        if (vuelos != null && !vuelos.isEmpty()) {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            });
+
             request.setAttribute("aerolineas", aerolineas);
 
             if (idAerolinea != null) {
                 DtAerolinea aerolinea = sistema.getAerolinea(idAerolinea);
-                request.setAttribute("rutas", aerolinea.listarRutasDeVuelo());
+                List<DtRuta> rutasAerolinea = aerolinea.listarRutasDeVuelo();
+
+                rutasAerolinea.removeIf(ruta -> (ruta.getEstado() != EstadoRuta.APROBADA));
+                rutasAerolinea.removeIf(ruta -> (sistema.listarVuelos(ruta.getNombre()).isEmpty()));
+
+                request.setAttribute("rutas", rutasAerolinea);
                 request.setAttribute("aerolineaId", idAerolinea);
             }
 
@@ -217,6 +240,8 @@ public class CrearReservaServlet extends HttpServlet {
 
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("Reserva creada con éxito");
+                request.setAttribute("exito", "Reserva creada con éxito");
+                request.getRequestDispatcher("/WEB-INF/jsp/reservas/crearReserva.jsp").forward(request, response);
 
             } catch (IllegalArgumentException ex) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

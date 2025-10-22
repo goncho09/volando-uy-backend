@@ -33,7 +33,6 @@ public class BuscarVueloServlet extends HttpServlet {
                 if (rutas == null || rutas.isEmpty()) {
                     return true;
                 }
-
                 for (DtRuta ruta : rutas) {
                     if (ruta.getEstado() == EstadoRuta.APROBADA) {
                         List<DtVuelo> vuelos = sistema.listarVuelos(ruta.getNombre());

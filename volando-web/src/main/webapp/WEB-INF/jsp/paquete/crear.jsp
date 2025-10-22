@@ -44,19 +44,12 @@
                        class="flex-grow p-2">
             </div>
 
-            <div class="flex w-full items-center border-b border-gray-300 py-2 space-x-3 focus-within:border-[var(--azul-oscuro)]">
-                <i class="fa fa-money-bill-wave  text-[var(--azul-oscuro)]"></i>
-                <input type="number" id="precio" name="precio" step="1" required min="1" placeholder="Ingrese el precio del paquete *"
-                       class="flex-grow p-2">
-            </div>
-
-
             <p id="error-msg"
                class="hidden text-red-600 text-base text-center transition-all duration-300 transform origin-top -translate-y-1">
             </p>
 
             <p id="success-msg"
-               class="hidden text-red-600 text-base text-center transition-all duration-300 transform origin-top -translate-y-1">
+               class="hidden text-green-600 text-base text-center transition-all duration-300 transform origin-top -translate-y-1">
                 Paquete creado con éxito!
             </p>
 

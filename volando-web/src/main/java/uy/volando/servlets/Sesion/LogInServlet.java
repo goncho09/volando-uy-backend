@@ -53,7 +53,6 @@ public class LogInServlet extends HttpServlet {
 
                 // Crea sesión aquí, solo si válido
                 session = request.getSession(true);
-                System.out.println(">>> LogIn doPost: Sesión creada para " + name);  // Debug temporal
 
                 session.setAttribute("usuarioNickname", usuario.getNickname());
 
@@ -67,14 +66,12 @@ public class LogInServlet extends HttpServlet {
                     userImg = new File(basePath, urlImagen);
                 }
 
-                System.out.println(usuario.getUrlImage());
                 if (urlImagen == null || urlImagen.isEmpty() || !userImg.exists()) {
                     usuario.setUrlImage(contextPath + "/assets/userDefault.png");
                 } else {
                     usuario.setUrlImage(contextPath + "/pictures/users/" + urlImagen);
                 }
 
-                System.out.println(usuario.getUrlImage());
                 session.setAttribute("usuarioImagen", usuario.getUrlImage());
 
                 sistema.borrarUsuarioSeleccionado();
@@ -92,7 +89,6 @@ public class LogInServlet extends HttpServlet {
 
                 // <-- CORREGIDO: Setear AQUÍ, solo si válido y con el objeto completo
                 session.setAttribute("usuario", usuario);
-                System.out.println(">>> LogIn doPost: Usuario seteado en sesión: " + usuario.getNickname());  // Debug temporal
 
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("OK");
@@ -102,7 +98,6 @@ public class LogInServlet extends HttpServlet {
                 response.getWriter().write("Nombre de usuario o contraseña incorrectos");
                 return;  // <-- AGREGADO: Evita NPE en setAttribute
             }
-            // <-- QUITADO: La línea session.setAttribute("usuario", name); de aquí
 
         } catch (Exception ex) {
             System.out.println(">>> LogIn doPost: Excepción = " + ex.getMessage());  // Debug

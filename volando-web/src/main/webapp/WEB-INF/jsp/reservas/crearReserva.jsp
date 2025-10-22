@@ -137,6 +137,11 @@
                             <button type="submit" class="btn btn-primary" style="background-color: var(--azul-oscuro); border-color: var(--azul-oscuro);">Confirmar Reserva</button>
                         </div>
                     </form>
+                    <% if (request.getAttribute("exito") != null) { %>
+                        <div class="text-center m-0 text-green-600 text-lg">
+                            <%= request.getAttribute("exito") %>
+                        </div>
+                    <% } %>
                 </div>
             </div>
         </div>

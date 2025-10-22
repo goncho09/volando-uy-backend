@@ -96,7 +96,7 @@
                                     <a href="${pageContext.request.contextPath}/paquete/ver">
                                         <p
                                                 class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
-                                            Ver paquetes</p>
+                                            Ver mis paquetes</p>
                                     </a>
                                 </li>
                                 <li>
@@ -165,7 +165,7 @@
                                     <a href="${pageContext.request.contextPath}/reservas/ver">
                                         <p
                                                 class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
-                                            Ver reservas</p>
+                                            Ver mis reservas</p>
                                     </a>
                                 </li>
                             </ul>
@@ -219,7 +219,7 @@
                             <li>
                                 <a href="${pageContext.request.contextPath}/paquete/ver">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
-                                        Ver paquetes</p>
+                                        Ver mis paquetes</p>
                                 </a>
                             </li>
                         </c:if>
@@ -291,7 +291,7 @@
                             <li>
                                 <a href="${pageContext.request.contextPath}/reservas/ver">
                                     <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
-                                        Ver reservas</p>
+                                        Ver mis reservas</p>
                                 </a>
                             </li>
 

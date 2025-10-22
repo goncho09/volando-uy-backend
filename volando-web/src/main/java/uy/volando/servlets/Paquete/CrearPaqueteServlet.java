@@ -50,9 +50,8 @@ public class CrearPaqueteServlet extends HttpServlet {
             String descripcion = request.getParameter("descripcion");
             String validezStr = request.getParameter("validez");
             String descuentoStr = request.getParameter("descuento");
-            String precioStr = request.getParameter("precio");
 
-            if (nombre == null || descripcion == null || validezStr == null || descuentoStr == null || precioStr == null) {
+            if (nombre == null || descripcion == null || validezStr == null || descuentoStr == null) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("Faltan campos obligatorios");
                 return;
@@ -66,15 +65,15 @@ public class CrearPaqueteServlet extends HttpServlet {
 
             int validezDias = Integer.parseInt(validezStr);
             int descuento = Integer.parseInt(descuentoStr);
-            float precio = Float.parseFloat(precioStr);
 
-            if (descripcion.isEmpty() || validezDias <= 0 || descuento < 0 || descuento > 100 || precio <= 0) {
+
+            if (descripcion.isEmpty() || validezDias <= 0 || descuento < 0 || descuento > 100) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("Datos inválidos. Por favor, verifique e intente nuevamente.");
                 return;
             }
 
-            sistema.altaPaquete(new DtPaquete(nombre, descripcion, validezDias, descuento, precio));
+            sistema.altaPaquete(new DtPaquete(nombre, descripcion, validezDias, descuento, 0));
 
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().write("Paquete creado con éxito");

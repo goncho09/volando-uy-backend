@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                     <c:forEach var="reserva" items="${reservas}">
-                        <tr class="border-t border-[var(--azul-oscuro)] cursor-pointer hover:bg-blue-200" onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo/buscar?nombre=${ruta.nombre}'">
+                        <tr class="border-t border-[var(--azul-oscuro)] cursor-pointer hover:bg-blue-200">
                             <td class="px-4 py-2 text-center">${reserva.cantPasajes}</td>
                             <td class="px-4 py-2 text-center">$${reserva.costo}</td>
                             <td class="px-4 py-2 text-center">${reserva.fecha}</td>
