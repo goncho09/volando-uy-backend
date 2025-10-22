@@ -66,4 +66,5 @@ input:-webkit-autofill:active {
     -webkit-text-fill-color: inherit !important;
     background-color: transparent !important;
     transition: background-color 9999s ease-in-out 0s; /* truco para evitar flash blanco */
+    color: #fff;
 }

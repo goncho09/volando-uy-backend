@@ -35,11 +35,12 @@
         <div class="max-w-5xl grid gap-6 grid-cols-1 mt-2 md:m-0 sm:grid-cols-2 lg:grid-cols-4 px-4 py-2">
             <c:if test="${paquete != null}">
                     <div class="p-4 flex flex-col justify-between h-40 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 bg-gray-300 border border-gray-100">
+                            <img src="${pageContext.request.contextPath}/assets/packageDefault.png" alt="${paquete.nombre}"
+                                 class="w-full h-32 object-cover rounded-lg mb-3"/>
                             <h5 class="text-lg font-semibold text-gray-800 mb-1 truncate">${paquete.nombre}</h5>
                             <p class="text-sm text-black line-clamp-3">${paquete.descripcion}</p>
                             <p class="text-sm text-gray-600 mt-2">Precio: $${paquete.costo}</p>
                             <p class="text-sm text-gray-600">Duración: ${paquete.validezDias} días</p>
-<%--                        <button onclick="window.location.href='${pageContext.request.contextPath}/ruta-de-vuelo/buscar?nombre=${ruta.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Ruta de Vuelo</button>--%>
                     </div>
             </c:if>
             <c:if test="${ruta != null}">

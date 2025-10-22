@@ -38,7 +38,7 @@
                 focus-within:border-[var(--celeste-claro)] duration-200 ease-in md:w-1/2">
         <button type="submit"><i class="fa-solid fa-magnifying-glass text-xl"></i></button>
         <input type="text" placeholder="Buscar paquete, ruta de vuelo ..." name="busqueda" id="busqueda"
-               class="outline-none border-0 !|  bg-transparent w-[95%] text-lg" />
+               class="outline-none border-0  bg-transparent w-[95%] text-lg" />
     </form>
 
     <!-- Navbar -->
@@ -327,7 +327,7 @@
         e.preventDefault();
         const palabraBuscar = document.getElementById("busqueda");
         if (palabraBuscar) {
-            window.location.href = '${pageContext.request.contextPath}/home?busqueda=' + palabraBuscar;
+            window.location.href = '${pageContext.request.contextPath}/home?busqueda=' + palabraBuscar.value;
         }
     });
 </script>
