@@ -2,8 +2,10 @@ package uy.volando.servlets.Paquete;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
+import com.app.clases.RutaEnPaquete;
 import com.app.datatypes.DtCliente;
 import com.app.datatypes.DtPaquete;
+import com.app.enums.EstadoRuta;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -41,8 +43,16 @@ public class ComprarPaqueteServlet extends HttpServlet {
         }
 
         try {
-            List<DtPaquete> paquetes = sistema.listarPaquetesNoComprados();
-            request.setAttribute("paquetes", paquetes);
+            List<DtPaquete> listaPaquete = sistema.listarPaquetesNoComprados();
+
+            for(DtPaquete p : listaPaquete){
+                List<RutaEnPaquete> listaRutasPaquete = p.getRutaEnPaquete();
+                listaRutasPaquete.removeIf(rutaEnPaquete -> rutaEnPaquete.getRutaDeVuelo().getEstado() != EstadoRuta.APROBADA);
+            }
+
+            listaPaquete.removeIf(paquete -> paquete.getRutaEnPaquete() == null || paquete.getRutaEnPaquete().isEmpty());
+
+            request.setAttribute("paquetes", listaPaquete);
 
             request.getRequestDispatcher("/WEB-INF/jsp/paquete/comprar.jsp").forward(request, response);
 
