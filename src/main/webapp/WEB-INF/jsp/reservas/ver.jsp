@@ -44,7 +44,7 @@
                         <th class="px-4 py-2 text-center">Equipaje extra</th>
                         <th class="px-4 py-2 text-center">Tipo de asiento</th>
                         <th class="px-4 py-2 text-center">Vuelo</th>
-                        <th class="px-4 py-2 text-center">MétodoDePago</th>
+                        <th class="px-4 py-2 text-center">Método de pago</th>
 
                         <c:if test="${usuarioTipo != null && usuarioTipo == 'aerolinea'}">
                             <th class="px-4 py-2 text-center">Cliente</th>
@@ -55,13 +55,14 @@
                     </thead>
                     <tbody>
                     <c:forEach var="reserva" items="${reservas}">
-                        <tr class="border-t border-[var(--azul-oscuro)] cursor-pointer hover:bg-blue-200">
+                        <tr class="border-t border-[var(--azul-oscuro)] cursor-pointer hover:bg-blue-200"
+                            onclick="window.location='${pageContext.request.contextPath}/reservas/consulta?vuelo=${reserva.vuelo}&fecha=${reserva.fecha}'">
                             <td class="px-4 py-2 text-center">${reserva.cantPasajes}</td>
                             <td class="px-4 py-2 text-center">$${reserva.costo}</td>
                             <td class="px-4 py-2 text-center">${reserva.fecha}</td>
                             <td class="px-4 py-2 text-center">${reserva.equipajeExtra}</td>
                             <td class="px-4 py-2 text-center">${reserva.tipoAsiento}</td>
-                            <td class="px-4 py-2 text-center">${reserva.vuelo != null ? reserva.vuelo.nombre : 'N/A'}</td>
+                            <td class="px-4 py-2 text-center">${reserva.vuelo}</td>
                             <td class="px-4 py-2 text-center">${reserva.metodoPago}</td>
 
                             <c:if test="${usuarioTipo != null && usuarioTipo == 'aerolinea'}">

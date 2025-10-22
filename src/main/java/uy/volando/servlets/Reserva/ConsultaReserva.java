@@ -2,20 +2,19 @@ package uy.volando.servlets.Reserva;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
-import com.app.datatypes.DtAerolinea;
 import com.app.datatypes.DtCliente;
+import com.app.datatypes.DtVuelo;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
+import java.time.LocalDate;
 
-@WebServlet (name = "VerReservaServlet", urlPatterns = {"/reservas/ver"})
-public class VerReservaServlet extends HttpServlet {
-
+@WebServlet(name = "ConsultaReserva", urlPatterns = {"/reservas/consulta"})
+public class ConsultaReserva extends HttpServlet {
     ISistema sistema = Factory.getSistema();
 
     @Override
@@ -35,25 +34,33 @@ public class VerReservaServlet extends HttpServlet {
         }
 
         try{
-            String usuarioTipo = (String) request.getSession().getAttribute("usuarioTipo");
             String nicknameCliente = (String) request.getSession().getAttribute("usuarioNickname");
+            String usuarioTipo = (String) request.getSession().getAttribute("usuarioTipo");
+            String fechaReserva = request.getParameter("fecha");
+            LocalDate fechaReservaDate = LocalDate.parse(fechaReserva);
+            DtVuelo vuelo = sistema.getVuelo(request.getParameter("vuelo"));
 
             if (usuarioTipo.equals("cliente")) {
                 DtCliente cliente = sistema.getCliente(nicknameCliente);
-                request.setAttribute("reservas", sistema.listarReservas(cliente));
-            }
-            else{
-                DtAerolinea aerolinea = sistema.getAerolinea(nicknameCliente);
-                request.setAttribute("reservas", sistema.listarReservas(aerolinea));
-            }
 
-            request.getRequestDispatcher("/WEB-INF/jsp/reservas/ver.jsp").forward(request, response);
+                request.setAttribute("reserva", sistema.getReservaCliente(vuelo, cliente, fechaReservaDate));
+            }
+//            else{
+////                DtAerolinea aerolinea = sistema.getAerolinea(nicknameCliente);
+////                request.setAttribute("reservas", sistema.listarReservas(aerolinea));
+//            }
+
+            request.getRequestDispatcher("/WEB-INF/jsp/reservas/consulta.jsp").forward(request, response);
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("Error al obtener la lista de reservas: " + e.getMessage());
             System.out.println(e.getMessage());
+            response.getWriter().write("Error al obtener la lista de reservas: " + e.getMessage());
             request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
         }
 
     }
 }
+
+
+
+

@@ -111,7 +111,6 @@ public class BuscarRutaServlet extends HttpServlet {
                     }
                 }
             }
-            System.out.println(">>> BuscarRuta: Allowed = " + allowed);  // Debug
 
             // Setear atributos
             request.setAttribute("ruta", ruta);
