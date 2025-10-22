@@ -5,6 +5,7 @@ import com.app.clases.ISistema;
 import com.app.clases.RutaEnPaquete;
 import com.app.datatypes.DtPaquete;
 import com.app.datatypes.DtRuta;
+import com.app.datatypes.DtRutaEnPaquete;
 import com.app.enums.EstadoRuta;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -65,7 +66,7 @@ public class HomeServlet extends HttpServlet {
                 listaRuta.removeIf(ruta -> ruta.getEstado() != EstadoRuta.APROBADA);
 
                 for(DtPaquete p : listaPaquete){
-                    List<RutaEnPaquete> listaRutasPaquete = p.getRutaEnPaquete();
+                    List<DtRutaEnPaquete> listaRutasPaquete = p.getRutaEnPaquete();
                     listaRutasPaquete.removeIf(rutaEnPaquete -> rutaEnPaquete.getRutaDeVuelo().getEstado() != EstadoRuta.APROBADA);
                 }
 

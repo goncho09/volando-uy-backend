@@ -4,6 +4,7 @@ import com.app.clases.*;
 import com.app.datatypes.DtCliente;
 import com.app.datatypes.DtPaquete;
 import com.app.datatypes.DtRuta;
+import com.app.datatypes.DtRutaEnPaquete;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -32,15 +33,15 @@ public class ConsultarPaqueteServlet extends HttpServlet {
 
             if (paquete == null) {request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);}
 
-            List<RutaEnPaquete> rutaEnPaqueteList = paquete.getRutaEnPaquete();
+            List<DtRutaEnPaquete> rutaEnPaqueteList = paquete.getRutaEnPaquete();
 
             if(rutaEnPaqueteList == null || rutaEnPaqueteList.isEmpty()){request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);}
 
             String basePath = request.getServletContext().getRealPath("/pictures/rutas");
             String contextPath = request.getContextPath();
 
-            for (RutaEnPaquete rp : rutaEnPaqueteList) {
-                RutaDeVuelo rutaPaquete = rp.getRutaDeVuelo();
+            for (DtRutaEnPaquete rp : rutaEnPaqueteList) {
+                DtRuta rutaPaquete = rp.getRutaDeVuelo();
                 String urlImagen = rutaPaquete.getUrlImagen();
                 File rutaImg = null;
 

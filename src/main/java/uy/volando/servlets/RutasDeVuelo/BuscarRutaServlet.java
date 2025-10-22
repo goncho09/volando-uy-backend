@@ -86,7 +86,7 @@ public class BuscarRutaServlet extends HttpServlet {
 
             // Procesar paquetes
             List<DtPaquete> paqueteList = s.listarPaquetesNoComprados();
-            paqueteList.removeIf(paquete -> paquete.getRutaDeVuelo(ruta.getNombre()) == null);
+//            paqueteList.removeIf(paquete -> (ruta.getNombre()) == null);
 
             // Check de owner (solo si hay sesión)
             boolean allowed = false;

@@ -113,7 +113,7 @@ public class CrearReservaServlet extends HttpServlet {
 
             if (idRuta != null) {
                 for (DtPaquete paquete : paquetesCliente) {
-                    for (RutaEnPaquete rep : paquete.getRutaEnPaquete()) {
+                    for (DtRutaEnPaquete rep : paquete.getRutaEnPaquete()) {
                         if (rep.getRutaDeVuelo() != null && rep.getRutaDeVuelo().getNombre().equals(idRuta)) {
                             paquetesFiltrados.add(paquete);
                             break;
@@ -231,9 +231,9 @@ public class CrearReservaServlet extends HttpServlet {
                 LocalDate fecha = LocalDate.now();
 
                 if (metodoPago == MetodoPago.PAQUETE) {
-                    reserva = new DtReserva(fecha, tipo, cantPasajes, equipaje, pasajeros, clienteLogueado, vueloSeleccionado, metodoPago, paqueteSeleccionado);
+                    reserva = new DtReserva(fecha, tipo, cantPasajes, equipaje, 0, pasajeros, clienteLogueado, vueloSeleccionado, metodoPago, paqueteSeleccionado);
                 } else {
-                    reserva = new DtReserva(fecha, tipo, cantPasajes, equipaje, pasajeros, clienteLogueado, vueloSeleccionado, metodoPago);
+                    reserva = new DtReserva(fecha, tipo, cantPasajes, equipaje, 0, pasajeros, clienteLogueado, vueloSeleccionado, metodoPago);
                 }
 
                 sistema.altaReserva(reserva);
