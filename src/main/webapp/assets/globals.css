@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --azul-oscuro: #0c2636;
+    --azul-medio: #12445d;
+    --azul-claro: #1d6e86;
+    --celeste: #269fb8;
+    --celeste-claro: #2bc8c8;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to bottom right, #fff, #12445d) !important;
+    min-height:100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+}
+
+form{
+    background-color: white !important;
+}
+
+summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+}
+
+/* Firefox */
+summary::-moz-list-bullet {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+}
+
+/* Chrome, Safari, Edge */
+summary::-webkit-details-marker {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+}
+
+:not(.daisy) input,
+:not(.daisy) textarea,
+:not(.daisy) select,
+:not(.daisy) button {
+    border: none !important;
+    outline: none !important;
+    cursor: pointer !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+    box-shadow: 0 0 0 1000px transparent inset !important;
+    -webkit-text-fill-color: inherit !important;
+    background-color: transparent !important;
+    transition: background-color 9999s ease-in-out 0s; /* truco para evitar flash blanco */
+    color: #fff;
+}
