@@ -162,6 +162,15 @@ public class PerfilServlet extends HttpServlet {
                 request.setAttribute("paquetes", paquetes);
             }
 
+            // Carga reservas
+            if("cliente".equals(usuarioTipo)) {
+                DtCliente cliente = (DtCliente) request.getAttribute("cliente");
+                if (cliente == null) cliente = sistema.getCliente(nickname);
+                List<DtReserva> reservas = sistema.listarReservas(cliente);
+                System.out.println(">>> Reservas para cliente " + nickname + ": " + (reservas != null ? reservas.size() : "null"));
+                request.setAttribute("reservas", reservas);
+            }
+
             // Maneja params de redirect (error/success)
             String error = request.getParameter("error");
             if (error != null) request.setAttribute("error", error);

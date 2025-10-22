@@ -6,6 +6,8 @@
 <c:set var="usuario" value="${sessionScope.usuario}"/>
 <c:set var="usuarioTipo" value="${sessionScope.usuarioTipo}"/>
 <c:set var="cliente" value="${requestScope.cliente}"/>
+<c:set var="reservas" value="${requestScope.reservas}"/>
+<c:set var="paquetes" value="${requestScope.paquetes}"/>
 <c:set var="aerolinea" value="${requestScope.aerolinea}"/>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <c:set var="defaultImgPath" value="${contextPath}/assets/userDefault.png"/>
@@ -49,7 +51,11 @@
             <div class="card mb-5 border-0">
                 <div class="row g-0">
                     <div class="col-12 col-md-5 d-flex align-items-center justify-content-center mb-3 mb-md-0">
-                        <img id="previewImagen" src="${empty usuarioImagen || usuarioImagen == defaultImgPath ? defaultImgPath : usuarioImagen}" alt="Foto de perfil" class="img-fluid rounded-circle" style="max-width: 200px; height: auto; object-fit: cover;" onerror="handleImageError(this);">
+                        <img id="previewImagen"
+                             src="${empty usuarioImagen || usuarioImagen == defaultImgPath ? defaultImgPath : usuarioImagen}"
+                             alt="Foto de perfil" class="img-fluid rounded-circle"
+                             style="max-width: 200px; height: auto; object-fit: cover;"
+                             onerror="handleImageError(this);">
                     </div>
                     <div class="col-12 col-md-7 p-4">
                         <c:choose>
@@ -70,7 +76,9 @@
                                         </c:choose>
                                     </strong>
                                 </h3>
-                                <p class="mb-0" style="opacity: 0.5;"><c:out value="${not empty usuario.nickname ? usuario.nickname : 'N/A'}"/> / <c:out value="${not empty usuario.email ? usuario.email : 'N/A'}"/></p>
+                                <p class="mb-0" style="opacity: 0.5;"><c:out
+                                        value="${not empty usuario.nickname ? usuario.nickname : 'N/A'}"/> / <c:out
+                                        value="${not empty usuario.email ? usuario.email : 'N/A'}"/></p>
                             </c:when>
                             <c:otherwise>
                                 <h5 class="fw-bold">Perfil - Visitante</h5>
@@ -87,13 +95,25 @@
                 <div class="card-body p-3 p-md-4">
                     <!-- Botones cuadrados pequeños, horizontales en desktop, stack en mobile -->
                     <div class="d-flex flex-wrap gap-1 mb-3">
-                        <button class="btn btn-sm square-btn btn-primary active" onclick="mostrarSeccion('perfil', this)" title="Perfil" aria-label="Ver Perfil">Perfil</button>
+                        <button class="btn btn-sm square-btn btn-primary active"
+                                onclick="mostrarSeccion('perfil', this)" title="Perfil" aria-label="Ver Perfil">Perfil
+                        </button>
                         <c:if test="${usuarioTipo == 'cliente'}">
-                            <button class="btn btn-sm square-btn btn-secondary" onclick="mostrarSeccion('paquetes', this)" title="Paquetes" aria-label="Ver Paquetes">Paquetes</button>
-                            <button class="btn btn-sm square-btn btn-secondary" title="Reservas de Vuelo" aria-label="Ver Reservas" onclick="window.location.href='${contextPath}/reservas/ver'">Reservas</button>
+                            <button class="btn btn-sm square-btn btn-secondary"
+                                    onclick="mostrarSeccion('paquetes', this)" title="Paquetes"
+                                    aria-label="Ver Paquetes">Paquetes
+                            </button>
+                            <button class="btn btn-sm square-btn btn-secondary"
+                                    onclick="mostrarSeccion('reservas', this)" title="Reservas"
+                                    aria-label="Ver Reservas">Reservas
+                            </button>
+
                         </c:if>
                         <c:if test="${usuarioTipo == 'aerolinea'}">
-                            <button class="btn btn-sm square-btn btn-secondary" title="Rutas De Vuelo" aria-label="Ver Rutas" onclick="window.location.href='${contextPath}/ruta-de-vuelo/ver'">Rutas</button>
+                            <button class="btn btn-sm square-btn btn-secondary" title="Rutas De Vuelo"
+                                    aria-label="Ver Rutas"
+                                    onclick="window.location.href='${contextPath}/ruta-de-vuelo/ver'">Rutas
+                            </button>
                         </c:if>
                     </div>
 
@@ -101,53 +121,101 @@
                     <div id="contenido-perfil" class="seccion-activa">
                         <c:choose>
                             <c:when test="${usuario != null}">
-                                <form id="formPerfil" action="${contextPath}/modificar-perfil" method="post" enctype="multipart/form-data">
+                                <form id="formPerfil" action="${contextPath}/modificar-perfil" method="post"
+                                      enctype="multipart/form-data">
                                     <div class="p-3 p-md-4" style="border: 2px solid black;">
                                         <!-- Nickname (no editable) -->
                                         <div class="mb-3 d-flex justify-content-between align-items-center">
-                                            <p class="mb-0 fw-bold">Nickname: <span class="text-muted"><c:out value="${not empty usuario.nickname ? usuario.nickname : 'N/A'}"/></span></p>
+                                            <p class="mb-0 fw-bold">Nickname: <span class="text-muted"><c:out
+                                                    value="${not empty usuario.nickname ? usuario.nickname : 'N/A'}"/></span>
+                                            </p>
                                         </div>
 
                                         <!-- Nombre (editable para ambos) -->
-                                        <div class="mb-3 d-flex justify-content-between align-items-center editable-field" data-field="nombre">
-                                            <p class="mb-0 fw-bold">Nombre: <span id="span-nombre" class="text-muted"><c:out value="${not empty usuario.nombre ? usuario.nombre : 'N/A'}"/></span></p>
-                                            <i class="fas fa-pencil-alt text-success cursor-pointer" onclick="toggleEdit('nombre')" title="Editar Nombre" aria-label="Editar Nombre"></i>
-                                            <input type="text" name="nombre" id="input-nombre" class="form-control d-none" value="${not empty usuario.nombre ? usuario.nombre : ''}" required>
+                                        <div class="mb-3 d-flex justify-content-between align-items-center editable-field"
+                                             data-field="nombre">
+                                            <p class="mb-0 fw-bold">Nombre: <span id="span-nombre"
+                                                                                  class="text-muted"><c:out
+                                                    value="${not empty usuario.nombre ? usuario.nombre : 'N/A'}"/></span>
+                                            </p>
+                                            <i class="fas fa-pencil-alt text-success cursor-pointer"
+                                               onclick="toggleEdit('nombre')" title="Editar Nombre"
+                                               aria-label="Editar Nombre"></i>
+                                            <input type="text" name="nombre" id="input-nombre"
+                                                   class="form-control d-none"
+                                                   value="${not empty usuario.nombre ? usuario.nombre : ''}" required>
                                         </div>
 
                                         <!-- Email (no editable) -->
                                         <div class="mb-3 d-flex justify-content-between align-items-center">
-                                            <p class="mb-0 fw-bold">Email: <span class="text-muted"><c:out value="${not empty usuario.email ? usuario.email : 'N/A'}"/></span></p>
+                                            <p class="mb-0 fw-bold">Email: <span class="text-muted"><c:out
+                                                    value="${not empty usuario.email ? usuario.email : 'N/A'}"/></span>
+                                            </p>
                                         </div>
 
                                         <!-- Campos específicos para Cliente -->
                                         <c:if test="${usuarioTipo == 'cliente' and not empty cliente}">
                                             <!-- Apellido -->
-                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field" data-field="apellido">
-                                                <p class="mb-0 fw-bold">Apellido: <span id="span-apellido" class="text-muted"><c:out value="${not empty cliente.apellido ? cliente.apellido : 'N/A'}"/></span></p>
-                                                <i class="fas fa-pencil-alt text-success cursor-pointer" onclick="toggleEdit('apellido')" title="Editar Apellido" aria-label="Editar Apellido"></i>
-                                                <input type="text" name="apellido" id="input-apellido" class="form-control d-none" value="${not empty cliente.apellido ? cliente.apellido : ''}" required>
+                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field"
+                                                 data-field="apellido">
+                                                <p class="mb-0 fw-bold">Apellido: <span id="span-apellido"
+                                                                                        class="text-muted"><c:out
+                                                        value="${not empty cliente.apellido ? cliente.apellido : 'N/A'}"/></span>
+                                                </p>
+                                                <i class="fas fa-pencil-alt text-success cursor-pointer"
+                                                   onclick="toggleEdit('apellido')" title="Editar Apellido"
+                                                   aria-label="Editar Apellido"></i>
+                                                <input type="text" name="apellido" id="input-apellido"
+                                                       class="form-control d-none"
+                                                       value="${not empty cliente.apellido ? cliente.apellido : ''}"
+                                                       required>
                                             </div>
 
                                             <!-- Fecha Nacimiento -->
-                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field" data-field="fechaNacimiento">
-                                                <p class="mb-0 fw-bold">Fecha Nacimiento: <span id="span-fechaNacimiento" class="text-muted"><c:out value="${not empty cliente.fechaNacimiento ? cliente.fechaNacimiento : 'N/A'}"/></span></p>
-                                                <i class="fas fa-pencil-alt text-success cursor-pointer" onclick="toggleEdit('fechaNacimiento')" title="Editar Fecha Nacimiento" aria-label="Editar Fecha Nacimiento"></i>
-                                                <input type="date" name="fechaNacimiento" id="input-fechaNacimiento" class="form-control d-none" value="${not empty cliente.fechaNacimiento ? cliente.fechaNacimiento : ''}" required>
+                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field"
+                                                 data-field="fechaNacimiento">
+                                                <p class="mb-0 fw-bold">Fecha Nacimiento: <span
+                                                        id="span-fechaNacimiento" class="text-muted"><c:out
+                                                        value="${not empty cliente.fechaNacimiento ? cliente.fechaNacimiento : 'N/A'}"/></span>
+                                                </p>
+                                                <i class="fas fa-pencil-alt text-success cursor-pointer"
+                                                   onclick="toggleEdit('fechaNacimiento')"
+                                                   title="Editar Fecha Nacimiento"
+                                                   aria-label="Editar Fecha Nacimiento"></i>
+                                                <input type="date" name="fechaNacimiento" id="input-fechaNacimiento"
+                                                       class="form-control d-none"
+                                                       value="${not empty cliente.fechaNacimiento ? cliente.fechaNacimiento : ''}"
+                                                       required>
                                             </div>
 
                                             <!-- Nacionalidad -->
-                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field" data-field="nacionalidad">
-                                                <p class="mb-0 fw-bold">Nacionalidad: <span id="span-nacionalidad" class="text-muted"><c:out value="${not empty cliente.nacionalidad ? cliente.nacionalidad : 'N/A'}"/></span></p>
-                                                <i class="fas fa-pencil-alt text-success cursor-pointer" onclick="toggleEdit('nacionalidad')" title="Editar Nacionalidad" aria-label="Editar Nacionalidad"></i>
-                                                <input type="text" name="nacionalidad" id="input-nacionalidad" class="form-control d-none" value="${not empty cliente.nacionalidad ? cliente.nacionalidad : ''}" required>
+                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field"
+                                                 data-field="nacionalidad">
+                                                <p class="mb-0 fw-bold">Nacionalidad: <span id="span-nacionalidad"
+                                                                                            class="text-muted"><c:out
+                                                        value="${not empty cliente.nacionalidad ? cliente.nacionalidad : 'N/A'}"/></span>
+                                                </p>
+                                                <i class="fas fa-pencil-alt text-success cursor-pointer"
+                                                   onclick="toggleEdit('nacionalidad')" title="Editar Nacionalidad"
+                                                   aria-label="Editar Nacionalidad"></i>
+                                                <input type="text" name="nacionalidad" id="input-nacionalidad"
+                                                       class="form-control d-none"
+                                                       value="${not empty cliente.nacionalidad ? cliente.nacionalidad : ''}"
+                                                       required>
                                             </div>
 
                                             <!-- Tipo Documento -->
-                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field" data-field="tipoDocumento">
-                                                <p class="mb-0 fw-bold">Tipo Documento: <span id="span-tipoDocumento" class="text-muted"><c:out value="${not empty cliente.tipoDocumento ? cliente.tipoDocumento : 'N/A'}"/></span></p>
-                                                <i class="fas fa-pencil-alt text-success cursor-pointer" onclick="toggleEdit('tipoDocumento')" title="Editar Tipo Documento" aria-label="Editar Tipo Documento"></i>
-                                                <select name="tipoDocumento" id="input-tipoDocumento" class="form-control d-none" required>
+                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field"
+                                                 data-field="tipoDocumento">
+                                                <p class="mb-0 fw-bold">Tipo Documento: <span id="span-tipoDocumento"
+                                                                                              class="text-muted"><c:out
+                                                        value="${not empty cliente.tipoDocumento ? cliente.tipoDocumento : 'N/A'}"/></span>
+                                                </p>
+                                                <i class="fas fa-pencil-alt text-success cursor-pointer"
+                                                   onclick="toggleEdit('tipoDocumento')" title="Editar Tipo Documento"
+                                                   aria-label="Editar Tipo Documento"></i>
+                                                <select name="tipoDocumento" id="input-tipoDocumento"
+                                                        class="form-control d-none" required>
                                                     <c:forEach var="td" items="${TipoDocumento.values()}">
                                                         <option value="${td}" ${cliente.tipoDocumento == td ? 'selected' : ''}>${td}</option>
                                                     </c:forEach>
@@ -155,51 +223,89 @@
                                             </div>
 
                                             <!-- Número Documento -->
-                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field" data-field="numeroDocumento">
-                                                <p class="mb-0 fw-bold">Número Documento: <span id="span-numeroDocumento" class="text-muted"><c:out value="${not empty cliente.numeroDocumento ? cliente.numeroDocumento : 'N/A'}"/></span></p>
-                                                <i class="fas fa-pencil-alt text-success cursor-pointer" onclick="toggleEdit('numeroDocumento')" title="Editar Número Documento" aria-label="Editar Número Documento"></i>
-                                                <input type="number" name="numeroDocumento" id="input-numeroDocumento" class="form-control d-none" value="${not empty cliente.numeroDocumento ? cliente.numeroDocumento : ''}" required>
+                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field"
+                                                 data-field="numeroDocumento">
+                                                <p class="mb-0 fw-bold">Número Documento: <span
+                                                        id="span-numeroDocumento" class="text-muted"><c:out
+                                                        value="${not empty cliente.numeroDocumento ? cliente.numeroDocumento : 'N/A'}"/></span>
+                                                </p>
+                                                <i class="fas fa-pencil-alt text-success cursor-pointer"
+                                                   onclick="toggleEdit('numeroDocumento')"
+                                                   title="Editar Número Documento"
+                                                   aria-label="Editar Número Documento"></i>
+                                                <input type="number" name="numeroDocumento" id="input-numeroDocumento"
+                                                       class="form-control d-none"
+                                                       value="${not empty cliente.numeroDocumento ? cliente.numeroDocumento : ''}"
+                                                       required>
                                             </div>
                                         </c:if>
 
                                         <!-- Campos específicos para Aerolínea -->
                                         <c:if test="${usuarioTipo == 'aerolinea' and not empty aerolinea}">
                                             <!-- Descripción -->
-                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field" data-field="descripcion">
-                                                <p class="mb-0 fw-bold">Descripción: <span id="span-descripcion" class="text-muted"><c:out value="${not empty aerolinea.descripcion ? aerolinea.descripcion : 'N/A'}"/></span></p>
-                                                <i class="fas fa-pencil-alt text-success cursor-pointer" onclick="toggleEdit('descripcion')" title="Editar Descripción" aria-label="Editar Descripción"></i>
-                                                <textarea name="descripcion" id="input-descripcion" class="form-control d-none" rows="3">${not empty aerolinea.descripcion ? aerolinea.descripcion : ''}</textarea>
+                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field"
+                                                 data-field="descripcion">
+                                                <p class="mb-0 fw-bold">Descripción: <span id="span-descripcion"
+                                                                                           class="text-muted"><c:out
+                                                        value="${not empty aerolinea.descripcion ? aerolinea.descripcion : 'N/A'}"/></span>
+                                                </p>
+                                                <i class="fas fa-pencil-alt text-success cursor-pointer"
+                                                   onclick="toggleEdit('descripcion')" title="Editar Descripción"
+                                                   aria-label="Editar Descripción"></i>
+                                                <textarea name="descripcion" id="input-descripcion"
+                                                          class="form-control d-none"
+                                                          rows="3">${not empty aerolinea.descripcion ? aerolinea.descripcion : ''}</textarea>
                                             </div>
 
                                             <!-- Link Web -->
-                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field" data-field="linkWeb">
-                                                <p class="mb-0 fw-bold">Link Web: <span id="span-linkWeb" class="text-muted"><c:out value="${not empty aerolinea.linkWeb ? aerolinea.linkWeb : 'N/A'}"/></span></p>
-                                                <i class="fas fa-pencil-alt text-success cursor-pointer" onclick="toggleEdit('linkWeb')" title="Editar Link Web" aria-label="Editar Link Web"></i>
-                                                <input type="url" name="linkWeb" id="input-linkWeb" class="form-control d-none" value="${not empty aerolinea.linkWeb ? aerolinea.linkWeb : ''}">
+                                            <div class="mb-3 d-flex justify-content-between align-items-center editable-field"
+                                                 data-field="linkWeb">
+                                                <p class="mb-0 fw-bold">Link Web: <span id="span-linkWeb"
+                                                                                        class="text-muted"><c:out
+                                                        value="${not empty aerolinea.linkWeb ? aerolinea.linkWeb : 'N/A'}"/></span>
+                                                </p>
+                                                <i class="fas fa-pencil-alt text-success cursor-pointer"
+                                                   onclick="toggleEdit('linkWeb')" title="Editar Link Web"
+                                                   aria-label="Editar Link Web"></i>
+                                                <input type="url" name="linkWeb" id="input-linkWeb"
+                                                       class="form-control d-none"
+                                                       value="${not empty aerolinea.linkWeb ? aerolinea.linkWeb : ''}">
                                             </div>
                                         </c:if>
 
                                         <!-- Imagen (editable para ambos) -->
-                                        <div class="mb-3 d-flex justify-content-between align-items-center editable-field" data-field="imagen">
+                                        <div class="mb-3 d-flex justify-content-between align-items-center editable-field"
+                                             data-field="imagen">
                                             <div class="d-flex align-items-center">
                                                 <p class="mb-0 fw-bold me-2">Imagen: </p>
-                                                <img id="preview-imagen-pequena" src="${empty sessionScope.usuarioImagen || sessionScope.usuarioImagen == defaultImgPath ? defaultImgPath : sessionScope.usuarioImagen}" alt="Preview pequeña" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;" onerror="handleImageError(this);">
+                                                <img id="preview-imagen-pequena"
+                                                     src="${empty sessionScope.usuarioImagen || sessionScope.usuarioImagen == defaultImgPath ? defaultImgPath : sessionScope.usuarioImagen}"
+                                                     alt="Preview pequeña"
+                                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;"
+                                                     onerror="handleImageError(this);">
                                             </div>
-                                            <i id="icono-imagen" class="fas fa-pencil-alt text-success cursor-pointer" onclick="toggleEdit('imagen')" title="Cambiar Imagen" aria-label="Cambiar Imagen"></i>
-                                            <input type="file" name="imagen" id="input-imagen" class="form-control d-none" accept="image/*" onchange="previewImagen(this)">
+                                            <i id="icono-imagen" class="fas fa-pencil-alt text-success cursor-pointer"
+                                               onclick="toggleEdit('imagen')" title="Cambiar Imagen"
+                                               aria-label="Cambiar Imagen"></i>
+                                            <input type="file" name="imagen" id="input-imagen"
+                                                   class="form-control d-none" accept="image/*"
+                                                   onchange="previewImagen(this)">
                                         </div>
 
                                         <!-- Botón Guardar (oculto inicialmente) -->
                                         <div class="d-none" id="boton-guardar">
                                             <button type="submit" class="btn btn-success">Guardar Cambios</button>
-                                            <button type="button" class="btn btn-secondary ms-2" onclick="cancelarEdicion()">Cancelar</button>
+                                            <button type="button" class="btn btn-secondary ms-2"
+                                                    onclick="cancelarEdicion()">Cancelar
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
                             </c:when>
                             <c:otherwise>
                                 <div class="p-3 p-md-4 text-center">
-                                    <p class="alert alert-warning">Debes iniciar sesión para ver tu perfil completo. <a href="${contextPath}/login" class="alert-link">Iniciar sesión</a></p>
+                                    <p class="alert alert-warning">Debes iniciar sesión para ver tu perfil completo. <a
+                                            href="${contextPath}/login" class="alert-link">Iniciar sesión</a></p>
                                 </div>
                             </c:otherwise>
                         </c:choose>
@@ -230,7 +336,13 @@
                                             <td>${paquete.descuento}%</td>
                                             <td>$${paquete.costo}</td>
                                             <td>${paquete.rutaEnPaquete}</td>
-                                            <td><button onclick="window.location.href='${pageContext.request.contextPath}/paquete/consulta?nombre=${paquete.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Paquete</button></td>
+                                            <td>
+                                                <button onclick="window.location.href='${pageContext.request.contextPath}/paquete/consulta?nombre=${paquete.nombre}'"
+                                                        type="submit"
+                                                        class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">
+                                                    Ver Paquete
+                                                </button>
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -238,6 +350,49 @@
                             </c:when>
                             <c:otherwise>
                                 <p>No hay paquetes disponibles.</p>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+
+                    <!-- Sección de Reservas -->
+                    <div id="contenido-reservas" class="seccion-oculta">
+                        <h2>Paquetes</h2>
+                        <c:choose>
+                            <c:when test="${not empty reservas}">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Tipo De Asiento</th>
+                                        <th>Cantidad De Pasajes</th>
+                                        <th>Equipaje Extra</th>
+                                        <th>Pasajeros</th>
+                                        <th>Metodo De Pago</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="reserva" items="${reservas}">
+                                        <tr>
+                                            <td>${reserva.fecha}</td>
+                                            <td>${reserva.tipoAsiento}</td>
+                                            <td>${reserva.cantPasajes}</td>
+                                            <td>${reserva.equipajeExtra}</td>
+                                            <td>$${reserva.pasajeros}</td>
+                                            <td>${reserva.metodoPago}</td>
+                                            <td>
+                                                <button onclick="window.location.href='${pageContext.request.contextPath}/reservas/consulta?fecha=${fn:escapeXml(reserva.fecha)}&cliente=${fn:escapeXml(reserva.cliente)}&vuelo=${fn:escapeXml(reserva.vuelo)}'"
+                                                        type="button"
+                                                        class="btn btn-sm hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">
+                                                    Ver Reserva
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </c:when>
+                            <c:otherwise>
+                                <p>No hay reservas disponibles.</p>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -300,7 +455,7 @@
     }
 
     // Toggle inicial: Perfil visible
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         try {
             const seccionPerfil = document.getElementById('contenido-perfil');
             if (seccionPerfil) {
@@ -319,7 +474,9 @@
             // Fallback global para imgs
             document.querySelectorAll('img').forEach(img => {
                 if (!img.onerror) {
-                    img.onerror = function() { handleImageError(this); };
+                    img.onerror = function () {
+                        handleImageError(this);
+                    };
                 }
             });
             // Bind preview para imagen
@@ -379,7 +536,7 @@
             console.log('Imagen seleccionada:', input.files[0]?.name || 'Ninguna');
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     document.getElementById('previewImagen').src = e.target.result;
                     document.getElementById('preview-imagen-pequena').src = e.target.result;
                     console.log('Preview actualizado');
@@ -442,7 +599,7 @@
     }
 
     // Validar antes de submit
-    document.getElementById('formPerfil').addEventListener('submit', function(e) {
+    document.getElementById('formPerfil').addEventListener('submit', function (e) {
         try {
             if (!editando && !imagenSeleccionada) {
                 e.preventDefault();
@@ -477,8 +634,14 @@
 </script>
 
 <style>
-    .seccion-oculta { display: none; }
-    .seccion-activa { display: block; }
+    .seccion-oculta {
+        display: none;
+    }
+
+    .seccion-activa {
+        display: block;
+    }
+
     .square-btn {
         width: 70px;
         height: 35px;
@@ -487,14 +650,38 @@
         align-items: center;
         justify-content: center;
     }
-    .btn.active { box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); }
-    .cursor-pointer { cursor: pointer; }
-    .editable-field { position: relative; }
+
+    .btn.active {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .editable-field {
+        position: relative;
+    }
+
     @media (max-width: 768px) {
-        .square-btn { width: 60px; height: 30px; font-size: 0.75rem; }
-        .d-flex.flex-wrap { gap: 0.5rem; }
-        .table th, .table td { padding: 0.5rem; font-size: 0.85rem; }
-        .card-body { padding: 1rem; }
+        .square-btn {
+            width: 60px;
+            height: 30px;
+            font-size: 0.75rem;
+        }
+
+        .d-flex.flex-wrap {
+            gap: 0.5rem;
+        }
+
+        .table th, .table td {
+            padding: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .card-body {
+            padding: 1rem;
+        }
     }
 </style>
 </body>
