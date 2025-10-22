@@ -43,7 +43,7 @@ public class ConsultaReserva extends HttpServlet {
             if (usuarioTipo.equals("cliente")) {
                 DtCliente cliente = sistema.getCliente(nicknameCliente);
 
-                request.setAttribute("reserva", sistema.getReservaCliente(vuelo, cliente, fechaReservaDate));
+//                request.setAttribute("reserva", sistema.getReservaCliente(vuelo, cliente, fechaReservaDate));
             }
 //            else{
 ////                DtAerolinea aerolinea = sistema.getAerolinea(nicknameCliente);

@@ -155,13 +155,17 @@ public class PerfilServlet extends HttpServlet {
 
             // Carga reservas
             if ("cliente".equals(usuarioTipo)) {
-                DtCliente cliente = (DtCliente) request.getAttribute("cliente");  // Reusa si ya cargado
+                DtCliente cliente = (DtCliente) request.getAttribute("cliente");
                 if (cliente == null) cliente = sistema.getCliente(nickname);
-                request.setAttribute("reservas", sistema.listarReservas(cliente));
+                List<?> reservas = sistema.listarReservas(cliente);
+                System.out.println(">>> Reservas para cliente " + nickname + ": " + (reservas != null ? reservas.size() : "null"));
+                request.setAttribute("reservas", reservas);
             } else if ("aerolinea".equals(usuarioTipo)) {
-                DtAerolinea aerolinea = (DtAerolinea) request.getAttribute("aerolinea");  // Reusa
+                DtAerolinea aerolinea = (DtAerolinea) request.getAttribute("aerolinea");
                 if (aerolinea == null) aerolinea = sistema.getAerolinea(nickname);
-                request.setAttribute("reservas", sistema.listarReservas(aerolinea));
+                List<?> reservas = sistema.listarReservas(aerolinea);
+                System.out.println(">>> Reservas para aerolinea " + nickname + ": " + (reservas != null ? reservas.size() : "null"));
+                request.setAttribute("reservas", reservas);
             }
 
             // Carga paquetes
@@ -170,8 +174,10 @@ public class PerfilServlet extends HttpServlet {
                 DtCliente cliente = (DtCliente) request.getAttribute("cliente");
                 if (cliente == null) cliente = sistema.getCliente(nickname);
                 paquetesUsuario = sistema.listarPaquetes(cliente);
+                System.out.println(">>> Paquetes para cliente " + nickname + ": " + (paquetesUsuario != null ? paquetesUsuario.size() : "null"));
             } else if ("aerolinea".equals(usuarioTipo)) {
                 paquetesUsuario = sistema.listarPaquetes();
+                System.out.println(">>> Paquetes para aerolinea " + nickname + ": " + (paquetesUsuario != null ? paquetesUsuario.size() : "null"));
             }
             request.setAttribute("paquetes", paquetesUsuario);
 

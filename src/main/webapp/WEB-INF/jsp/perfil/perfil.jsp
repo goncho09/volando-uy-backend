@@ -7,6 +7,8 @@
 <c:set var="usuarioTipo" value="${sessionScope.usuarioTipo}"/>
 <c:set var="cliente" value="${requestScope.cliente}"/>
 <c:set var="aerolinea" value="${requestScope.aerolinea}"/>
+<c:set var="reservas" value="${requestScope.reservas}"/>
+<c:set var="paquetes" value="${requestScope.paquetes}"/>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <c:set var="defaultImgPath" value="${contextPath}/assets/userDefault.png"/>
 
@@ -25,7 +27,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="${contextPath}/assets/globals.css"/>
-
 </head>
 
 <body>
@@ -33,7 +34,6 @@
 
 <main class="container-fluid my-3 px-3">
     <div class="row">
-
         <jsp:include page="../components/miPerfil.jsp"/>
 
         <div class="col-12 col-md-9">
@@ -64,8 +64,8 @@
                                                 <c:out value="${usuario.nombre}"/> <c:out value="${usuario.apellido}"/>
                                             </c:when>
                                             <c:when test="${usuarioTipo == 'aerolinea'}">
-                                            <c:out value="${usuario.nombre}"/>
-                                        </c:when>
+                                                <c:out value="${usuario.nombre}"/>
+                                            </c:when>
                                             <c:otherwise>
                                                 N/A
                                             </c:otherwise>
@@ -207,16 +207,114 @@
                         </c:choose>
                     </div>
 
-                    <!-- [Resto de secciones sin cambios - agregar aquí si es necesario, e.g., reservas y paquetes] -->
-                    <!-- Ejemplo para secciones ocultas (agregar si faltan): -->
-                    <!--
+                    <!-- Sección de Reservas -->
                     <div id="contenido-reservas" class="seccion-oculta">
-                        <p>Contenido de Reservas aquí (datos: ${not empty reservas ? fn:length(reservas) : 0})</p>
+                        <h2>Reservas</h2>
+                        <c:choose>
+                            <c:when test="${not empty reservas}">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Fecha de Alta</th>
+                                        <th>Tipo de Asiento</th>
+                                        <th>Cantidad de Pasajes</th>
+                                        <th>Equipaje Extra</th>
+                                        <th>Pasajeros</th>
+                                        <th>Método de Pago</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="reserva" items="${reservas}">
+                                        <tr>
+<%--                                            <td><a href="${contextPath}/reservas/consulta?fecha=${fn:escapeXml(reserva.fecha)}">${reserva.fecha}</a></td>--%>
+                                            <td>${reserva.fecha}</td>
+                                            <td>${reserva.tipoAsiento}</td>
+                                            <td>${reserva.cantPasajes}</td>
+                                            <td>${reserva.equipajeExtra}</td>
+                                            <td>${reserva.pasajeros}</td>
+                                            <td>${reserva.metodoPago}</td>
+                                            <td><a href="${contextPath}/reservas/ver.jsp?fecha=${fn:escapeXml(reserva.fecha)}" class="btn btn-sm btn-primary">Ver</a></td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </c:when>
+                            <c:otherwise>
+                                <p>No hay reservas disponibles.</p>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
+
+                    <!-- Sección de Paquetes -->
                     <div id="contenido-paquetes" class="seccion-oculta">
-                        <p>Contenido de Paquetes aquí (datos: ${not empty paquetes ? fn:length(paquetes) : 0})</p>
+                        <h2>Paquetes</h2>
+                        <c:choose>
+                            <c:when test="${not empty paquetes}">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Validez</th>
+                                        <th>Descuento</th>
+                                        <th>Costo</th>
+                                        <th>Ruta del Paquete</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="paquete" items="${paquetes}">
+                                        <tr>
+                                            <td>${paquete.nombre}</td>
+                                            <td>${paquete.descripcion}</td>
+                                            <td>${paquete.validezDias}</td>
+                                            <td>${paquete.descuento}%</td>
+                                            <td>$${paquete.costo}</td>
+                                            <td>${paquete.rutaEnPaquete}</td>
+                                            <td><button onclick="window.location.href='${pageContext.request.contextPath}/paquete/consulta?nombre=${paquete.nombre}'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver Paquete</button></td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </c:when>
+                            <c:otherwise>
+                                <p>No hay paquetes disponibles.</p>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
-                    -->
+
+                    <!-- Sección de Rutas (solo para aerolínea) -->
+                    <c:if test="${usuarioTipo == 'aerolinea'}">
+                        <div id="contenido-rutas" class="seccion-oculta">
+                            <h2>Rutas</h2>
+                            <c:choose>
+                                <c:when test="${not empty rutas}">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Origen</th>
+                                            <th>Destino</th>
+                                            <th>Duración</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach var="ruta" items="${rutas}">
+                                            <tr>
+                                                <td>${ruta.origen}</td>
+                                                <td>${ruta.destino}</td>
+                                                <td>${ruta.duracion}</td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </c:when>
+                                <c:otherwise>
+                                    <p>No hay rutas disponibles.</p>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </c:if>
                 </div>
             </div>
         </div>
@@ -237,207 +335,218 @@
     function handleImageError(img) {
         console.error('Imagen falló - path:', img.src);
         img.src = defaultImgPath;
-        img.onerror = null;  // Previene loops infinitos
+        img.onerror = null;
     }
 
     // Función para toggle secciones y botones
     function mostrarSeccion(seccion, button) {
-        const secciones = document.querySelectorAll('[id^="contenido-"]');
-        secciones.forEach(s => {
-            s.classList.add('seccion-oculta');
-            s.classList.remove('seccion-activa');
-        });
-        const elemSeccion = document.getElementById('contenido-' + seccion);
-        if (elemSeccion) {
-            elemSeccion.classList.remove('seccion-oculta');
-            elemSeccion.classList.add('seccion-activa');
-        }
-        const botones = document.querySelectorAll('.square-btn');
-        botones.forEach(b => {
-            b.classList.remove('btn-primary', 'active');
-            b.classList.add('btn-secondary');
-        });
-        if (button) {
-            button.classList.remove('btn-secondary');
-            button.classList.add('btn-primary', 'active');
-        }
+        try {
+            const secciones = document.querySelectorAll('[id^="contenido-"]');
+            secciones.forEach(s => {
+                s.classList.add('seccion-oculta');
+                s.classList.remove('seccion-activa');
+            });
+            const elemSeccion = document.getElementById('contenido-' + seccion);
+            if (elemSeccion) {
+                elemSeccion.classList.remove('seccion-oculta');
+                elemSeccion.classList.add('seccion-activa');
+            }
+            const botones = document.querySelectorAll('.square-btn');
+            botones.forEach(b => {
+                b.classList.remove('btn-primary', 'active');
+                b.classList.add('btn-secondary');
+            });
+            if (button) {
+                button.classList.remove('btn-secondary');
+                button.classList.add('btn-primary', 'active');
+            }
 
-        // Debug para reservas/paquetes (con chequeos)
-        <c:if test="${not empty reservas}">
-        if (seccion === 'reservas') {
-            console.log('Sección Reservas cargada. Datos:', ${fn:length(reservas)});
+            // Debug para reservas/paquetes (con chequeos)
+            console.log('Sección seleccionada:', seccion);
+            if (seccion === 'reservas') {
+                console.log('Sección Reservas cargada. Datos:', '<c:out value="${fn:length(reservas)}"/>');
+            } else if (seccion === 'paquetes') {
+                console.log('Sección Paquetes cargada. Datos:', '<c:out value="${fn:length(paquetes)}"/>');
+            }
+        } catch (error) {
+            console.error('Error en mostrarSeccion:', error);
         }
-            </c:if>
-            <c:if test="${not empty paquetes}">
-        else if (seccion === 'paquetes') {
-            console.log('Sección Paquetes cargada. Datos:', ${fn:length(paquetes)});
-        }
-        </c:if>
     }
 
     // Toggle inicial: Perfil visible
     document.addEventListener('DOMContentLoaded', function() {
-        const seccionPerfil = document.getElementById('contenido-perfil');
-        if (seccionPerfil) {
-            seccionPerfil.classList.remove('seccion-oculta');
-            seccionPerfil.classList.add('seccion-activa');
-        }
-        // Guarda valores originales
-        document.querySelectorAll('.editable-field [id^="input-"]').forEach(input => {
-            const field = input.id.split('-')[1];
-            valoresOriginales[field] = input.value || '';
-        });
-        console.log('Valores originales guardados:', valoresOriginales);
-        // Debug inicial datos
-        <c:if test="${not empty reservas}">
-        console.log('Reservas inicial:', ${fn:length(reservas)});
-        </c:if>
-        <c:if test="${not empty paquetes}">
-        console.log('Paquetes inicial:', ${fn:length(paquetes)});
-        </c:if>
-        // Fallback global para imgs
-        document.querySelectorAll('img').forEach(img => {
-            if (!img.onerror) {
-                img.onerror = function() { handleImageError(this); };
+        try {
+            const seccionPerfil = document.getElementById('contenido-perfil');
+            if (seccionPerfil) {
+                seccionPerfil.classList.remove('seccion-oculta');
+                seccionPerfil.classList.add('seccion-activa');
             }
-        });
-        // Bind preview para imagen
-        document.getElementById('input-imagen').addEventListener('change', previewImagen);
+            // Guarda valores originales
+            document.querySelectorAll('.editable-field [id^="input-"]').forEach(input => {
+                const field = input.id.split('-')[1];
+                valoresOriginales[field] = input.value || '';
+            });
+            console.log('Valores originales guardados:', valoresOriginales);
+            // Debug inicial datos
+            console.log('Reservas inicial:', '<c:out value="${fn:length(reservas)}"/>');
+            console.log('Paquetes inicial:', '<c:out value="${fn:length(paquetes)}"/>');
+            // Fallback global para imgs
+            document.querySelectorAll('img').forEach(img => {
+                if (!img.onerror) {
+                    img.onerror = function() { handleImageError(this); };
+                }
+            });
+            // Bind preview para imagen
+            document.getElementById('input-imagen').addEventListener('change', previewImagen);
+        } catch (error) {
+            console.error('Error en DOMContentLoaded:', error);
+        }
     });
 
     // Toggle edición para campo específico
     function toggleEdit(campo) {
-        const span = document.getElementById('span-' + campo);
-        const input = document.getElementById('input-' + campo);
-        let icono = input ? input.previousElementSibling : document.getElementById('icono-imagen');
+        try {
+            const span = document.getElementById('span-' + campo);
+            const input = document.getElementById('input-' + campo);
+            let icono = input ? input.previousElementSibling : document.getElementById('icono-imagen');
 
-        if (input) {
-            if (campo === 'imagen') {
-                // Special case for file: trigger click
-                input.click();
-                console.log('Clicked file input for imagen');
-                return;  // No toggle, solo trigger
-            } else if (span) {
-                if (input.classList.contains('d-none')) {
-                    // Activar para otros campos
-                    span.classList.add('d-none');
-                    input.classList.remove('d-none');
-                    input.focus();
-                    if (icono) {
-                        icono.classList.remove('fa-pencil-alt', 'text-success');
-                        icono.classList.add('fa-save', 'text-primary');
-                    }
-                    editando = true;
-                    document.getElementById('boton-guardar').classList.remove('d-none');
-                    console.log('Editando campo:', campo);
-                } else {
-                    // Desactivar para otros campos
-                    span.textContent = input.value || 'N/A';
-                    input.classList.add('d-none');
-                    span.classList.remove('d-none');
-                    if (icono) {
-                        icono.classList.remove('fa-save', 'text-primary');
-                        icono.classList.add('fa-pencil-alt', 'text-success');
-                    }
-                    if (!document.querySelector('.editable-field input:not(.d-none), .editable-field textarea:not(.d-none), .editable-field select:not(.d-none)') && !imagenSeleccionada) {
-                        editando = false;
-                        document.getElementById('boton-guardar').classList.add('d-none');
+            if (input) {
+                if (campo === 'imagen') {
+                    input.click();
+                    console.log('Clicked file input for imagen');
+                    return;
+                } else if (span) {
+                    if (input.classList.contains('d-none')) {
+                        span.classList.add('d-none');
+                        input.classList.remove('d-none');
+                        input.focus();
+                        if (icono) {
+                            icono.classList.remove('fa-pencil-alt', 'text-success');
+                            icono.classList.add('fa-save', 'text-primary');
+                        }
+                        editando = true;
+                        document.getElementById('boton-guardar').classList.remove('d-none');
+                        console.log('Editando campo:', campo);
+                    } else {
+                        span.textContent = input.value || 'N/A';
+                        input.classList.add('d-none');
+                        span.classList.remove('d-none');
+                        if (icono) {
+                            icono.classList.remove('fa-save', 'text-primary');
+                            icono.classList.add('fa-pencil-alt', 'text-success');
+                        }
+                        if (!document.querySelector('.editable-field input:not(.d-none), .editable-field textarea:not(.d-none), .editable-field select:not(.d-none)') && !imagenSeleccionada) {
+                            editando = false;
+                            document.getElementById('boton-guardar').classList.add('d-none');
+                        }
                     }
                 }
             }
+        } catch (error) {
+            console.error('Error en toggleEdit:', error);
         }
     }
 
     // Preview para imagen
     function previewImagen(input) {
-        console.log('Imagen seleccionada:', input.files[0]?.name || 'Ninguna');
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('previewImagen').src = e.target.result;
-                document.getElementById('preview-imagen-pequena').src = e.target.result;
-                console.log('Preview actualizado');
-            };
-            reader.readAsDataURL(input.files[0]);
-            imagenSeleccionada = true;
-            // Cambia icono a check verde
-            const iconoImagen = document.getElementById('icono-imagen');
-            if (iconoImagen) {
-                iconoImagen.classList.remove('fa-pencil-alt', 'text-success');
-                iconoImagen.classList.add('fa-check', 'text-success');
+        try {
+            console.log('Imagen seleccionada:', input.files[0]?.name || 'Ninguna');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImagen').src = e.target.result;
+                    document.getElementById('preview-imagen-pequena').src = e.target.result;
+                    console.log('Preview actualizado');
+                };
+                reader.readAsDataURL(input.files[0]);
+                imagenSeleccionada = true;
+                const iconoImagen = document.getElementById('icono-imagen');
+                if (iconoImagen) {
+                    iconoImagen.classList.remove('fa-pencil-alt', 'text-success');
+                    iconoImagen.classList.add('fa-check', 'text-success');
+                }
+                editando = true;
+                document.getElementById('boton-guardar').classList.remove('d-none');
+            } else {
+                imagenSeleccionada = false;
+                const iconoImagen = document.getElementById('icono-imagen');
+                if (iconoImagen) {
+                    iconoImagen.classList.remove('fa-check', 'text-success');
+                    iconoImagen.classList.add('fa-pencil-alt', 'text-success');
+                }
+                if (!editando) document.getElementById('boton-guardar').classList.add('d-none');
             }
-            editando = true;
-            document.getElementById('boton-guardar').classList.remove('d-none');
-        } else {
-            imagenSeleccionada = false;
-            const iconoImagen = document.getElementById('icono-imagen');
-            if (iconoImagen) {
-                iconoImagen.classList.remove('fa-check', 'text-success');
-                iconoImagen.classList.add('fa-pencil-alt', 'text-success');
-            }
-            if (!editando) document.getElementById('boton-guardar').classList.add('d-none');
+        } catch (error) {
+            console.error('Error en previewImagen:', error);
         }
     }
 
     // Cancelar edición
     function cancelarEdicion() {
-        document.querySelectorAll('.editable-field input:not(.d-none), .editable-field textarea:not(.d-none), .editable-field select:not(.d-none)').forEach(el => {
-            const field = el.id.split('-')[1];
-            el.value = valoresOriginales[field] || '';
-            el.classList.add('d-none');
-            const span = document.getElementById('span-' + field);
-            if (span) {
-                span.textContent = valoresOriginales[field] || 'N/A';
-                span.classList.remove('d-none');
+        try {
+            document.querySelectorAll('.editable-field input:not(.d-none), .editable-field textarea:not(.d-none), .editable-field select:not(.d-none)').forEach(el => {
+                const field = el.id.split('-')[1];
+                el.value = valoresOriginales[field] || '';
+                el.classList.add('d-none');
+                const span = document.getElementById('span-' + field);
+                if (span) {
+                    span.textContent = valoresOriginales[field] || 'N/A';
+                    span.classList.remove('d-none');
+                }
+            });
+            document.querySelectorAll('.fas.fa-save').forEach(icon => {
+                icon.classList.remove('fa-save', 'text-primary');
+                icon.classList.add('fa-pencil-alt', 'text-success');
+            });
+            document.getElementById('input-imagen').value = '';
+            document.getElementById('previewImagen').src = '${empty sessionScope.usuarioImagen || sessionScope.usuarioImagen == defaultImgPath ? defaultImgPath : sessionScope.usuarioImagen}';
+            document.getElementById('preview-imagen-pequena').src = '${empty sessionScope.usuarioImagen || sessionScope.usuarioImagen == defaultImgPath ? defaultImgPath : sessionScope.usuarioImagen}';
+            const iconoImagen = document.getElementById('icono-imagen');
+            if (iconoImagen) {
+                iconoImagen.classList.remove('fa-check', 'text-success');
+                iconoImagen.classList.add('fa-pencil-alt', 'text-success');
             }
-        });
-        document.querySelectorAll('.fas.fa-save').forEach(icon => {
-            icon.classList.remove('fa-save', 'text-primary');
-            icon.classList.add('fa-pencil-alt', 'text-success');
-        });
-        // Reset imagen
-        document.getElementById('input-imagen').value = '';
-        document.getElementById('previewImagen').src = '${empty sessionScope.usuarioImagen || sessionScope.usuarioImagen == defaultImgPath ? defaultImgPath : sessionScope.usuarioImagen}';
-        document.getElementById('preview-imagen-pequena').src = '${empty sessionScope.usuarioImagen || sessionScope.usuarioImagen == defaultImgPath ? defaultImgPath : sessionScope.usuarioImagen}';
-        const iconoImagen = document.getElementById('icono-imagen');
-        if (iconoImagen) {
-            iconoImagen.classList.remove('fa-check', 'text-success');
-            iconoImagen.classList.add('fa-pencil-alt', 'text-success');
+            imagenSeleccionada = false;
+            editando = false;
+            document.getElementById('boton-guardar').classList.add('d-none');
+            console.log('Edición cancelada');
+        } catch (error) {
+            console.error('Error en cancelarEdicion:', error);
         }
-        imagenSeleccionada = false;
-        editando = false;
-        document.getElementById('boton-guardar').classList.add('d-none');
-        console.log('Edición cancelada');
     }
 
     // Validar antes de submit
     document.getElementById('formPerfil').addEventListener('submit', function(e) {
-        if (!editando && !imagenSeleccionada) {
-            e.preventDefault();
-            alert('No hay cambios para guardar.');
-            return;
+        try {
+            if (!editando && !imagenSeleccionada) {
+                e.preventDefault();
+                alert('No hay cambios para guardar.');
+                return;
+            }
+            const nombre = document.getElementById('input-nombre').value.trim();
+            if (!nombre) {
+                e.preventDefault();
+                alert('El nombre es requerido.');
+                return;
+            }
+            <c:if test="${usuarioTipo == 'cliente'}">
+            const apellido = document.getElementById('input-apellido').value.trim();
+            if (!apellido) {
+                e.preventDefault();
+                alert('El apellido es requerido.');
+                return;
+            }
+            const fechaNac = document.getElementById('input-fechaNacimiento').value;
+            if (!fechaNac) {
+                e.preventDefault();
+                alert('La fecha de nacimiento es requerida.');
+                return;
+            }
+            </c:if>
+            console.log('Form submit - datos OK');
+        } catch (error) {
+            console.error('Error en form submit:', error);
         }
-        const nombre = document.getElementById('input-nombre').value.trim();
-        if (!nombre) {
-            e.preventDefault();
-            alert('El nombre es requerido.');
-            return;
-        }
-        <c:if test="${usuarioTipo == 'cliente'}">
-        const apellido = document.getElementById('input-apellido').value.trim();
-        if (!apellido) {
-            e.preventDefault();
-            alert('El apellido es requerido.');
-            return;
-        }
-        const fechaNac = document.getElementById('input-fechaNacimiento').value;
-        if (!fechaNac) {
-            e.preventDefault();
-            alert('La fecha de nacimiento es requerida.');
-            return;
-        }
-        </c:if>
-        console.log('Form submit - datos OK');
     });
 </script>
 
@@ -462,6 +571,5 @@
         .card-body { padding: 1rem; }
     }
 </style>
-
 </body>
 </html>
