@@ -11,12 +11,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet (name = "BuscarVueloServlet", urlPatterns = {"/vuelo/buscar"})
+@WebServlet(name = "BuscarVueloServlet", urlPatterns = {"/vuelo/buscar"})
 public class BuscarVueloServlet extends HttpServlet {
     ISistema sistema = Factory.getSistema();
 
@@ -29,18 +30,23 @@ public class BuscarVueloServlet extends HttpServlet {
 
             aerolineas.removeIf(aerolinea -> {
                 List<DtRuta> rutas = aerolinea.listarRutasDeVuelo();
-                if(rutas == null) return true;
+                if (rutas == null || rutas.isEmpty()) {
+                    return true;
+                }
 
-                rutas.removeIf(ruta-> {
-                    if(ruta.getEstado() != EstadoRuta.APROBADA){return true;}
-                    List<DtVuelo> vuelos = sistema.listarVuelos(ruta.getNombre());
-                    return vuelos == null || vuelos.isEmpty();
-                });
+                for (DtRuta ruta : rutas) {
+                    if (ruta.getEstado() == EstadoRuta.APROBADA) {
+                        List<DtVuelo> vuelos = sistema.listarVuelos(ruta.getNombre());
+                        if (vuelos != null && !vuelos.isEmpty()) {
+                            return false;
+                        }
+                    }
+                }
 
-                return rutas.isEmpty();
+                return true;
             });
 
-            request.setAttribute("aerolineas",aerolineas);
+            request.setAttribute("aerolineas", aerolineas);
 
             String idAerolinea = request.getParameter("aerolinea");
             String idRuta = request.getParameter("ruta");
@@ -53,7 +59,7 @@ public class BuscarVueloServlet extends HttpServlet {
                 rutasAerolinea.removeIf(ruta -> (ruta.getEstado() != EstadoRuta.APROBADA));
                 rutasAerolinea.removeIf(ruta -> (sistema.listarVuelos(ruta.getNombre()).isEmpty()));
 
-                request.setAttribute("rutas",rutasAerolinea);
+                request.setAttribute("rutas", rutasAerolinea);
                 request.setAttribute("aerolineaId", idAerolinea);
             }
 
@@ -65,8 +71,8 @@ public class BuscarVueloServlet extends HttpServlet {
                 request.setAttribute("rutas", aerolinea.listarRutasDeVuelo());
 
                 LocalDate fechaVuelo = fecha != null && !fecha.isEmpty() ? LocalDate.parse(fecha) : null;
-                List <DtVuelo> vuelos = sistema.listarVuelos(idRuta,fechaVuelo);
-                request.setAttribute("vuelos",vuelos );
+                List<DtVuelo> vuelos = sistema.listarVuelos(idRuta, fechaVuelo);
+                request.setAttribute("vuelos", vuelos);
             }
 
             request.getRequestDispatcher("/WEB-INF/jsp/vuelo/buscar.jsp").forward(request, response);

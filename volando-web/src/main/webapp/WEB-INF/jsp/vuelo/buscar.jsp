@@ -44,7 +44,7 @@
                     <option class="whitespace-nowrap" value="" disabled ${empty aerolineaId ? "selected" : ""}>
                         Seleccione una aerolínea *
                     </option>
-                    <c:forEach var="a" items="${aerolineasConRuta}">
+                    <c:forEach var="a" items="${aerolineas}">
                         <option value="${a.nickname}" ${a.nickname eq aerolineaId ? "selected" : ""}>
                                 ${a.nombre}
                         </option>
