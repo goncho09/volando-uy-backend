@@ -2,6 +2,7 @@ package uy.volando.servlets.Reserva;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
+import com.app.datatypes.DtAerolinea;
 import com.app.datatypes.DtCliente;
 import com.app.datatypes.DtVuelo;
 import jakarta.servlet.ServletException;
@@ -34,21 +35,20 @@ public class ConsultaReserva extends HttpServlet {
         }
 
         try{
-            String nicknameCliente = (String) request.getSession().getAttribute("usuarioNickname");
+            String nickname = (String) request.getSession().getAttribute("usuarioNickname");
             String usuarioTipo = (String) request.getSession().getAttribute("usuarioTipo");
             String fechaReserva = request.getParameter("fecha");
             LocalDate fechaReservaDate = LocalDate.parse(fechaReserva);
             DtVuelo vuelo = sistema.getVuelo(request.getParameter("vuelo"));
 
             if (usuarioTipo.equals("cliente")) {
-                DtCliente cliente = sistema.getCliente(nicknameCliente);
-
-//                request.setAttribute("reserva", sistema.getReservaCliente(vuelo, cliente, fechaReservaDate));
+                DtCliente cliente = sistema.getCliente(nickname);
+                request.setAttribute("reserva", sistema.getReservaCliente(vuelo, cliente, fechaReservaDate));
             }
-//            else{
-////                DtAerolinea aerolinea = sistema.getAerolinea(nicknameCliente);
-////                request.setAttribute("reservas", sistema.listarReservas(aerolinea));
-//            }
+            else{
+                DtAerolinea aerolinea = sistema.getAerolinea(nickname);
+                request.setAttribute("reserva", sistema.getReservaAerolinea(vuelo, aerolinea, fechaReservaDate));
+            }
 
             request.getRequestDispatcher("/WEB-INF/jsp/reservas/consulta.jsp").forward(request, response);
         } catch (Exception e) {
