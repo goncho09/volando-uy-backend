@@ -7,8 +7,6 @@
 <c:set var="usuarioTipo" value="${sessionScope.usuarioTipo}"/>
 <c:set var="cliente" value="${requestScope.cliente}"/>
 <c:set var="aerolinea" value="${requestScope.aerolinea}"/>
-<c:set var="reservas" value="${requestScope.reservas}"/>
-<c:set var="paquetes" value="${requestScope.paquetes}"/>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <c:set var="defaultImgPath" value="${contextPath}/assets/userDefault.png"/>
 
@@ -91,11 +89,11 @@
                     <div class="d-flex flex-wrap gap-1 mb-3">
                         <button class="btn btn-sm square-btn btn-primary active" onclick="mostrarSeccion('perfil', this)" title="Perfil" aria-label="Ver Perfil">Perfil</button>
                         <c:if test="${usuarioTipo == 'cliente'}">
-                            <button class="btn btn-sm square-btn btn-secondary" onclick="mostrarSeccion('reservas', this)" title="Reservas de Vuelo" aria-label="Ver Reservas">Reservas</button>
                             <button class="btn btn-sm square-btn btn-secondary" onclick="mostrarSeccion('paquetes', this)" title="Paquetes" aria-label="Ver Paquetes">Paquetes</button>
+                            <button class="btn btn-sm square-btn btn-secondary" title="Reservas de Vuelo" aria-label="Ver Reservas" onclick="window.location.href='${contextPath}/reservas/ver'">Reservas</button>
                         </c:if>
                         <c:if test="${usuarioTipo == 'aerolinea'}">
-                            <button class="btn btn-sm square-btn btn-secondary" onclick="mostrarSeccion('rutas', this)" title="Rutas De Vuelo" aria-label="Ver Rutas">Rutas</button>
+                            <button class="btn btn-sm square-btn btn-secondary" title="Rutas De Vuelo" aria-label="Ver Rutas" onclick="window.location.href='${contextPath}/ruta-de-vuelo/ver'">Rutas</button>
                         </c:if>
                     </div>
 
@@ -206,46 +204,6 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-
-                    <!-- Sección de Reservas -->
-                    <div id="contenido-reservas" class="seccion-oculta">
-                        <h2>Reservas</h2>
-                        <c:choose>
-                            <c:when test="${not empty reservas}">
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>Fecha de Alta</th>
-                                        <th>Tipo de Asiento</th>
-                                        <th>Cantidad de Pasajes</th>
-                                        <th>Equipaje Extra</th>
-                                        <th>Pasajeros</th>
-                                        <th>Método de Pago</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach var="reserva" items="${reservas}">
-                                        <tr>
-<%--                                            <td><a href="${contextPath}/reservas/consulta?fecha=${fn:escapeXml(reserva.fecha)}">${reserva.fecha}</a></td>--%>
-                                            <td>${reserva.fecha}</td>
-                                            <td>${reserva.tipoAsiento}</td>
-                                            <td>${reserva.cantPasajes}</td>
-                                            <td>${reserva.equipajeExtra}</td>
-                                            <td>${reserva.pasajeros}</td>
-                                            <td>${reserva.metodoPago}</td>
-                                            <td><a href="${contextPath}/reservas/ver.jsp?fecha=${fn:escapeXml(reserva.fecha)}" class="btn btn-sm btn-primary">Ver</a></td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
-                            </c:when>
-                            <c:otherwise>
-                                <p>No hay reservas disponibles.</p>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-
                     <!-- Sección de Paquetes -->
                     <div id="contenido-paquetes" class="seccion-oculta">
                         <h2>Paquetes</h2>
@@ -283,38 +241,6 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-
-                    <!-- Sección de Rutas (solo para aerolínea) -->
-                    <c:if test="${usuarioTipo == 'aerolinea'}">
-                        <div id="contenido-rutas" class="seccion-oculta">
-                            <h2>Rutas</h2>
-                            <c:choose>
-                                <c:when test="${not empty rutas}">
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th>Origen</th>
-                                            <th>Destino</th>
-                                            <th>Duración</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <c:forEach var="ruta" items="${rutas}">
-                                            <tr>
-                                                <td>${ruta.origen}</td>
-                                                <td>${ruta.destino}</td>
-                                                <td>${ruta.duracion}</td>
-                                            </tr>
-                                        </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </c:when>
-                                <c:otherwise>
-                                    <p>No hay rutas disponibles.</p>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                    </c:if>
                 </div>
             </div>
         </div>

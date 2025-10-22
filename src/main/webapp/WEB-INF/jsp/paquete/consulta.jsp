@@ -124,8 +124,8 @@
                             <c:when test="${not empty sessionScope.usuarioTipo && sessionScope.usuarioTipo eq 'cliente'}">
                                 <c:choose>
                                     <c:when test="${comprado}">
-                                        <button class="bg-[#88E788] text-white font-bold p-3 rounded-lg w-full justify-around transition-colors duration-300 flex items-center justify-center disabled">
-                                            <i class="fa-solid fa-check"></i> Ya comprado
+                                        <button class="bg-gray-400 text-white font-bold p-3 rounded-lg w-full justify-around transition-colors duration-300 flex items-center justify-center disabled">
+                                            <i class="fa-solid fa-circle-xmark"></i> Paquete no disponible
                                         </button>
                                     </c:when>
                                     <c:otherwise>

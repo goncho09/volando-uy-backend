@@ -25,13 +25,16 @@ public class ConsultarPaqueteServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try{
+            String usuarioNick = request.getSession(false).getAttribute("usuarioNickname").toString();
             String nombre = request.getParameter("nombre");
 
             DtPaquete paquete = sistema.getPaquete(nombre);
 
-            if (paquete == null || sistema.paqueteComprado(paquete)) request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
+            if (paquete == null) {request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);}
 
             List<RutaEnPaquete> rutaEnPaqueteList = paquete.getRutaEnPaquete();
+
+            if(rutaEnPaqueteList == null || rutaEnPaqueteList.isEmpty()){request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);}
 
             String basePath = request.getServletContext().getRealPath("/pictures/rutas");
             String contextPath = request.getContextPath();
@@ -52,13 +55,7 @@ public class ConsultarPaqueteServlet extends HttpServlet {
                 }
             }
 
-            boolean comprado = false;
-
-            if(request.getSession(false).getAttribute("usuarioNickname") != null && request.getSession(false).getAttribute("usuarioTipo").equals("cliente")){
-                System.out.println(comprado);
-                comprado = sistema.clienteTienePaquete(request.getSession(false).getAttribute("usuarioNickname").toString(), paquete.getNombre());
-                System.out.println(comprado);
-            }
+            boolean comprado = sistema.paqueteComprado(paquete);
 
             request.setAttribute("paquete", paquete);
             request.setAttribute("comprado", comprado);
