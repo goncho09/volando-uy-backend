@@ -2,10 +2,7 @@ package uy.volando.servlets.RutasDeVuelo;
 
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
-import com.app.datatypes.DtAerolinea;
-import com.app.datatypes.DtPaquete;
-import com.app.datatypes.DtRuta;
-import com.app.datatypes.DtVuelo;
+import com.app.datatypes.*;
 import com.app.enums.EstadoRuta;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.LineNumberInputStream;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
@@ -86,7 +84,14 @@ public class BuscarRutaServlet extends HttpServlet {
 
             // Procesar paquetes
             List<DtPaquete> paqueteList = s.listarPaquetesNoComprados();
-//            paqueteList.removeIf(paquete -> (ruta.getNombre()) == null);
+            paqueteList.removeIf(paquete -> {
+                List<DtRutaEnPaquete> rutaList = paquete.getRutaEnPaquete();
+                if (rutaList == null || rutaList.isEmpty()) return true;
+                for (DtRutaEnPaquete rep : rutaList){
+                    if (!rep.getRutaDeVuelo().getNombre().equals(ruta.getNombre())) return true;
+                }
+                return false;
+            });
 
             // Check de owner (solo si hay sesión)
             boolean allowed = false;
