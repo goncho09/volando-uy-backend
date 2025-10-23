@@ -56,26 +56,6 @@ public class ModificarPerfilServlet extends HttpServlet {
                usuarioActual = sistema.getUsuario(nickname);
             }
 
-            String fotoPerfil = usuarioActual.getUrlImage();
-
-            Part filePart = request.getPart("imagen");
-
-            if (filePart != null || filePart.getSize() > 0) {
-                // Crear archivo temporal
-                String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-                File tempFile = File.createTempFile("upload-", "-" + fileName);
-
-                try (InputStream input = filePart.getInputStream()) {
-                    Files.copy(input, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                }
-
-                AuxiliarFunctions.borrarImagen(usuarioActual.getUrlImage(), TipoImagen.USUARIO);
-                File imagenGuardada = AuxiliarFunctions.guardarImagen(tempFile, TipoImagen.USUARIO);
-                fotoPerfil = imagenGuardada.getName();
-
-                usuarioActual.setUrlImage(fotoPerfil);
-            }
-
             // Actualiza campos comunes (nombre)
             String nuevoNombre = request.getParameter("nombre");
             if (nuevoNombre != null && !nuevoNombre.trim().isEmpty()) {
@@ -118,28 +98,36 @@ public class ModificarPerfilServlet extends HttpServlet {
                     clienteActual.setComprasPaquetes(((DtCliente) usuarioActual).getComprasPaquetes());
                 }
 
-                // Actualiza imagen en el objeto (usando setter de DtUsuario)
-                fotoPerfil = usuarioActual.getUrlImage();
-                if (fotoPerfil != null) {
-                    clienteActual.setUrlImage(fotoPerfil);
-                    System.out.println(">>> Imagen seteada en clienteActual: " + fotoPerfil);
-                }
-
-                // Actualiza en sistema (excluye imagen)
                 sistema.modificarCliente(clienteActual);
-                if(filePart != null && filePart.getSize() > 0) {
-                    sistema.modificarClienteImagen(clienteActual, fotoPerfil);
+                String fotoPerfil;
+
+                Part filePart = request.getPart("imagen");
+
+                if (filePart != null || filePart.getSize() > 0) {
+                    // Crear archivo temporal
+                    String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                    File tempFile = File.createTempFile("upload-", "-" + fileName);
+
+                    try (InputStream input = filePart.getInputStream()) {
+                        Files.copy(input, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    }
+
+                    String urlABorrar;
+
+                    if(usuarioActual.getUrlImage() != null && !usuarioActual.getUrlImage().isEmpty()){
+                        urlABorrar = usuarioActual.getUrlImage();
+                    }else{
+                        urlABorrar = "estoEsUnArchivoCualquieraQueNoExiste.png";
+                    }
+
+                    AuxiliarFunctions.borrarImagen(urlABorrar, TipoImagen.USUARIO);
+                    File imagenGuardada = AuxiliarFunctions.guardarImagen(tempFile, TipoImagen.USUARIO);
+                    fotoPerfil = imagenGuardada.getName();
+
+                    if(filePart.getSize() > 0) {
+                        sistema.modificarClienteImagen(clienteActual, fotoPerfil);
+                    }
                 }
-
-                // Recarga para verificar BD
-                usuarioRecargado = sistema.getCliente(nickname);
-                System.out.println(">>> Cliente recargado post-mod: nombre='" + usuarioRecargado.getNombre() +
-                        "', imagenBD='" + usuarioRecargado.getUrlImage() + "'");  // Debug clave: ¿coincide con nueva?
-
-                if (fotoPerfil != null && !fotoPerfil.equals(usuarioRecargado.getUrlImage())) {
-                    System.out.println(">>> WARNING: Imagen NO persistió en BD! Usando sesión como fallback.");
-                }
-
             } else if ("aerolinea".equals(usuarioTipo)) {
                 // Prepara params
                 String descripcion = request.getParameter("descripcion");
@@ -160,22 +148,38 @@ public class ModificarPerfilServlet extends HttpServlet {
                     aerolineaActual.setRutasDeVuelo(((DtAerolinea) usuarioActual).getRutasDeVuelo());
                 }
 
-                // Actualiza imagen en el objeto (usando setter de DtUsuario)
-                if (fotoPerfil != null) {
-                    aerolineaActual.setUrlImage(fotoPerfil);
-                    System.out.println(">>> Imagen seteada en aerolineaActual: " + fotoPerfil);
-                }
+
 
                 // Actualiza en sistema (incluye imagen)
                 sistema.modificarAerolinea(aerolineaActual);
+                String fotoPerfil;
 
-                // Recarga para verificar
-                usuarioRecargado = sistema.getAerolinea(nickname);
-                System.out.println(">>> Aerolinea recargada post-mod: nombre='" + usuarioRecargado.getNombre() +
-                        "', imagenBD='" + usuarioRecargado.getUrlImage() + "'");  // Debug clave
+                Part filePart = request.getPart("imagen");
 
-                if (fotoPerfil != null && !fotoPerfil.equals(usuarioRecargado.getUrlImage())) {
-                    System.out.println(">>> WARNING: Imagen NO persistió en BD! Usando sesión como fallback.");
+                if (filePart != null || filePart.getSize() > 0) {
+                    // Crear archivo temporal
+                    String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                    File tempFile = File.createTempFile("upload-", "-" + fileName);
+
+                    try (InputStream input = filePart.getInputStream()) {
+                        Files.copy(input, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    }
+
+                    String urlABorrar;
+
+                    if(usuarioActual.getUrlImage() != null && !usuarioActual.getUrlImage().isEmpty()){
+                        urlABorrar = usuarioActual.getUrlImage();
+                    }else{
+                        urlABorrar = "estoEsUnArchivoCualquieraQueNoExiste.png";
+                    }
+
+                    AuxiliarFunctions.borrarImagen(urlABorrar, TipoImagen.USUARIO);
+                    File imagenGuardada = AuxiliarFunctions.guardarImagen(tempFile, TipoImagen.USUARIO);
+                    fotoPerfil = imagenGuardada.getName();
+
+                    if(filePart.getSize() > 0) {
+                        sistema.modificarAerolineaImagen(aerolineaActual, fotoPerfil);
+                    }
                 }
             } else {
                 throw new IllegalArgumentException("Tipo de usuario inválido: " + usuarioTipo);
@@ -184,13 +188,6 @@ public class ModificarPerfilServlet extends HttpServlet {
             // Actualiza sesión con recargado (incluye cambios de BD)
             if (usuarioRecargado != null) {
                 session.setAttribute("usuario", usuarioRecargado);
-            }
-
-            // Siempre prioriza nueva imagen en sesión (fallback si BD falla)
-            if (fotoPerfil != null) {
-                session.setAttribute("usuarioImagen", fotoPerfil);
-                session.setAttribute("ultimoUpdateImagen", System.currentTimeMillis());  // Timestamp
-                System.out.println(">>> Timestamp update seteado: " + session.getAttribute("ultimoUpdateImagen"));
             }
 
             success = "Perfil actualizado correctamente";
