@@ -46,11 +46,9 @@ public class PerfilServlet extends HttpServlet {
         // Recarga usuario si falta
         if (session.getAttribute("usuario") == null) {
             try {
-                sistema.elegirUsuario(nickname);
-                DtUsuario usuario = sistema.getUsuarioSeleccionado();
+                DtUsuario usuario = sistema.getUsuario(nickname);
 
                 session.setAttribute("usuario", usuario);
-                sistema.borrarUsuarioSeleccionado();
 
                 String basePath = request.getServletContext().getRealPath("/pictures/users");
                 String contextPath = request.getContextPath();

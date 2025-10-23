@@ -53,9 +53,7 @@ public class ModificarPerfilServlet extends HttpServlet {
             // Obtén DtUsuario actual de sesión
             DtUsuario usuarioActual = (DtUsuario) session.getAttribute("usuario");
             if (usuarioActual == null) {
-                sistema.elegirUsuario(nickname);
-                usuarioActual = sistema.getUsuarioSeleccionado();
-                sistema.borrarUsuarioSeleccionado();
+               usuarioActual = sistema.getUsuario(nickname);
             }
 
             String fotoPerfil = usuarioActual.getUrlImage();
