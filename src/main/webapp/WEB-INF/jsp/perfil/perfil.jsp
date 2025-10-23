@@ -377,7 +377,7 @@
                                             <td>${reserva.tipoAsiento}</td>
                                             <td>${reserva.cantPasajes}</td>
                                             <td>${reserva.equipajeExtra}</td>
-                                            <td>$${reserva.pasajeros}</td>
+                                            <td>${reserva.pasajeros}</td>
                                             <td>${reserva.metodoPago}</td>
                                             <td>
                                                 <button onclick="window.location.href='${pageContext.request.contextPath}/reservas/consulta?fecha=${fn:escapeXml(reserva.fecha)}&cliente=${fn:escapeXml(reserva.cliente)}&vuelo=${fn:escapeXml(reserva.vuelo)}'"

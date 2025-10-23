@@ -26,7 +26,6 @@ public class ConsultarPaqueteServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try{
-            String usuarioNick = request.getSession(false).getAttribute("usuarioNickname").toString();
             String nombre = request.getParameter("nombre");
 
             DtPaquete paquete = sistema.getPaquete(nombre);

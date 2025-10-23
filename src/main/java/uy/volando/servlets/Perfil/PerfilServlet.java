@@ -20,11 +20,9 @@ public class PerfilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println(">>> PerfilServlet doGet llamado");
 
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("usuarioTipo") == null || session.getAttribute("usuarioNickname") == null) {
-            System.out.println(">>> No sesión o attrs, redirigiendo a login");
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
@@ -34,13 +32,7 @@ public class PerfilServlet extends HttpServlet {
         String nickname = (String) session.getAttribute("usuarioNickname");
 
         // Debug logs al inicio (después de session check)
-        System.out.println(">>> Session ID en load: " + session.getId());
-        System.out.println(">>> usuarioTipo: " + usuarioTipo + ", nickname: " + nickname);
         String existingImagen = (String) session.getAttribute("usuarioImagen");
-        System.out.println(">>> usuarioImagen en sesión al load: '" + existingImagen + "' (null? " + (existingImagen == null) + ")");
-
-        System.out.println("Session: OK");
-        System.out.println("Usuario en session: " + (session.getAttribute("usuario") != null ? "OK" : "NULL"));
 
         ISistema sistema = Factory.getSistema();
         // Recarga usuario si falta
@@ -69,9 +61,7 @@ public class PerfilServlet extends HttpServlet {
 
                 session.setAttribute("usuarioImagen", usuario.getUrlImage());
 
-                System.out.println(">>> Usuario recargado desde nickname: " + usuario.getNickname() + ", imagen: " + urlImagen);
             } catch (Exception e) {
-                System.out.println(">>> Error recargando usuario: " + e.getMessage());
                 session.invalidate();
                 response.sendRedirect(request.getContextPath() + "/login");
                 return;
@@ -79,7 +69,6 @@ public class PerfilServlet extends HttpServlet {
         }
 
         if (session.getAttribute("usuario") == null) {
-            System.out.println(">>> Aún sin usuario, redirigiendo a login");
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
@@ -90,7 +79,6 @@ public class PerfilServlet extends HttpServlet {
             if ("cliente".equals(usuarioTipo)) {
                 DtCliente cliente = sistema.getCliente(nickname);
                 request.setAttribute("cliente", cliente);
-                System.out.println(">>> Cliente de BD: nombre='" + cliente.getNombre() + "', imagenBD='" + cliente.getUrlImage() + "'");
 
                 String currentSessionImagen = (String) session.getAttribute("usuarioImagen");
                 String relativeBd = normalizarARelativePath(cliente.getUrlImage(), request.getContextPath());
@@ -107,21 +95,17 @@ public class PerfilServlet extends HttpServlet {
                     // Sync con objeto usuario
                     usuario.setUrlImage(relativeBd);
                     session.setAttribute("usuario", usuario);
-                    System.out.println(">>> Fallback a BD - seteando sesión y usuario: '" + fullPathBd + "' (relative: " + relativeBd + ")");
                 } else {
-                    System.out.println(">>> PRESERVANDO imagen de sesión: '" + currentSessionImagen + "' (vs BD full: '" + fullPathBd + "', relative BD: '" + relativeBd + "')");
                     // Sync con objeto usuario si difiere (usa relative de sesión)
                     String relativeSession = normalizarARelativePath(currentSessionImagen, request.getContextPath());
                     if (!relativeSession.equals(usuario.getUrlImage())) {
                         usuario.setUrlImage(relativeSession);
                         session.setAttribute("usuario", usuario);
-                        System.out.println(">>> Sync imagen nueva en objeto usuario (relative): " + relativeSession);
                     }
                 }
             } else if ("aerolinea".equals(usuarioTipo)) {
                 DtAerolinea aerolinea = sistema.getAerolinea(nickname);
                 request.setAttribute("aerolinea", aerolinea);
-                System.out.println(">>> Aerolinea de BD: nombre='" + aerolinea.getNombre() + "', imagenBD='" + aerolinea.getUrlImage() + "'");
 
                 String currentSessionImagen = (String) session.getAttribute("usuarioImagen");
                 String relativeBd = normalizarARelativePath(aerolinea.getUrlImage(), request.getContextPath());
@@ -138,15 +122,12 @@ public class PerfilServlet extends HttpServlet {
                     // Sync con objeto usuario
                     usuario.setUrlImage(relativeBd);
                     session.setAttribute("usuario", usuario);
-                    System.out.println(">>> Fallback a BD - seteando sesión y usuario: '" + fullPathBd + "' (relative: " + relativeBd + ")");
                 } else {
-                    System.out.println(">>> PRESERVANDO imagen de sesión: '" + currentSessionImagen + "' (vs BD full: '" + fullPathBd + "', relative BD: '" + relativeBd + "')");
                     // Sync con objeto usuario si difiere
                     String relativeSession = normalizarARelativePath(currentSessionImagen, request.getContextPath());
                     if (!relativeSession.equals(usuario.getUrlImage())) {
                         usuario.setUrlImage(relativeSession);
                         session.setAttribute("usuario", usuario);
-                        System.out.println(">>> Sync imagen nueva en objeto usuario (relative): " + relativeSession);
                     }
                 }
             }
@@ -156,7 +137,6 @@ public class PerfilServlet extends HttpServlet {
                 DtCliente cliente = (DtCliente) request.getAttribute("cliente");
                 if (cliente == null) cliente = sistema.getCliente(nickname);
                 List<DtPaquete> paquetes = sistema.listarPaquetes(cliente);
-                System.out.println(">>> Paquetes para cliente " + nickname + ": " + (paquetes != null ? paquetes.size() : "null"));
                 request.setAttribute("paquetes", paquetes);
             }
 
@@ -165,7 +145,6 @@ public class PerfilServlet extends HttpServlet {
                 DtCliente cliente = (DtCliente) request.getAttribute("cliente");
                 if (cliente == null) cliente = sistema.getCliente(nickname);
                 List<DtReserva> reservas = sistema.listarReservas(cliente);
-                System.out.println(">>> Reservas para cliente " + nickname + ": " + (reservas != null ? reservas.size() : "null"));
                 request.setAttribute("reservas", reservas);
             }
 
@@ -175,7 +154,6 @@ public class PerfilServlet extends HttpServlet {
             String success = request.getParameter("success");
             if (success != null) request.setAttribute("success", success);
 
-            System.out.println(">>> PerfilServlet: Datos cargados para " + nickname);
 
             request.getRequestDispatcher("/WEB-INF/jsp/perfil/perfil.jsp").forward(request, response);
         } catch (Exception e) {

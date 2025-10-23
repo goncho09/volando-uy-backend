@@ -1,10 +1,8 @@
 package uy.volando.listeners;
 
-import com.app.clases.Categoria;
 import com.app.clases.Factory;
 import com.app.datatypes.DtAerolinea;
-import com.app.datatypes.DtPaquete;
-import com.app.datatypes.DtRuta;
+import com.app.datatypes.DtCategoria;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
@@ -20,7 +18,7 @@ public class AppStartupListener implements ServletContextListener {
             ISistema sistema = Factory.getSistema();
             sistema.cargarDatos();
 
-            List<Categoria> categorias = sistema.getCategorias();
+            List<DtCategoria> categorias = sistema.getCategorias();
 
             List <DtAerolinea> aerolineas = sistema.listarAerolineas();
             aerolineas.removeIf(aerolinea -> aerolinea.listarRutasDeVuelo().isEmpty());
