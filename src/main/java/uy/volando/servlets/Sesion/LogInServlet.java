@@ -48,8 +48,7 @@ public class LogInServlet extends HttpServlet {
             String password = request.getParameter("password");
 
             if (sistema.validarUsuario(name, password)) {
-                sistema.elegirUsuario(name);
-                DtUsuario usuario = sistema.getUsuarioSeleccionado();
+                DtUsuario usuario = sistema.getUsuario(name);
 
                 // Crea sesión aquí, solo si válido
                 session = request.getSession(true);
@@ -74,7 +73,6 @@ public class LogInServlet extends HttpServlet {
 
                 session.setAttribute("usuarioImagen", usuario.getUrlImage());
 
-                sistema.borrarUsuarioSeleccionado();
                 if (usuario instanceof DtCliente) {
                     session.setAttribute("usuarioTipo", "cliente");
                 } else if (usuario instanceof DtAerolinea) {

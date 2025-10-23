@@ -128,8 +128,7 @@ public class RegistrarUsuarioFinalServlet extends HttpServlet {
 
             // <-- NUEVO: Auto-login después de registrar
             // Recarga el usuario recién creado (ajusta si elegirUsuario usa email en vez de nick)
-            sistema.elegirUsuario(nickname);
-            DtUsuario usuario = sistema.getUsuarioSeleccionado();
+            DtUsuario usuario = sistema.getUsuario(nickname);
 
             // Crea nueva sesión y setea atributos (copia de LogInServlet)
             HttpSession newSession = request.getSession(true);
@@ -148,7 +147,6 @@ public class RegistrarUsuarioFinalServlet extends HttpServlet {
             }
             newSession.setAttribute("usuarioImagen", usuario.getUrlImage());
 
-            sistema.borrarUsuarioSeleccionado();  // Limpia selección
 
             // Limpia atributos temporales viejos (opcional)
             session.removeAttribute("datosUsuario");
