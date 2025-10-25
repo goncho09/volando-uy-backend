@@ -1,9 +1,5 @@
 package uy.volando.servlets.RutasDeVuelo;
 
-import com.app.clases.Factory;
-import com.app.clases.ISistema;
-import com.app.datatypes.*;
-import com.app.enums.EstadoRuta;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,11 +9,17 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.LineNumberInputStream;
+
 import java.time.LocalDate;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.app.clases.Factory;
+import com.app.clases.ISistema;
+import com.app.datatypes.*;
+import com.app.enums.EstadoRuta;
 
 @WebServlet(name = "RutaServlet", urlPatterns = {"/ruta-de-vuelo/buscar"})
 public class BuscarRutaServlet extends HttpServlet {
@@ -37,7 +39,7 @@ public class BuscarRutaServlet extends HttpServlet {
                 throw new IllegalArgumentException("Nombre de ruta requerido");
             }
 
-            DtRuta ruta = s.consultarRuta(nombreRuta);
+            DtRuta ruta = s.getRutaDeVuelo(nombreRuta);
             if (ruta == null) {
                 throw new Exception("Ruta no encontrada");
             }

@@ -63,7 +63,7 @@ public class CrearReservaServlet extends HttpServlet {
                 }
                 for (DtRuta ruta : rutas) {
                     if (ruta.getEstado() == EstadoRuta.APROBADA) {
-                        List<DtVuelo> vuelos = sistema.listarVuelos(ruta.getNombre());
+                        List<DtVuelo> vuelos = sistema.listarVuelosRuta(ruta.getNombre());
                         if (vuelos != null && !vuelos.isEmpty()) {
                             return false;
                         }
@@ -80,7 +80,7 @@ public class CrearReservaServlet extends HttpServlet {
                 List<DtRuta> rutasAerolinea = aerolinea.listarRutasDeVuelo();
 
                 rutasAerolinea.removeIf(ruta -> (ruta.getEstado() != EstadoRuta.APROBADA));
-                rutasAerolinea.removeIf(ruta -> (sistema.listarVuelos(ruta.getNombre()).isEmpty()));
+                rutasAerolinea.removeIf(ruta -> (sistema.listarVuelosRuta(ruta.getNombre()).isEmpty()));
 
                 request.setAttribute("rutas", rutasAerolinea);
                 request.setAttribute("aerolineaId", idAerolinea);
@@ -104,10 +104,10 @@ public class CrearReservaServlet extends HttpServlet {
                 request.setAttribute("aerolineaId", idAerolinea);
                 request.setAttribute("rutaId", idRuta);
                 request.setAttribute("rutas", aerolinea.listarRutasDeVuelo());
-                request.setAttribute("vuelos", sistema.listarVuelos(idRuta));
+                request.setAttribute("vuelos", sistema.listarVuelosRuta(idRuta));
             }
 
-            List<DtPaquete> paquetesCliente = sistema.listarPaquetes(cliente);
+            List<DtPaquete> paquetesCliente = sistema.listarPaquetesCliente(cliente.getNickname());
             List<DtPaquete> paquetesFiltrados = new ArrayList<>();
             LocalDate hoy = LocalDate.now();
 
@@ -205,7 +205,7 @@ public class CrearReservaServlet extends HttpServlet {
                         return;
                     }
 
-                    List<DtPaquete> paquetesCliente = sistema.listarPaquetes(clienteLogueado);
+                    List<DtPaquete> paquetesCliente = sistema.listarPaquetesCliente(clienteLogueado.getNickname());
                     for (DtPaquete p : paquetesCliente) {
                         if (p.getNombre().equals(paqueteNombre)) {
                             paqueteSeleccionado = p;

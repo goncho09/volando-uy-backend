@@ -45,7 +45,7 @@ public class RegistrarUsuarioServlet extends HttpServlet {
                 return;
             }
 
-            if (sistema.existeUsuarioNickname(nickname)) {
+            if (sistema.existeUsuario(nickname)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("Ya existe un usuario con ese nickname.");
                 return;

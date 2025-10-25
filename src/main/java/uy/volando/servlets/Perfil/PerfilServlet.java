@@ -136,7 +136,7 @@ public class PerfilServlet extends HttpServlet {
             if ("cliente".equals(usuarioTipo)) {
                 DtCliente cliente = (DtCliente) request.getAttribute("cliente");
                 if (cliente == null) cliente = sistema.getCliente(nickname);
-                List<DtPaquete> paquetes = sistema.listarPaquetes(cliente);
+                List<DtPaquete> paquetes = sistema.listarPaquetesCliente(cliente.getNickname());
                 request.setAttribute("paquetes", paquetes);
             }
 
@@ -144,7 +144,7 @@ public class PerfilServlet extends HttpServlet {
             if("cliente".equals(usuarioTipo)) {
                 DtCliente cliente = (DtCliente) request.getAttribute("cliente");
                 if (cliente == null) cliente = sistema.getCliente(nickname);
-                List<DtReserva> reservas = sistema.listarReservas(cliente);
+                List<DtReserva> reservas = sistema.listarReservasCliente(cliente.getNickname());
                 request.setAttribute("reservas", reservas);
             }
 

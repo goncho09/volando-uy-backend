@@ -40,11 +40,11 @@ public class VerReservaServlet extends HttpServlet {
 
             if (usuarioTipo.equals("cliente")) {
                 DtCliente cliente = sistema.getCliente(nicknameCliente);
-                request.setAttribute("reservas", sistema.listarReservas(cliente));
+                request.setAttribute("reservas", sistema.listarReservasCliente(cliente.getNickname()));
             }
             else{
                 DtAerolinea aerolinea = sistema.getAerolinea(nicknameCliente);
-                request.setAttribute("reservas", sistema.listarReservas(aerolinea));
+                request.setAttribute("reservas", sistema.listarReservasAerolinea(aerolinea.getNickname()));
             }
 
             request.getRequestDispatcher("/WEB-INF/jsp/reservas/ver.jsp").forward(request, response);

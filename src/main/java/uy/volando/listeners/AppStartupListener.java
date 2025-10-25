@@ -16,9 +16,7 @@ public class AppStartupListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         try {
             ISistema sistema = Factory.getSistema();
-            sistema.cargarDatos();
-
-            List<DtCategoria> categorias = sistema.getCategorias();
+            //sistema.cargarDatos();
 
             List <DtAerolinea> aerolineas = sistema.listarAerolineas();
             aerolineas.removeIf(aerolinea -> aerolinea.listarRutasDeVuelo().isEmpty());
@@ -26,14 +24,11 @@ public class AppStartupListener implements ServletContextListener {
 //            List < DtPaquete> paquetes = sistema.listarPaquetes();
 //            List < DtRuta> rutas = sistema.listarRutasDeVuelo();
 
-            sce.getServletContext().setAttribute("categorias", categorias);
+            sce.getServletContext().setAttribute("categorias", sistema.listarCategorias());
             sce.getServletContext().setAttribute("aerolineasConRuta",aerolineas);
 
-            System.out.println(">>> Categorías cargadas correctamente al iniciar la app (" + categorias.size() + ")");
-            System.out.println(">>> Aerolíneas con rutas cargadas correctamente al iniciar la app (" + aerolineas.size() + ")");
         } catch (Exception e) {
             System.err.println("Error al cargar categorías en el listener:");
-            e.printStackTrace();
         }
     }
 }

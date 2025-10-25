@@ -251,7 +251,7 @@ public class CrearRutaServlet extends HttpServlet {
     private List<DtCategoria> getCategoriasDisponibles() {
         List<DtCategoria> dtCategorias = new ArrayList<>();
         try {
-            dtCategorias = sistema.getCategorias();
+            dtCategorias = sistema.listarCategorias();
         } catch (Exception e) {
             System.err.println("Error al obtener categorías: " + e.getMessage());
         }

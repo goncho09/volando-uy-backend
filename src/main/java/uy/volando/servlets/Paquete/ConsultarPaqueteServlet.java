@@ -55,7 +55,7 @@ public class ConsultarPaqueteServlet extends HttpServlet {
                 }
             }
 
-            boolean comprado = sistema.paqueteComprado(paquete);
+            boolean comprado = sistema.estaPaqueteComprado(paquete);
 
             request.setAttribute("paquete", paquete);
             request.setAttribute("comprado", comprado);

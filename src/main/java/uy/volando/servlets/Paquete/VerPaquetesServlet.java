@@ -41,7 +41,7 @@ public class VerPaquetesServlet extends HttpServlet {
         try {
 
             DtAerolinea aerolinea = (DtAerolinea) sistema.getAerolinea(session.getAttribute("usuarioNickname").toString());
-            request.setAttribute("paquetes", sistema.listarPaquetes(aerolinea));
+            request.setAttribute("paquetes", sistema.listarPaquetesAerolinea(aerolinea.getNickname()));
 
             request.getRequestDispatcher("/WEB-INF/jsp/paquete/ver.jsp").forward(request, response);
         } catch (Exception e) {

@@ -55,7 +55,7 @@ public class ConsultaVueloServlet extends HttpServlet {
                 String tipo = session.getAttribute("usuarioTipo").toString();
                 if(tipo.equals("aerolinea")) {
                     DtAerolinea aerolineaObj = sistema.getAerolinea(session.getAttribute("usuarioNickname").toString());
-                    for (DtRuta r : sistema.listarRutasDeVuelo(aerolineaObj)) {
+                    for (DtRuta r : aerolineaObj.listarRutasDeVuelo()) {
                         if (r.getNombre().equals(ruta.getNombre())) {
                             request.setAttribute("esDeLaAerolinea", true);
                             break;
@@ -63,7 +63,7 @@ public class ConsultaVueloServlet extends HttpServlet {
                     }
                 }else{
                     DtCliente cliente = sistema.getCliente(session.getAttribute("usuarioNickname").toString());
-                    List<DtReserva> reservas = sistema.listarReservas(cliente,vuelo);
+                    List<DtReserva> reservas = sistema.listarReservasClienteVuelo(cliente,vuelo);
                     if(!reservas.isEmpty()) {
                         request.setAttribute("tieneReserva", true);
                     }

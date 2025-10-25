@@ -59,11 +59,11 @@ public class CrearVueloServlet extends HttpServlet {
             }
 
             if(request.getParameter("ruta") != null){
-                DtRuta ruta = sistema.consultarRuta(request.getParameter("ruta"));
+                DtRuta ruta = sistema.getRutaDeVuelo(request.getParameter("ruta"));
                 request.setAttribute("seleccionarRuta", ruta);
             }
 
-            List<DtRuta> rutas = sistema.listarRutasDeVuelo(aerolinea);
+            List<DtRuta> rutas = aerolinea.listarRutasDeVuelo();
 
             rutas.removeIf(ruta -> ruta.getEstado() != EstadoRuta.APROBADA);
 

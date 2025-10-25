@@ -73,7 +73,7 @@ public class HomeServlet extends HttpServlet {
                 listaPaquete.removeIf(paquete -> paquete.getRutaEnPaquete() == null || paquete.getRutaEnPaquete().isEmpty());
 
                 if(request.getParameter("nombre") != null && !request.getParameter("nombre").isEmpty()){
-                    listaRuta.removeIf(ruta -> !s.containsCategoria(ruta, request.getParameter("nombre")));
+                    listaRuta.removeIf(ruta -> !s.rutaContieneCategoria(ruta, request.getParameter("nombre")));
                 }
 
                 for (DtRuta ruta : listaRuta) {
