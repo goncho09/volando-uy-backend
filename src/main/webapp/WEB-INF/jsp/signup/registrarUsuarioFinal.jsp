@@ -27,7 +27,7 @@
                 <div class="w-[90%] md:w-2/3 flex items-center flex-col gap-4 space-y-2">
                     <div
                             class="flex  w-full items-center border-b border-gray-300 py-2 space-x-3 focus-within:border-[var(--azul-oscuro)]">
-                        <i class="fa fa-plane icon text-[var(--azul-oscuro)]"></i>
+                        <i class="fa fa-comment icon text-[var(--azul-oscuro)]"></i>
                         <input type="text" name="descripcion" placeholder="Ingrese la descripción de la aerolínea *" required
                                class="flex-grow outline-none">
                     </div>

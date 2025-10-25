@@ -15,7 +15,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css"/>
 </head>
 <body>
+<c:set var="usuarioTipo" value="${sessionScope.usuarioTipo}"/>
+
 <jsp:include page="../components/header.jsp"/>
+
+<% System.out.println("jsp " + request.getAttribute("paquetes")); %>
 
 <main class="flex flex-col items-center md:items-start md:flex-row max-w-7xl md:mx-auto px-4 sm:px-6 lg:px-8 justify-center  mt-5">
 
@@ -29,7 +33,9 @@
                     <th class="px-4 py-2 text-center">Descripción</th>
                     <th class="px-4 py-2 text-center">Precio</th>
                     <th class="px-4 py-2 text-center">Validez (días)</th>
+                    <c:if test="${usuarioTipo == 'aerolinea'}">
                     <th class="px-4 py-2 text-center">Acciones</th>
+                    </c:if>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,6 +45,7 @@
                         <td class="text-center px-4 py-2">${paquete.descripcion}</td>
                         <td class="text-center px-4 py-2">$${paquete.costo}</td>
                         <td class="text-center px-4 py-2">${paquete.validezDias}</td>
+                        <c:if test="${usuarioTipo == 'aerolinea'}">
                         <td class="text-center px-4 py-2 flex items-center justify-center space-x-3">
                             <a href="#" class="hover:scale-110 transition-transform">
                                 <i class="fa fa-edit text-xl text-green-600"></i>
@@ -50,6 +57,7 @@
                                 </button>
                             </form>
                         </td>
+                        </c:if>
                     </tr>
                 </c:forEach>
                 </tbody>

@@ -48,13 +48,19 @@ summary::-webkit-details-marker {
     display: flex;
 }
 
+.ocultarIcono::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    display: block;
+    cursor: pointer;
+}
+
 :not(.daisy) input,
 :not(.daisy) textarea,
 :not(.daisy) select,
 :not(.daisy) button {
-    border: none !important;
-    outline: none !important;
-    cursor: pointer !important;
+    /*border: none;*/
+    outline: none;
+    cursor: pointer;
 }
 
 input:-webkit-autofill,

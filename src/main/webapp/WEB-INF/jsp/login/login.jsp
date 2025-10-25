@@ -57,6 +57,9 @@
         const formData = new FormData(e.target);
         const params = new URLSearchParams(formData);
         const errorMsg = document.getElementById("error-msg");
+        const button = e.target.querySelector('button[type="submit"]');
+        button.disabled = true;
+        button.textContent = "Iniciando sesión...";
 
         errorMsg.textContent = "";
         errorMsg.classList.add("hidden");
@@ -78,6 +81,8 @@
             errorMsg.textContent = text;
             errorMsg.classList.remove("hidden");
             errorMsg.classList.add("translate-y-0");
+            button.disabled = false;
+            button.textContent = "Iniciar sesión";
         }
     });
 </script>

@@ -3,6 +3,8 @@ package uy.volando.servlets.Paquete;
 import com.app.clases.Factory;
 import com.app.clases.ISistema;
 import com.app.datatypes.DtAerolinea;
+import com.app.datatypes.DtPaquete;
+import com.app.datatypes.DtUsuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet (name = "VerPaquetesServlet", urlPatterns = {"/paquete/ver"})
 public class VerPaquetesServlet extends HttpServlet {
@@ -33,15 +36,16 @@ public class VerPaquetesServlet extends HttpServlet {
             return;
         }
 
-        if(!session.getAttribute("usuarioTipo").equals("aerolinea")){
-            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
-            return;
-        }
-
         try {
-
-            DtAerolinea aerolinea = (DtAerolinea) sistema.getAerolinea(session.getAttribute("usuarioNickname").toString());
-            request.setAttribute("paquetes", sistema.listarPaquetesAerolinea(aerolinea.getNickname()));
+            String tipoUsuario = session.getAttribute("usuarioTipo").toString();
+            String nickname = (String) session.getAttribute("usuarioNickname");
+            List<DtPaquete> paqueteList = null;
+            if (tipoUsuario.equals("aerolinea")) {
+                paqueteList = sistema.listarPaquetesAerolinea(nickname);
+            }else{
+                paqueteList = sistema.listarPaquetesCliente(nickname);
+            }
+            request.setAttribute("paquetes", paqueteList);
 
             request.getRequestDispatcher("/WEB-INF/jsp/paquete/ver.jsp").forward(request, response);
         } catch (Exception e) {
