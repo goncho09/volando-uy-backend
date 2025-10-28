@@ -1,6 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css"/>
+</head>
+
 <header id="header" class="flex flex-col px-4 py-2 text-white w-[100vw] bg-[var(--azul-oscuro)]">
     <div class="flex items-center flex-col justify-between p-2 space-y-2 w-full header-top md:flex-row md:space-y-0">
         <a href="${pageContext.request.contextPath}/home" class="text-3xl font-bold uppercase">Volando.uy</a>
@@ -106,15 +113,15 @@
                                     <a href="${pageContext.request.contextPath}/paquete/buscar">
                                         <p
                                                 class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
-                                            Consultar rutas de paquete</p>
+                                            Consultar paquete</p>
                                     </a>
                                 </li>
                                 <c:if test="${usuarioTipo!= null && usuarioTipo == 'cliente'}">
                                     <li>
-                                        <a href="${pageContext.request.contextPath}/ruta-en-paquete">
+                                        <a href="${pageContext.request.contextPath}/paquete/comprar">
                                             <p
                                                     class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
-                                                Agregar ruta a paquete</p>
+                                                Comprar paquete</p>
                                         </a>
                                     </li>
                                 </c:if>
@@ -232,17 +239,9 @@
                                 <a href="${pageContext.request.contextPath}/paquete/buscar">
                                     <p
                                             class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
-                                        Consultar rutas de paquete</p>
+                                        Consultar paquetes</p>
                                 </a>
                             </li>
-                            <c:if test="${usuarioTipo!= null && usuarioTipo == 'aerolinea'}">
-                                <li>
-                                    <a href="${pageContext.request.contextPath}/ruta-en-paquete">
-                                        <p class="m-0 decoration-[var(--celeste-claro)] underline-offset-5 hover:underline">
-                                            Agregar ruta a paquete</p>
-                                    </a>
-                                </li>
-                            </c:if>
                             <c:if test="${usuarioTipo!= null && usuarioTipo == 'cliente'}">
                                 <li>
                                     <a href="${pageContext.request.contextPath}/paquete/comprar">
@@ -250,7 +249,6 @@
                                             Comprar paquete</p>
                                     </a>
                                 </li>
-
                             </c:if>
                         </ul>
                     </details>

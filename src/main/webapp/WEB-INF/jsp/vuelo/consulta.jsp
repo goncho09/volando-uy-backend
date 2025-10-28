@@ -1,5 +1,3 @@
-<%@ page import="com.app.datatypes.DtAerolinea" %>
-<%@ page import="com.app.datatypes.DtVuelo" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -10,11 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Volando.uy | Ver vuelo</title>
 
-    <!-- Librerias Header -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css">
 </head>
 
@@ -72,11 +67,11 @@
                      </div>
 
                      <c:if test="${usuarioTipo == 'aerolinea' && esDeLaAerolinea}">
-                         <button onclick="window.location.href='${pageContext.request.contextPath}/reservas'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver reservas del vuelo</button>
+                         <button onclick="window.location.href='${pageContext.request.contextPath}/reservas/ver'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver reservas del vuelo</button>
                      </c:if>
 
                      <c:if test="${usuarioTipo == 'cliente' && tieneReserva}">
-                         <button onclick="window.location.href='${pageContext.request.contextPath}/reservas'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver mis reservas</button>
+                         <button onclick="window.location.href='${pageContext.request.contextPath}/reservas/ver'" type="submit" class="hover:bg-[var(--azul-claro)] w-full text-white py-2 rounded-lg duration-400 bg-[var(--azul-oscuro)]">Ver mis reservas</button>
                      </c:if>
 
                      <c:if test="${usuarioTipo == 'cliente'}">
@@ -87,8 +82,6 @@
                  </div>
              </div>
      </section>
-
-
  </main>
 </body>
 </html>

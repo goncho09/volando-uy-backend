@@ -77,7 +77,7 @@
                     <c:choose>
                         <c:when test="${usuarioTipo == 'cliente' && cliente != null}">
 
-                            <div class="flex justify-center space-x-2">
+                            <div class="flex space-x-2">
                                 <div class="flex space-x-2">
                                     <span><i class="fa fa-user"></i></span>
                                     <label for="apellido">Apellido:</label>
@@ -86,7 +86,7 @@
                                        id="apellido" name="apellido" readonly value="${cliente.apellido}"/>
                             </div>
 
-                            <div class="flex items-center justify-between space-x-2">
+                            <div class="flex space-x-2">
                                 <div class="flex space-x-2">
                                     <span><i class="fa fa-calendar"></i></span>
                                     <label for="fechaNacimiento">Fecha de nacimiento:</label>
@@ -96,7 +96,7 @@
                                        class="flex-1 bg-transparent"/>
                             </div>
 
-                            <div class="flex items-center justify-between space-x-2">
+                            <div class="flex  space-x-2">
                                 <div class="flex space-x-2">
                                     <span><i class="fa fa-flag"></i></span>
                                     <label for="nacionalidad">Nacionalidad:</label>
@@ -106,7 +106,7 @@
                                        value="${cliente.nacionalidad}"/>
                             </div>
 
-                            <div class="flex items-center justify-between space-x-2">
+                            <div class="flex  space-x-2">
                                 <div class="flex space-x-2">
                                     <span><i class="fa fa-passport"></i></span>
                                     <label for="tipoDocumento">Tipo de documento:</label>
@@ -124,7 +124,7 @@
                                 </select>
                             </div>
 
-                            <div class="flex items-center justify-between space-x-2">
+                            <div class="flex  space-x-2">
                                 <div class="flex space-x-2">
                                     <span><i class="fa fa-id-card"></i></span>
                                     <label for="numeroDocumento">Número de documento:</label>
@@ -161,7 +161,7 @@
 
                         </c:when>
                         <c:when test="${usuarioTipo == 'aerolinea' && aerolinea != null}">
-                            <div class="flex items-center justify-between space-x-2">
+                            <div class="flex  space-x-2">
                                 <div class="flex space-x-2">
                                     <span><i class="fa fa-comment"></i></span>
                                     <label for="descripcion">Descripción:</label>
@@ -171,7 +171,7 @@
                                        value="${aerolinea.descripcion}"/>
                             </div>
 
-                            <div class="flex items-center justify-between space-x-2">
+                            <div class="flex space-x-2">
                                 <div class="flex space-x-2">
                                     <span><i class="fa fa-globe"></i></span>
                                     <label for="linkWeb">Link web:</label>

@@ -3,14 +3,11 @@
 <html>
 <head>
     <title>Volando.uy | Buscar vuelo</title>
-
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/globals.css"/>
 </head>

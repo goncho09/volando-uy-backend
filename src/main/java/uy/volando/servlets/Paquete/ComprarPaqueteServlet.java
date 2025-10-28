@@ -60,7 +60,6 @@ public class ComprarPaqueteServlet extends HttpServlet {
         } catch (Exception ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             System.out.println("Error en ComprarPaqueteServlet (GET): " + ex.getMessage());
-            response.getWriter().write("Error del servidor: " + ex.getMessage());
             request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
         }
     }
@@ -106,13 +105,13 @@ public class ComprarPaqueteServlet extends HttpServlet {
             List<DtPaquete> paquetes = sistema.listarPaquetesNoComprados();
             request.setAttribute("paquetes", paquetes);
 
-            request.setAttribute("mensaje", "Compra realizada con éxito");
+            response.setStatus(HttpServletResponse.SC_OK);
             request.getRequestDispatcher("/WEB-INF/jsp/paquete/comprar.jsp").forward(request, response);
 
         } catch (Exception ex) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             System.out.println("Error en ComprarPaqueteServlet (POST): " + ex.getMessage());
-            response.getWriter().write("Error del servidor: " + ex.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("Error del servidor");
         }
     }
 }

@@ -125,12 +125,11 @@ public class CrearReservaServlet extends HttpServlet {
             }
             request.setAttribute("paquetes", paquetesFiltrados);
 
-            request.getRequestDispatcher("/WEB-INF/jsp/reservas/crearReserva.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/reservas/crear.jsp").forward(request, response);
         } catch (Exception ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("Error del servidor: " + ex.getMessage());
             System.out.println("Error en CrearReservaServlet: " + ex.getMessage());
-            request.getRequestDispatcher("/WEB-INF/jsp/401.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/reservas/crear.jsp").forward(request, response);
         }
     }
 
@@ -162,6 +161,7 @@ public class CrearReservaServlet extends HttpServlet {
 
                 String[] nombres = request.getParameterValues("nombrePasajero");
                 String[] apellidos = request.getParameterValues("apellidoPasajero");
+
 
                 if (aerolinea == null || vuelo == null || tipoAsientoStr == null || cantidad == null || equipajeExtra == null) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -236,19 +236,26 @@ public class CrearReservaServlet extends HttpServlet {
                     reserva = new DtReserva(fecha, tipo, cantPasajes, equipaje, 0, pasajeros, clienteLogueado, vueloSeleccionado, metodoPago);
                 }
 
-                sistema.altaReserva(reserva);
+                try{
+                    sistema.altaReserva(reserva);
+                } catch (IllegalArgumentException ex) {
+                    throw new Exception(ex.getMessage());
+                }
 
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("Reserva creada con éxito");
                 request.setAttribute("exito", "Reserva creada con éxito");
-                request.getRequestDispatcher("/WEB-INF/jsp/reservas/crearReserva.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsp/reservas/crear.jsp").forward(request, response);
 
             } catch (IllegalArgumentException ex) {
+                System.out.println(ex.getMessage());
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("Error: " + ex.getMessage());
+                response.getWriter().write("Error en los datos proporcionados");
+                request.getRequestDispatcher("/WEB-INF/jsp/reservas/crear.jsp").forward(request, response);
             } catch (Exception ex) {
+                System.out.println("Error en CrearReservaServlet (POST): " + ex.getMessage());
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write("Error del servidor: " + ex.getMessage());
+                response.getWriter().write("Error del servidor");
                 ex.printStackTrace();
             }
         }
